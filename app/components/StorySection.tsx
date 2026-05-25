@@ -1,67 +1,102 @@
+'use client';
+
+import Image from 'next/image';
 import Link from 'next/link';
+import ScrollReveal from './ScrollReveal';
+
+const pillars = [
+  { num: '01', title: 'Pure by Nature', desc: 'No additives, no artificial preservatives. Every ingredient is exactly what the label says.' },
+  { num: '02', title: 'Farm Rooted', desc: 'Direct sourcing from trusted farms. Shorter supply chains — fresher, more nutritious produce.' },
+  { num: '03', title: 'Thoughtful Processing', desc: 'Gentle dehydration, cold-pressing, stone-grinding — preserving nutrition and authentic taste.' },
+  { num: '04', title: 'Modern Convenience', desc: 'Ready to use in everyday cooking. No compromise between health and ease.' },
+];
 
 export default function StorySection() {
-  const pillars = [
-    { num: '01', title: 'Pure by Nature', desc: 'No additives, no artificial preservatives. Every ingredient is exactly what it says on the label.' },
-    { num: '02', title: 'Farm Rooted', desc: 'Sourced directly from trusted farms. Shorter supply chains mean fresher produce.' },
-    { num: '03', title: 'Thoughtful Processing', desc: 'Gentle dehydration, cold-pressing, and stone-grinding preserve nutrition and taste.' },
-    { num: '04', title: 'Modern Convenience', desc: 'Ready to use in everyday cooking — no compromise between health and ease.' },
-  ];
-
   return (
-    <section className="bg-[#F5F0E8] py-24 md:py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="mb-16 md:mb-20">
-          <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545] mb-4">
+    <section className="bg-[#F5F0E8] py-28 md:py-36 relative overflow-hidden">
+      <div className="max-w-[1800px] mx-auto px-[5.128vw]">
+
+        {/* Section label */}
+        <ScrollReveal>
+          <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545] mb-6">
             Our Story
           </p>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-[#1C1C1C] leading-tight max-w-3xl">
-            Born from the belief that everyday food should be pure.
+        </ScrollReveal>
+
+        {/* Large headline — Terminal style */}
+        <ScrollReveal y={50}>
+          <h2 className="font-display font-bold text-[#1C1C1C] leading-[0.95] tracking-tight mb-16 max-w-5xl"
+            style={{ fontSize: 'clamp(2.5rem, 5.729vw, 5.5rem)' }}>
+            Born from the belief that everyday food should be pure, nourishing, and honest.
           </h2>
-        </div>
+        </ScrollReveal>
 
-        <div className="grid md:grid-cols-2 gap-10 md:gap-16 mb-16">
-          <div className="space-y-5">
-            <p className="font-serif text-[#6B6456] text-lg leading-relaxed">
-              HarvestVita is the expression of Amoohaa Farms&apos; commitment to natural, wholesome living.
-              Born from the idea that everyday foods should be pure, nourishing, and rooted in
-              authenticity.
-            </p>
-            <p className="font-serif text-[#6B6456] text-lg leading-relaxed">
-              From dehydrated fruits and vegetables to cold-pressed oils, khapali atta, and whole spices
-              — every product is chosen with a simple purpose: to preserve nature&apos;s goodness while
-              making it easy to use in modern life.
-            </p>
-          </div>
-          <div className="space-y-5">
-            <blockquote className="border-l-2 border-[#C9A84C] pl-5">
-              <p className="font-display italic text-[#1C1C1C] text-xl leading-relaxed">
-                &ldquo;Honest food, thoughtful processing, and ingredients that carry the richness of the farm to the heart of the home.&rdquo;
+        {/* Three-col: story text | farm image | quote */}
+        <div className="grid md:grid-cols-3 gap-10 md:gap-12 mb-24 items-start">
+          <ScrollReveal delay={0.1} className="md:col-span-1">
+            <div className="space-y-5">
+              <p className="font-serif text-[#6B6456] leading-relaxed" style={{ fontSize: 'clamp(1rem, 1.3vw, 1.25rem)' }}>
+                HarvestVita is the expression of Amoohaa Farms&apos; commitment to natural, wholesome living.
+                Every product is chosen with a simple purpose: to preserve nature&apos;s goodness while
+                making it easy to use in modern life.
               </p>
-            </blockquote>
-            <Link
-              href="/about"
-              className="inline-block font-sans-harvest text-xs tracking-[0.2em] uppercase mt-4 px-7 py-3.5 border border-[#2D4A2D] text-[#2D4A2D] hover:bg-[#2D4A2D] hover:text-[#F5F0E8] transition-all duration-200"
-            >
-              Read Full Story
-            </Link>
-          </div>
-        </div>
-
-        <div className="border-t border-[#1C1C1C]/10 pt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {pillars.map((p) => (
-            <div key={p.num} className="group">
-              <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#C9A84C] mb-4">
-                {p.num}
-              </p>
-              <h3 className="font-display text-xl font-bold text-[#1C1C1C] mb-3 group-hover:text-[#4A2545] transition-colors duration-200">
-                {p.title}
-              </h3>
-              <div className="h-px w-8 bg-[#C9A84C] mb-4 group-hover:w-full transition-all duration-500" />
-              <p className="font-serif text-[#6B6456] text-sm leading-relaxed">
-                {p.desc}
+              <p className="font-serif text-[#6B6456] leading-relaxed" style={{ fontSize: 'clamp(1rem, 1.3vw, 1.25rem)' }}>
+                From dehydrated fruits and vegetables to cold-pressed oils, khapali atta, and whole spices —
+                the brand reflects a balance of tradition and convenience.
               </p>
             </div>
+          </ScrollReveal>
+
+          {/* Farm image */}
+          <ScrollReveal delay={0.15} className="md:col-span-1">
+            <div className="relative aspect-[3/4] overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800&q=80"
+                alt="Amoohaa Farms — golden wheat fields at harvest"
+                fill
+                sizes="(max-width:768px) 90vw, 30vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(245,240,232,0.35) 0%, transparent 50%)' }} />
+              <p className="absolute bottom-4 left-4 font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#1C1C1C]/50">
+                Amoohaa Farms — India
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.2} className="md:col-span-1">
+            <div className="space-y-6">
+              <blockquote className="border-l-2 border-[#C9A84C] pl-6">
+                <p className="font-display italic text-[#1C1C1C] leading-relaxed" style={{ fontSize: 'clamp(1.1rem, 1.6vw, 1.5rem)' }}>
+                  &ldquo;Honest food, thoughtful processing, and ingredients that carry the richness of the farm to the heart of the home.&rdquo;
+                </p>
+              </blockquote>
+              <Link
+                href="/about"
+                className="inline-block font-sans-harvest text-[11px] tracking-[0.15em] uppercase mt-2 px-6 py-3 border border-[#2D4A2D] text-[#2D4A2D] hover:bg-[#2D4A2D] hover:text-[#F5F0E8] transition-all duration-300 select-none"
+              >
+                Read Full Story
+              </Link>
+            </div>
+          </ScrollReveal>
+        </div>
+
+        {/* Numbered pillars — like Terminal 01-06 */}
+        <div className="border-t border-[#1C1C1C]/10 pt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#1C1C1C]/8">
+          {pillars.map((p, i) => (
+            <ScrollReveal key={p.num} delay={i * 0.08}>
+              <div className="group bg-[#F5F0E8] p-6 lg:p-8 hover:bg-[#EDE5D4] transition-colors duration-300 h-full">
+                <p className="font-sans-harvest text-[11px] tracking-[0.25em] text-[#C9A84C] mb-5">{p.num}</p>
+                <h3
+                  className="font-display font-bold text-[#1C1C1C] mb-3 group-hover:text-[#4A2545] transition-colors duration-200"
+                  style={{ fontSize: 'clamp(1.1rem, 1.56vw, 1.4rem)' }}
+                >
+                  {p.title}
+                </h3>
+                <div className="h-px w-6 bg-[#C9A84C] mb-4 group-hover:w-full transition-all duration-500" />
+                <p className="font-serif text-[#6B6456] text-sm leading-relaxed">{p.desc}</p>
+              </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>

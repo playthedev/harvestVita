@@ -23,27 +23,34 @@ export default function PageHero({
   color?: string;
 }) {
   return (
-    <section className="relative bg-[#1C1C1C] pt-40 pb-24 md:pt-48 md:pb-32 overflow-hidden">
+    <section className="relative bg-[#0D0D0D] pt-44 pb-24 md:pt-52 md:pb-32 overflow-hidden">
       {/* 3D background */}
-      <div className="absolute inset-0 opacity-60">
+      <div className="absolute inset-0 opacity-55">
         <FloatingGeometry geometry={geometry} color={color} scale={1.5} />
       </div>
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1C1C1C] via-transparent to-[#1C1C1C]/80 pointer-events-none" />
+      {/* Gradient overlays — matches home hero */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: 'linear-gradient(to bottom, rgba(13,13,13,0.65) 0%, rgba(13,13,13,0.1) 50%, rgba(13,13,13,0.85) 100%)' }} />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="flex items-center gap-4 mb-6">
-          <span className="block h-px w-10 bg-[#C9A84C]" />
-          <p className="font-sans-harvest text-[10px] tracking-[0.4em] uppercase text-[#C9A84C]">
+      <div className="relative max-w-[1800px] mx-auto px-[5.128vw]">
+        <div className="flex items-center gap-3 mb-8">
+          <span className="block h-px w-8 bg-[#C9A84C]" />
+          <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">
             {eyebrow}
           </p>
         </div>
-        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-[#F5F0E8] leading-[1.05] tracking-tight max-w-5xl">
+        <h1
+          className="font-display font-bold text-[#F5F0E8] leading-[0.95] tracking-tight max-w-5xl"
+          style={{ fontSize: 'clamp(3rem, 7.5vw, 7rem)' }}
+        >
           {title}
         </h1>
         {subtitle && (
-          <p className="mt-8 font-serif text-lg md:text-xl text-[#F5F0E8]/60 leading-relaxed max-w-2xl">
+          <p
+            className="mt-8 font-serif text-[#F5F0E8]/55 leading-relaxed max-w-2xl"
+            style={{ fontSize: 'clamp(1rem, 1.3vw, 1.2rem)' }}
+          >
             {subtitle}
           </p>
         )}

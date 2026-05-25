@@ -18,11 +18,11 @@ export default function CTABand({
       ? 'bg-[#2E1530]'
       : bg === 'olive'
       ? 'bg-[#2D4A2D]'
-      : 'bg-[#1C1C1C]';
+      : 'bg-[#0D0D0D]';
 
   return (
-    <section className={`${bgClass} py-20 md:py-28`}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 grid md:grid-cols-2 gap-10 items-center">
+    <section className={`${bgClass} py-20 md:py-28 border-t border-[#F5F0E8]/6`}>
+      <div className="max-w-[1800px] mx-auto px-[5.128vw] grid md:grid-cols-2 gap-10 items-center">
         <div>
           <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C] mb-4">
             {eyebrow}
