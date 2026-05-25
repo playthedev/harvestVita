@@ -160,6 +160,28 @@ export default function HeroSection() {
       <div className="absolute inset-0 z-[3] pointer-events-none"
         style={{ background: 'linear-gradient(to bottom, rgba(13,13,13,0.45) 0%, rgba(13,13,13,0.05) 50%, rgba(13,13,13,0.92) 100%)' }} />
 
+      {/* Soft gold spotlight glow behind the headline */}
+      <div
+        className="absolute z-[3] pointer-events-none"
+        style={{
+          top: '38%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '70vw',
+          height: '60vh',
+          background:
+            'radial-gradient(ellipse at center, rgba(201,168,76,0.13) 0%, rgba(201,168,76,0.04) 35%, transparent 70%)',
+          filter: 'blur(8px)',
+        }}
+      />
+
+      {/* Vertical accent line, left edge */}
+      <div className="absolute top-0 bottom-0 left-[5.128vw] z-[5] pointer-events-none flex flex-col items-center justify-center gap-3 opacity-40">
+        <span className="block w-px h-24 bg-gradient-to-b from-transparent via-[#C9A84C] to-transparent" />
+        <span className="block w-1 h-1 bg-[#C9A84C] rounded-full" />
+        <span className="block w-px h-24 bg-gradient-to-b from-[#C9A84C] via-[#C9A84C]/40 to-transparent" />
+      </div>
+
       {/* Corner crosses — Terminal Industries style */}
       <Cross className="absolute top-[72px] left-[5.128vw] z-[10]" />
       <Cross className="absolute top-[72px] right-[5.128vw] z-[10]" />
@@ -182,6 +204,10 @@ export default function HeroSection() {
           <span className="block h-px w-8 bg-[#C9A84C]" />
           <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">
             By Amoohaa Farms
+          </p>
+          <span className="hidden md:inline-block text-[#C9A84C]/40 text-[10px]">·</span>
+          <p className="hidden md:inline-block font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#F5F0E8]/35">
+            Est. From The Soil
           </p>
         </div>
 
@@ -210,25 +236,51 @@ export default function HeroSection() {
           <div ref={ctaRef} className="flex gap-3 opacity-0 flex-shrink-0">
             <Link
               href="/products"
-              className="font-sans-harvest text-[11px] tracking-[0.15em] uppercase px-6 py-3 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors duration-200 select-none"
+              className="group relative font-sans-harvest text-[11px] tracking-[0.18em] uppercase px-7 py-3.5 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-all duration-300 select-none overflow-hidden flex items-center gap-2"
             >
-              Explore Range
+              <span className="relative z-10">Explore Range</span>
+              <svg className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </Link>
             <Link
               href="/about"
-              className="font-sans-harvest text-[11px] tracking-[0.15em] uppercase px-6 py-3 border border-[#F5F0E8]/25 text-[#F5F0E8]/75 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all duration-200 select-none"
+              className="group font-sans-harvest text-[11px] tracking-[0.18em] uppercase px-7 py-3.5 border border-[#F5F0E8]/25 text-[#F5F0E8]/75 hover:border-[#C9A84C] hover:text-[#C9A84C] hover:bg-[#C9A84C]/5 transition-all duration-300 select-none flex items-center gap-2"
             >
               Our Story
+              <span className="block w-1 h-1 rounded-full bg-[#C9A84C]/40 group-hover:bg-[#C9A84C] transition-colors" />
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="relative z-[10] pb-8 flex items-center justify-center gap-3 px-[5.128vw]">
-        <div className="flex flex-col items-center gap-1.5">
-          <p className="font-sans-harvest text-[9px] tracking-[0.3em] uppercase text-[#F5F0E8]/30">Scroll</p>
-          <div className="w-px h-8 bg-gradient-to-b from-[#C9A84C]/50 to-transparent" />
+      {/* Trust-signal strip + scroll cue */}
+      <div className="relative z-[10] pb-6 px-[5.128vw]">
+        <div className="max-w-[1800px] mx-auto w-full border-t border-[#F5F0E8]/8 pt-5 flex flex-col md:flex-row items-center justify-between gap-5">
+          {/* Left: three quick stats */}
+          <div className="flex items-center gap-8 md:gap-12">
+            {[
+              { k: '6', l: 'Categories' },
+              { k: '100%', l: 'Clean Label' },
+              { k: '0', l: 'Additives' },
+            ].map((s) => (
+              <div key={s.l} className="flex items-baseline gap-2">
+                <span className="font-display font-bold text-[#C9A84C]" style={{ fontSize: 'clamp(1.4rem, 2vw, 1.8rem)' }}>
+                  {s.k}
+                </span>
+                <span className="font-sans-harvest text-[9px] tracking-[0.28em] uppercase text-[#F5F0E8]/40">
+                  {s.l}
+                </span>
+              </div>
+            ))}
+          </div>
+          {/* Right: scroll cue */}
+          <div className="flex items-center gap-3">
+            <p className="font-sans-harvest text-[9px] tracking-[0.3em] uppercase text-[#F5F0E8]/35">Scroll the journey</p>
+            <div className="relative w-px h-8 overflow-hidden bg-[#F5F0E8]/10">
+              <div className="absolute inset-x-0 h-3 bg-[#C9A84C] animate-scrollCue" />
+            </div>
+          </div>
         </div>
       </div>
 

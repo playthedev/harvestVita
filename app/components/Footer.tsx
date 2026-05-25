@@ -33,9 +33,9 @@ export default function Footer() {
               <Image
                 src="/logo.png"
                 alt="HarvestVita"
-                width={320}
-                height={128}
-                className="h-20 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity duration-500"
+                width={360}
+                height={144}
+                className="h-28 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity duration-500"
               />
             </Link>
           </div>
@@ -58,18 +58,24 @@ export default function Footer() {
         <div className="max-w-[1800px] mx-auto px-[5.128vw] py-14 grid grid-cols-2 md:grid-cols-4 gap-10">
           {/* Brand col */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="inline-block mb-4" aria-label="HarvestVita home">
+            <Link href="/" className="inline-block mb-5 select-none" aria-label="HarvestVita home">
               <Image
                 src="/logo.png"
                 alt="HarvestVita by Amoohaa Farms"
-                width={160}
-                height={64}
-                className="h-12 w-auto object-contain brightness-0 invert"
+                width={200}
+                height={80}
+                className="h-20 w-auto object-contain brightness-0 invert"
               />
             </Link>
-            <p className="font-serif text-[#F5F0E8]/35 text-sm leading-relaxed">
-              Honest food. Thoughtful processing. Farm to home.
+            <p className="font-serif text-[#F5F0E8]/45 text-sm leading-relaxed">
+              Honest food. Thoughtful processing.<br />Farm to home.
             </p>
+            <div className="mt-5 flex items-center gap-2">
+              <span className="block w-1.5 h-1.5 rounded-full bg-[#C9A84C] animate-pulse" />
+              <p className="font-sans-harvest text-[9px] tracking-[0.3em] uppercase text-[#C9A84C]/70">
+                By Amoohaa Farms
+              </p>
+            </div>
           </div>
 
           {/* Products */}

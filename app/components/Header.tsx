@@ -55,9 +55,9 @@ export default function Header() {
           <Image
             src="/logo.png"
             alt="HarvestVita by Amoohaa Farms"
-            width={140}
-            height={56}
-            className="h-10 w-auto object-contain brightness-0 invert"
+            width={200}
+            height={80}
+            className="h-20 w-auto object-contain brightness-0 invert"
             priority
           />
         </Link>
