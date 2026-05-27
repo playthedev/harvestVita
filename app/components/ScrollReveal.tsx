@@ -44,7 +44,7 @@ export default function ScrollReveal({
   }, [y, delay]);
 
   return (
-    <div ref={ref} className={className} style={{ opacity: 0 }}>
+    <div ref={ref} className={className} style={{ opacity: 0 }} suppressHydrationWarning>
       {children}
     </div>
   );

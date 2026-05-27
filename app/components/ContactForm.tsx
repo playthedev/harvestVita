@@ -1,18 +1,31 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error';
 
 export default function ContactForm() {
+  const searchParams = useSearchParams();
+  const isB2B = searchParams.get('subject') === 'b2b';
+
   const [state, setState] = useState<FormState>('idle');
-  const [form, setForm] = useState({
+  const [form, setForm] = useState(() => ({
     name: '',
     email: '',
     phone: '',
-    subject: 'General Enquiry',
+    subject: isB2B ? 'Wholesale / B2B' : 'General Enquiry',
     message: '',
-  });
+  }));
+
+  // Scroll to the form when arriving with ?subject=b2b. This is a side
+  // effect on an external system (window scroll), not a state update —
+  // safe to run in useEffect.
+  useEffect(() => {
+    if (!isB2B) return;
+    const el = document.getElementById('contact-form');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [isB2B]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -23,9 +36,13 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setState('submitting');
-    // Placeholder: replace with real submission endpoint
     try {
-      await new Promise((r) => setTimeout(r, 900));
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error('Failed');
       setState('success');
       setForm({ name: '', email: '', phone: '', subject: 'General Enquiry', message: '' });
     } catch {

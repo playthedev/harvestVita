@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { useIsMounted } from '../lib/useIsMounted';
 
 const FloatingGeometry = dynamic(() => import('./three/FloatingGeometry'), {
   ssr: false,
@@ -34,11 +35,14 @@ export default function PageHero({
   color?: string;
   stat?: { k: string; l: string }[];
 }) {
+  const mounted = useIsMounted();
+
   return (
     <section className="relative bg-[#0A0A0A] pt-44 pb-24 md:pt-52 md:pb-32 overflow-hidden">
-      {/* 3D background */}
+      {/* 3D background — wrapper is always rendered so the section's child list
+          is stable across hydration; only the R3F canvas is gated. */}
       <div className="absolute inset-0 opacity-55">
-        <FloatingGeometry geometry={geometry} color={color} scale={1.5} />
+        {mounted && <FloatingGeometry geometry={geometry} color={color} scale={1.5} />}
       </div>
 
       {/* Soft gold spotlight */}

@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useCart } from '../lib/CartContext';
+import { useIsMounted } from '../lib/useIsMounted';
 
 const navLinks = [
   { label: 'About', href: '/about' },
@@ -12,7 +14,7 @@ const navLinks = [
   { label: 'Contact', href: '/contact' },
 ];
 
-export default function Header() {
+export default function HeaderClient({ userName }: { userName: string | null }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -32,6 +34,12 @@ export default function Header() {
     }
   }, [pathname]);
 
+  const { count } = useCart();
+  // Cart hydrates from localStorage on the client, so the server-rendered count
+  // is always 0. Only show the badge after mount to avoid a hydration mismatch.
+  const mounted = useIsMounted();
+  const showBadge = mounted && count > 0;
+
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
 
@@ -48,6 +56,7 @@ export default function Header() {
           : 'transparent',
         backdropFilter: scrolled ? 'blur(30px)' : 'none',
       }}
+      suppressHydrationWarning
     >
       <div className="max-w-[1800px] mx-auto px-[5.128vw] flex items-center justify-between">
         {/* Logo */}
@@ -58,6 +67,7 @@ export default function Header() {
             width={200}
             height={80}
             className="h-20 w-auto object-contain brightness-0 invert"
+            style={{ width: 'auto' }}
             priority
           />
         </Link>
@@ -94,7 +104,35 @@ export default function Header() {
             href="/products"
             className="font-sans-harvest text-[11px] tracking-[0.12em] uppercase px-4 py-2 bg-[#C9A84C] text-[#1C1C1C] hover:bg-[#E2C47A] transition-colors duration-200 rounded-sm select-none"
           >
-            Products
+            Shop
+          </Link>
+
+          {/* Account / Login */}
+          <Link
+            href={mounted && userName ? '/account' : '/login'}
+            className="flex items-center gap-1.5 font-sans-harvest text-[11px] tracking-[0.1em] uppercase text-[#F5F0E8]/70 hover:text-[#C9A84C] transition-colors p-2"
+            aria-label={mounted && userName ? 'My account' : 'Sign in'}
+          >
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="7" r="3.5" stroke="currentColor" strokeWidth="1.4" />
+              <path d="M3 18c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+            {mounted && userName && (
+              <span className="hidden lg:inline">{userName.split(' ')[0]}</span>
+            )}
+          </Link>
+
+          <Link href="/cart" className="relative p-2 text-[#F5F0E8]/70 hover:text-[#C9A84C] transition-colors" aria-label="Cart">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M1 1h3l2.4 9.6a1 1 0 0 0 1 .8h7.6a1 1 0 0 0 .97-.76L18 5H5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="8" cy="17" r="1" fill="currentColor" />
+              <circle cx="15" cy="17" r="1" fill="currentColor" />
+            </svg>
+            {showBadge && (
+              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#C9A84C] text-[#0D0D0D] font-sans-harvest text-[8px] flex items-center justify-center leading-none">
+                {count}
+              </span>
+            )}
           </Link>
         </div>
 
@@ -127,7 +165,32 @@ export default function Header() {
               Enquire
             </Link>
             <Link href="/products" className="flex-1 text-center font-sans-harvest text-[11px] tracking-[0.12em] uppercase px-4 py-2.5 bg-[#C9A84C] text-[#1C1C1C]">
-              Products
+              Shop
+            </Link>
+            <Link
+              href={mounted && userName ? '/account' : '/login'}
+              className="relative flex items-center justify-center px-4 py-2.5 border border-[#F5F0E8]/25 text-[#F5F0E8]/80"
+              aria-label={mounted && userName ? 'My account' : 'Sign in'}
+            >
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="7" r="3.5" stroke="currentColor" strokeWidth="1.4" />
+                <path d="M3 18c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              </svg>
+              {mounted && userName && (
+                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#C9A84C]" />
+              )}
+            </Link>
+            <Link href="/cart" className="relative flex items-center justify-center px-4 py-2.5 border border-[#F5F0E8]/25 text-[#F5F0E8]/80">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+                <path d="M1 1h3l2.4 9.6a1 1 0 0 0 1 .8h7.6a1 1 0 0 0 .97-.76L18 5H5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="8" cy="17" r="1" fill="currentColor" />
+                <circle cx="15" cy="17" r="1" fill="currentColor" />
+              </svg>
+              {showBadge && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#C9A84C] text-[#0D0D0D] font-sans-harvest text-[8px] flex items-center justify-center">
+                  {count}
+                </span>
+              )}
             </Link>
           </div>
         </div>

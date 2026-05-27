@@ -13,6 +13,18 @@ export type ProductCategory = {
   accent: string;
 };
 
+export type Product = {
+  id: string;
+  name: string;
+  category: string;
+  categorySlug: string;
+  price: number;
+  unit: string;
+  image: string;
+  short: string;
+  badge?: string;
+};
+
 export const products: ProductCategory[] = [
   {
     slug: 'dehydrated-powders',
@@ -151,3 +163,41 @@ export const products: ProductCategory[] = [
 
 export const getProductBySlug = (slug: string) =>
   products.find((p) => p.slug === slug);
+
+export const allProducts: Product[] = [
+  // Dehydrated Powders
+  { id: 'dp-01', name: 'Beetroot Powder', category: 'Dehydrated Powders', categorySlug: 'dehydrated-powders', price: 199, unit: '100g', image: 'https://images.unsplash.com/photo-1540914124281-342587941389?w=600&q=80', short: 'Vibrant, nutrient-dense beetroot in powder form.', badge: 'Bestseller' },
+  { id: 'dp-02', name: 'Spinach Powder', category: 'Dehydrated Powders', categorySlug: 'dehydrated-powders', price: 179, unit: '100g', image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=600&q=80', short: 'Pure spinach — iron and folate preserved.' },
+  { id: 'dp-03', name: 'Tomato Powder', category: 'Dehydrated Powders', categorySlug: 'dehydrated-powders', price: 159, unit: '100g', image: 'https://images.unsplash.com/photo-1558818498-28c1e002b655?w=600&q=80', short: 'Concentrated tomato flavour for curries and soups.' },
+  { id: 'dp-04', name: 'Amla Powder', category: 'Dehydrated Powders', categorySlug: 'dehydrated-powders', price: 229, unit: '100g', image: 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=600&q=80', short: 'Indian gooseberry — vitamin C powerhouse.', badge: 'New' },
+  { id: 'dp-05', name: 'Carrot Powder', category: 'Dehydrated Powders', categorySlug: 'dehydrated-powders', price: 149, unit: '100g', image: 'https://images.unsplash.com/photo-1445282768818-728615cc910a?w=600&q=80', short: 'Sweet, beta-carotene rich carrot powder.' },
+  { id: 'dp-06', name: 'Drumstick Powder', category: 'Dehydrated Powders', categorySlug: 'dehydrated-powders', price: 249, unit: '100g', image: 'https://images.unsplash.com/photo-1540914124281-342587941389?w=600&q=80', short: 'Moringa leaf powder — dense in minerals.' },
+  // Vegetable Flakes
+  { id: 'vf-01', name: 'Onion Flakes', category: 'Vegetable Flakes', categorySlug: 'vegetable-flakes', price: 129, unit: '150g', image: 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=600&q=80', short: 'Crisp dehydrated onion, ready to use.' },
+  { id: 'vf-02', name: 'Garlic Flakes', category: 'Vegetable Flakes', categorySlug: 'vegetable-flakes', price: 149, unit: '100g', image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600&q=80', short: 'Intense garlic flavour without the prep.', badge: 'Bestseller' },
+  { id: 'vf-03', name: 'Capsicum Flakes', category: 'Vegetable Flakes', categorySlug: 'vegetable-flakes', price: 139, unit: '100g', image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=600&q=80', short: 'Red and green capsicum, air-dried to perfection.' },
+  { id: 'vf-04', name: 'Tomato Flakes', category: 'Vegetable Flakes', categorySlug: 'vegetable-flakes', price: 129, unit: '100g', image: 'https://images.unsplash.com/photo-1558818498-28c1e002b655?w=600&q=80', short: 'Sun-ripened tomato in convenient flake form.' },
+  // Cold-Pressed Oils
+  { id: 'co-01', name: 'Groundnut Oil', category: 'Cold-Pressed Oils', categorySlug: 'cold-pressed-oils', price: 349, unit: '500ml', image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&q=80', short: 'Rich, nutty cold-pressed groundnut oil.', badge: 'Bestseller' },
+  { id: 'co-02', name: 'Sesame (Til) Oil', category: 'Cold-Pressed Oils', categorySlug: 'cold-pressed-oils', price: 399, unit: '500ml', image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&q=80', short: 'Deep amber sesame oil with full aroma.' },
+  { id: 'co-03', name: 'Coconut Oil', category: 'Cold-Pressed Oils', categorySlug: 'cold-pressed-oils', price: 449, unit: '500ml', image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&q=80', short: 'Virgin coconut oil, cold-pressed in small batches.', badge: 'New' },
+  { id: 'co-04', name: 'Mustard Oil', category: 'Cold-Pressed Oils', categorySlug: 'cold-pressed-oils', price: 299, unit: '500ml', image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&q=80', short: 'Pungent, flavourful kachchi ghani mustard oil.' },
+  // Heritage Flours
+  { id: 'hf-01', name: 'Khapali Atta', category: 'Heritage Flours', categorySlug: 'heritage-flours', price: 189, unit: '1kg', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=80', short: 'Ancient emmer wheat, stone-ground whole.', badge: 'Bestseller' },
+  { id: 'hf-02', name: 'Ragi Flour', category: 'Heritage Flours', categorySlug: 'heritage-flours', price: 149, unit: '1kg', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=80', short: 'Finger millet flour, rich in calcium.' },
+  { id: 'hf-03', name: 'Jowar Flour', category: 'Heritage Flours', categorySlug: 'heritage-flours', price: 139, unit: '1kg', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=80', short: 'Gluten-free sorghum flour, light and nutritious.' },
+  { id: 'hf-04', name: 'Multigrain Flour', category: 'Heritage Flours', categorySlug: 'heritage-flours', price: 219, unit: '1kg', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=80', short: 'Blend of six ancient grains for daily rotis.', badge: 'New' },
+  // Whole Spices
+  { id: 'ws-01', name: 'Cumin Seeds', category: 'Whole Spices', categorySlug: 'whole-spices', price: 99, unit: '100g', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80', short: 'Hand-sorted jeera with intense aroma.' },
+  { id: 'ws-02', name: 'Black Pepper', category: 'Whole Spices', categorySlug: 'whole-spices', price: 149, unit: '100g', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80', short: 'Bold, pungent Malabar black pepper.', badge: 'Bestseller' },
+  { id: 'ws-03', name: 'Green Cardamom', category: 'Whole Spices', categorySlug: 'whole-spices', price: 299, unit: '50g', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80', short: 'Fragrant Kerala elaichi, plump and oily.' },
+  { id: 'ws-04', name: 'Cloves', category: 'Whole Spices', categorySlug: 'whole-spices', price: 199, unit: '50g', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80', short: 'Rich, oily cloves sourced from the Western Ghats.' },
+  // Spice Powders
+  { id: 'sp-01', name: 'Turmeric Powder', category: 'Spice Powders', categorySlug: 'spice-powders', price: 119, unit: '100g', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80', short: 'High-curcumin Erode haldi, freshly ground.', badge: 'Bestseller' },
+  { id: 'sp-02', name: 'Red Chilli Powder', category: 'Spice Powders', categorySlug: 'spice-powders', price: 129, unit: '100g', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80', short: 'Vibrant, bold Byadagi chilli powder.' },
+  { id: 'sp-03', name: 'Garam Masala', category: 'Spice Powders', categorySlug: 'spice-powders', price: 179, unit: '100g', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80', short: 'Balanced blend — family recipe, no fillers.', badge: 'New' },
+  { id: 'sp-04', name: 'Chai Masala', category: 'Spice Powders', categorySlug: 'spice-powders', price: 149, unit: '50g', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80', short: 'Warming blend for the perfect cup of chai.' },
+];
+
+export const getProductById = (id: string) =>
+  allProducts.find((p) => p.id === id);

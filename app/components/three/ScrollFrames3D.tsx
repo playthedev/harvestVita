@@ -1,8 +1,22 @@
 'use client';
 
-import { useRef, useMemo, Suspense } from 'react';
+import { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+
+// Tiny seeded PRNG (mulberry32) for stable particle positions across renders.
+// Using Math.random() during render is impure and trips React 19 strict-mode
+// (and the react-hooks/purity lint rule).
+function mulberry32(seed: number) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
 /* ─────────────────────────────────────────────────────────────
  * Scroll progress is forwarded via a ref from the parent.
@@ -142,10 +156,11 @@ function WheatFrame({ scrollRef }: { scrollRef: React.MutableRefObject<number> }
   const matRefs = useRef<THREE.Material[]>([]);
 
   const grains = useMemo(() => {
+    const rnd = mulberry32(1234);
     const arr: { y: number; side: 1 | -1; r: number }[] = [];
     for (let i = 0; i < 7; i++) {
-      arr.push({ y: 0.2 + i * 0.35, side: 1, r: 0.2 + Math.random() * 0.05 });
-      arr.push({ y: 0.05 + i * 0.35, side: -1, r: 0.2 + Math.random() * 0.05 });
+      arr.push({ y: 0.2 + i * 0.35, side: 1, r: 0.2 + rnd() * 0.05 });
+      arr.push({ y: 0.05 + i * 0.35, side: -1, r: 0.2 + rnd() * 0.05 });
     }
     return arr;
   }, []);
@@ -345,11 +360,12 @@ function SpiceJarFrame({ scrollRef }: { scrollRef: React.MutableRefObject<number
   const matRefs = useRef<THREE.Material[]>([]);
 
   const particlePositions = useMemo(() => {
+    const rnd = mulberry32(5678);
     const arr = new Float32Array(120 * 3);
     for (let i = 0; i < 120; i++) {
-      const r = 0.6 + Math.random() * 1.4;
-      const theta = Math.random() * Math.PI * 2;
-      const y = (Math.random() - 0.3) * 2.8;
+      const r = 0.6 + rnd() * 1.4;
+      const theta = rnd() * Math.PI * 2;
+      const y = (rnd() - 0.3) * 2.8;
       arr[i * 3] = Math.cos(theta) * r;
       arr[i * 3 + 1] = y;
       arr[i * 3 + 2] = Math.sin(theta) * r;
@@ -447,11 +463,12 @@ function AmbientDust({ scrollRef }: { scrollRef: React.MutableRefObject<number> 
   const pointsRef = useRef<THREE.Points>(null);
 
   const positions = useMemo(() => {
+    const rnd = mulberry32(9012);
     const arr = new Float32Array(80 * 3);
     for (let i = 0; i < 80; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 14;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 8;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 6;
+      arr[i * 3] = (rnd() - 0.5) * 14;
+      arr[i * 3 + 1] = (rnd() - 0.5) * 8;
+      arr[i * 3 + 2] = (rnd() - 0.5) * 6;
     }
     return arr;
   }, []);
@@ -506,19 +523,20 @@ export default function ScrollFrames3D({
   scrollRef: React.MutableRefObject<number>;
 }) {
   return (
-    <Canvas
-      camera={{ position: [0, 0.5, 6], fov: 50 }}
-      gl={{ antialias: true, alpha: true }}
-      dpr={[1, 2]}
-    >
-      <Suspense fallback={null}>
+    <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+      <Canvas
+        camera={{ position: [0, 0.5, 6], fov: 50 }}
+        gl={{ antialias: true, alpha: true }}
+        dpr={[1, 2]}
+        style={{ position: 'absolute', inset: 0 }}
+      >
         <CameraRig scrollRef={scrollRef} />
         <AmbientDust scrollRef={scrollRef} />
         <SeedFrame scrollRef={scrollRef} />
         <WheatFrame scrollRef={scrollRef} />
         <OilDropFrame scrollRef={scrollRef} />
         <SpiceJarFrame scrollRef={scrollRef} />
-      </Suspense>
-    </Canvas>
+      </Canvas>
+    </div>
   );
 }

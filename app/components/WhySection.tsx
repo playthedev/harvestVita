@@ -43,25 +43,23 @@ const reasons = [
 export default function WhySection() {
   const sectionRef = useRef<HTMLElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
-  const activeBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const items = listRef.current?.querySelectorAll('[data-why-item]');
+      const items = listRef.current?.querySelectorAll<HTMLElement>('[data-why-item]');
       if (!items) return;
 
-      items.forEach((item, i) => {
+      items.forEach((item) => {
+        const others = Array.from(items).filter((el) => el !== item);
+        const highlight = () => {
+          gsap.to(others, { opacity: 0.25, duration: 0.4 });
+          gsap.to(item, { opacity: 1, duration: 0.4 });
+        };
         ScrollTrigger.create({
           trigger: item,
           start: 'top 55%',
-          onEnter: () => {
-            gsap.to(items, { opacity: 0.25, duration: 0.4 });
-            gsap.to(item, { opacity: 1, duration: 0.4 });
-          },
-          onEnterBack: () => {
-            gsap.to(items, { opacity: 0.25, duration: 0.4 });
-            gsap.to(item, { opacity: 1, duration: 0.4 });
-          },
+          onEnter: highlight,
+          onEnterBack: highlight,
         });
       });
     });

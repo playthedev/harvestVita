@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
-import Header from "./components/Header";
+import Header from "./components/HeaderAuth";
 import Footer from "./components/Footer";
 import SmoothScroll from "./components/SmoothScroll";
+import { CartProvider } from "./lib/CartContext";
+import LocatorSetup from "./components/LocatorSetup";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -18,7 +20,10 @@ const dmSans = DM_Sans({
   weight: ["300", "400", "500", "600"],
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://harvestvita.in';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "HarvestVita — By Amoohaa Farms",
   description:
     "Pure, nourishing ingredients rooted in authenticity. Dehydrated fruits & vegetables, cold-pressed oils, heritage flours, and whole spices. Farm to home.",
@@ -29,6 +34,7 @@ export const metadata: Metadata = {
     description:
       "Honest food. Thoughtful processing. The richness of the farm, delivered to your home.",
     type: "website",
+    images: [{ url: "/icon.png", width: 1024, height: 1024, alt: "HarvestVita" }],
   },
 };
 
@@ -38,12 +44,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${dmSans.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col antialiased">
-        <SmoothScroll />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <CartProvider>
+          <LocatorSetup />
+          <SmoothScroll />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import PageHero from '../components/PageHero';
 import ContactForm from '../components/ContactForm';
 import ScrollReveal from '../components/ScrollReveal';
@@ -119,7 +120,7 @@ export default function ContactPage() {
       </section>
 
       {/* Form */}
-      <section className="bg-[#1C1C1C] py-24 md:py-32 relative overflow-hidden">
+      <section id="contact-form" className="bg-[#1C1C1C] py-24 md:py-32 relative overflow-hidden scroll-mt-24">
         <div
           aria-hidden
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[60vh] pointer-events-none opacity-60"
@@ -145,7 +146,9 @@ export default function ContactPage() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
-            <ContactForm />
+            <Suspense fallback={<div className="h-96" />}>
+              <ContactForm />
+            </Suspense>
           </ScrollReveal>
         </div>
       </section>
@@ -179,12 +182,12 @@ export default function ContactPage() {
           </div>
           <div className="md:justify-self-end">
             <a
-              href="mailto:b2b@harvestvita.in"
+              href="?subject=b2b#contact-form"
               className="group relative inline-flex items-center gap-2 font-sans-harvest text-xs tracking-[0.2em] uppercase px-8 py-4 bg-[#C9A84C] text-[#1C1C1C] hover:bg-[#E2C47A] transition-colors duration-200"
             >
-              B2B Enquiries
-              <svg className="transition-transform duration-300 group-hover:translate-x-1" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              Start a B2B Enquiry
+              <svg className="transition-transform duration-300 group-hover:translate-y-1" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M6 1V11M6 11L1 6M6 11L11 6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </a>
           </div>

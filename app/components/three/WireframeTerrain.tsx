@@ -129,12 +129,15 @@ function Scene() {
 
 export default function WireframeTerrain() {
   return (
-    <Canvas
-      camera={{ position: [0, 4, 9], fov: 55 }}
-      gl={{ antialias: true, alpha: true }}
-      dpr={[1, 2]}
-    >
-      <Scene />
-    </Canvas>
+    <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+      <Canvas
+        camera={{ position: [0, 4, 9], fov: 55 }}
+        gl={{ antialias: true, alpha: true }}
+        dpr={[1, 2]}
+        style={{ position: 'absolute', inset: 0 }}
+      >
+        <Scene />
+      </Canvas>
+    </div>
   );
 }

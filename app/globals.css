@@ -33,7 +33,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior handled by Lenis — do not set here */
 }
 
 body {

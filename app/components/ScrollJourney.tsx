@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useIsMounted } from '../lib/useIsMounted';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,6 +58,7 @@ export default function ScrollJourney() {
   const progressBarRef = useRef<HTMLDivElement>(null);
   const stepLabelRef = useRef<HTMLSpanElement>(null);
   const scrollProgressRef = useRef(0);
+  const mounted = useIsMounted();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -134,12 +136,13 @@ export default function ScrollJourney() {
         }}
       />
 
-      {/* 3D canvas — full bleed */}
+      {/* 3D canvas — full bleed. Wrapper is always rendered so the pinned section's
+          child list stays stable across hydration; only the R3F canvas is gated. */}
       <div
         ref={canvasWrapRef}
         className="absolute inset-0 z-[2]"
       >
-        <ScrollFrames3D scrollRef={scrollProgressRef} />
+        {mounted && <ScrollFrames3D scrollRef={scrollProgressRef} />}
       </div>
 
       {/* Vignette overlay so text reads cleanly */}
@@ -174,12 +177,13 @@ export default function ScrollJourney() {
       >
         <div className="max-w-[1800px] mx-auto w-full">
           <div className="relative h-[50vh] max-w-xl">
-            {frames.map((f, i) => (
+            {frames.map((f) => (
               <div
                 key={f.eyebrow}
                 data-caption
                 className="absolute inset-0 flex flex-col justify-center"
                 style={{ opacity: 0 }}
+                suppressHydrationWarning
               >
                 <p
                   className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase mb-5"
