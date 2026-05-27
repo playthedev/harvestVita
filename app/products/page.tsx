@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { allProducts } from '../lib/products';
 import { useCart } from '../lib/CartContext';
-import { useIsMounted } from '../lib/useIsMounted';
 import ScrollReveal from '../components/ScrollReveal';
 
 const FloatingGeometry = dynamic(() => import('../components/three/FloatingGeometry'), {
@@ -71,7 +70,6 @@ function AddToCartBtn({ productId }: { productId: string }) {
 
 export default function ProductsPage() {
   const [active, setActive] = useState('All');
-  const mounted = useIsMounted();
   const { count } = useCart();
 
   const filtered = active === 'All' ? allProducts : allProducts.filter((p) => p.category === active);
@@ -80,10 +78,9 @@ export default function ProductsPage() {
     <>
       {/* ═══════════════ HERO ═══════════════ */}
       <section className="relative bg-[#0A0A0A] pt-44 pb-24 md:pt-52 md:pb-32 overflow-hidden">
-        {/* 3D Particles — wrapper is always rendered so the section's child list
-            is stable across hydration; only the R3F canvas is gated. */}
+        {/* 3D Particles */}
         <div className="absolute inset-0 opacity-55">
-          {mounted && <FloatingGeometry color="#C9A84C" />}
+          <FloatingGeometry color="#C9A84C" />
         </div>
 
         {/* Spotlight */}

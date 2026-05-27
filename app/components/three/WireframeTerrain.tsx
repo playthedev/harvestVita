@@ -135,6 +135,9 @@ export default function WireframeTerrain() {
         gl={{ antialias: true, alpha: true }}
         dpr={[1, 2]}
         style={{ position: 'absolute', inset: 0 }}
+        onCreated={({ gl }) => {
+          gl.domElement.addEventListener('webglcontextlost', (e) => e.preventDefault(), false);
+        }}
       >
         <Scene />
       </Canvas>

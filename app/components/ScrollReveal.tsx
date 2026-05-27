@@ -23,28 +23,25 @@ export default function ScrollReveal({
     const el = ref.current;
     if (!el) return;
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        el,
-        { opacity: 0, y },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          delay,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 88%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
+      gsap.set(el, { opacity: 0, y });
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        },
+      });
     });
     return () => ctx.revert();
   }, [y, delay]);
 
   return (
-    <div ref={ref} className={className} style={{ opacity: 0 }} suppressHydrationWarning>
+    <div ref={ref} className={className}>
       {children}
     </div>
   );

@@ -4,8 +4,6 @@ import { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useIsMounted } from '../lib/useIsMounted';
-
 gsap.registerPlugin(ScrollTrigger);
 
 const ScrollFrames3D = dynamic(() => import('./three/ScrollFrames3D'), {
@@ -58,7 +56,6 @@ export default function ScrollJourney() {
   const progressBarRef = useRef<HTMLDivElement>(null);
   const stepLabelRef = useRef<HTMLSpanElement>(null);
   const scrollProgressRef = useRef(0);
-  const mounted = useIsMounted();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -136,13 +133,12 @@ export default function ScrollJourney() {
         }}
       />
 
-      {/* 3D canvas — full bleed. Wrapper is always rendered so the pinned section's
-          child list stays stable across hydration; only the R3F canvas is gated. */}
+      {/* 3D canvas — full bleed */}
       <div
         ref={canvasWrapRef}
         className="absolute inset-0 z-[2]"
       >
-        {mounted && <ScrollFrames3D scrollRef={scrollProgressRef} />}
+        <ScrollFrames3D scrollRef={scrollProgressRef} />
       </div>
 
       {/* Vignette overlay so text reads cleanly */}

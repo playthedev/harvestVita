@@ -164,6 +164,7 @@ export default function FloatingGeometry({
         style={{ position: 'absolute', inset: 0 }}
         onCreated={({ gl }) => {
           gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+          gl.domElement.addEventListener('webglcontextlost', (e) => e.preventDefault(), false);
         }}
       >
         <ambientLight intensity={0.15} />

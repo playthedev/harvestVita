@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Lenis from 'lenis';
 import gsap from 'gsap';
@@ -27,21 +27,27 @@ export default function SmoothScroll() {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
       lenis.off('scroll', onLenisScroll);
       gsap.ticker.remove(tick);
       lenis.destroy();
     };
   }, []);
 
-  // After route change, refresh ScrollTrigger so it recalculates positions
-  // against the newly mounted page's DOM. Do NOT kill triggers — each
-  // ScrollReveal kills its own on unmount via ctx.revert().
-  useEffect(() => {
+  // On route change: refresh ScrollTrigger so it recalculates positions for the
+  // newly mounted page. The cleanup of this layout effect runs synchronously
+  // just before React tears down the outgoing page — we kill all ScrollTriggers
+  // there so GSAP unwraps any `pin-spacer` it inserted (which reparents the
+  // pinned <section>) BEFORE React's deletion walk runs. Otherwise React tries
+  // to removeChild a node whose live parent is now the pin-spacer, not the one
+  // it recorded, and throws NotFoundError mid-navigation.
+  useLayoutEffect(() => {
     const id = requestAnimationFrame(() => {
       ScrollTrigger.refresh();
     });
-    return () => cancelAnimationFrame(id);
+    return () => {
+      cancelAnimationFrame(id);
+      ScrollTrigger.getAll().forEach((st) => st.kill(true));
+    };
   }, [pathname]);
 
   return null;

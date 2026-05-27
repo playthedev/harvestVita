@@ -6,8 +6,6 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useIsMounted } from '../lib/useIsMounted';
-
 gsap.registerPlugin(ScrollTrigger);
 
 const WireframeTerrain = dynamic(
@@ -83,7 +81,6 @@ export default function HeroSection() {
   const ctaRef = useRef<HTMLDivElement>(null);
   const eyebrowRef = useRef<HTMLDivElement>(null);
   const tickerRef = useRef<HTMLDivElement>(null);
-  const mounted = useIsMounted();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -153,10 +150,9 @@ export default function HeroSection() {
       {/* Dark overlay so it reads as near-black */}
       <div className="absolute inset-0 z-[1] bg-[#0D0D0D]/78 pointer-events-none" />
 
-      {/* 3D canvas on top of photo — wrapper is always rendered so the section's
-          child list is stable across hydration; only the R3F canvas is gated. */}
+      {/* 3D canvas on top of photo */}
       <div className="absolute inset-0 z-[2] opacity-55">
-        {mounted && <WireframeTerrain />}
+        <WireframeTerrain />
       </div>
 
       {/* Gradient overlays */}

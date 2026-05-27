@@ -529,6 +529,9 @@ export default function ScrollFrames3D({
         gl={{ antialias: true, alpha: true }}
         dpr={[1, 2]}
         style={{ position: 'absolute', inset: 0 }}
+        onCreated={({ gl }) => {
+          gl.domElement.addEventListener('webglcontextlost', (e) => e.preventDefault(), false);
+        }}
       >
         <CameraRig scrollRef={scrollRef} />
         <AmbientDust scrollRef={scrollRef} />
