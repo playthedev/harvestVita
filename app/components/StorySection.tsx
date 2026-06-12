@@ -3,15 +3,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import ScrollReveal from './ScrollReveal';
+import { localizedHref } from '../lib/locale-path';
+import type { Locale } from '../i18n/config';
+import type { Dictionary } from '../i18n/dictionaries';
 
-const pillars = [
-  { num: '01', title: 'Pure by Nature', desc: 'No additives, no artificial preservatives. Every ingredient is exactly what the label says.' },
-  { num: '02', title: 'Farm Rooted', desc: 'Direct sourcing from trusted farms. Shorter supply chains — fresher, more nutritious produce.' },
-  { num: '03', title: 'Thoughtful Processing', desc: 'Gentle dehydration, cold-pressing, stone-grinding — preserving nutrition and authentic taste.' },
-  { num: '04', title: 'Modern Convenience', desc: 'Ready to use in everyday cooking. No compromise between health and ease.' },
-];
-
-export default function StorySection() {
+export default function StorySection({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  const s = dict.home.story;
+  const pillars = s.pillars;
   return (
     <section className="bg-[#F5F0E8] py-28 md:py-36 relative overflow-hidden">
       {/* Decorative oversized faint word */}
@@ -45,7 +43,7 @@ export default function StorySection() {
           <div className="flex items-center gap-3 mb-6">
             <span className="block w-2 h-2 rounded-full bg-[#4A2545]" />
             <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545]">
-              Our Story
+              {s.label}
             </p>
             <span className="block h-px w-12 bg-[#4A2545]/30" />
           </div>
@@ -55,7 +53,7 @@ export default function StorySection() {
         <ScrollReveal y={50}>
           <h2 className="font-display font-bold text-[#1C1C1C] leading-[0.95] tracking-tight mb-16 max-w-5xl"
             style={{ fontSize: 'clamp(2.5rem, 5.729vw, 5.5rem)' }}>
-            Born from the belief that everyday food should be pure, nourishing, and honest.
+            {s.heading}
           </h2>
         </ScrollReveal>
 
@@ -64,13 +62,10 @@ export default function StorySection() {
           <ScrollReveal delay={0.1} className="md:col-span-1">
             <div className="space-y-5">
               <p className="font-serif text-[#6B6456] leading-relaxed" style={{ fontSize: 'clamp(1rem, 1.3vw, 1.25rem)' }}>
-                HarvestVita is the expression of Amoohaa Farms&apos; commitment to natural, wholesome living.
-                Every product is chosen with a simple purpose: to preserve nature&apos;s goodness while
-                making it easy to use in modern life.
+                {s.paragraph1}
               </p>
               <p className="font-serif text-[#6B6456] leading-relaxed" style={{ fontSize: 'clamp(1rem, 1.3vw, 1.25rem)' }}>
-                From dehydrated fruits and vegetables to cold-pressed oils, khapali atta, and whole spices —
-                the brand reflects a balance of tradition and convenience.
+                {s.paragraph2}
               </p>
             </div>
           </ScrollReveal>
@@ -97,7 +92,7 @@ export default function StorySection() {
                 {/* Image caption pill */}
                 <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
                   <p className="font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/85 bg-[#1C1C1C]/40 backdrop-blur-sm px-3 py-1.5">
-                    Amoohaa Farms — India
+                    {s.imageCaption}
                   </p>
                   <span className="font-display italic text-[#C9A84C] text-sm">↗</span>
                 </div>
@@ -109,14 +104,14 @@ export default function StorySection() {
             <div className="space-y-6">
               <blockquote className="border-l-2 border-[#C9A84C] pl-6">
                 <p className="font-display italic text-[#1C1C1C] leading-relaxed" style={{ fontSize: 'clamp(1.1rem, 1.6vw, 1.5rem)' }}>
-                  &ldquo;Honest food, thoughtful processing, and ingredients that carry the richness of the farm to the heart of the home.&rdquo;
+                  &ldquo;{s.quote}&rdquo;
                 </p>
               </blockquote>
               <Link
-                href="/about"
+                href={localizedHref('/about', locale)}
                 className="inline-block font-sans-harvest text-[11px] tracking-[0.15em] uppercase mt-2 px-6 py-3 border border-[#2D4A2D] text-[#2D4A2D] hover:bg-[#2D4A2D] hover:text-[#F5F0E8] transition-all duration-300 select-none"
               >
-                Read Full Story
+                {s.readFullStory}
               </Link>
             </div>
           </ScrollReveal>
@@ -126,10 +121,10 @@ export default function StorySection() {
         <div className="border-t border-[#1C1C1C]/10 pt-14">
           <div className="flex items-center justify-between mb-8">
             <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#1C1C1C]/45">
-              The Four Pillars
+              {s.pillarsLabel}
             </p>
             <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#1C1C1C]/45">
-              01 — 04
+              {s.pillarsRange}
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#1C1C1C]/8">

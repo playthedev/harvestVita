@@ -4,43 +4,13 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ScrollReveal from './ScrollReveal';
+import type { Dictionary } from '../i18n/dictionaries';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const reasons = [
-  {
-    num: '01',
-    head: 'No Hidden Additives',
-    body: 'Every label lists exactly what\'s inside. No fillers, no anti-caking agents, no artificial preservatives.',
-  },
-  {
-    num: '02',
-    head: 'Direct Farm Sourcing',
-    body: 'We source directly from growers we trust. Fewer hands means fresher, more traceable ingredients.',
-  },
-  {
-    num: '03',
-    head: 'Gentle Processing',
-    body: 'Cold-pressing, low-temperature dehydration, and stone-grinding preserve the original nutrition.',
-  },
-  {
-    num: '04',
-    head: 'Honest Packaging',
-    body: 'Food-grade, light-protective packs. Sealed for maximum freshness without artificial intervention.',
-  },
-  {
-    num: '05',
-    head: 'Batch Traceability',
-    body: 'Every pack carries a batch code linking it back to the farm, the harvest, and the day it was made.',
-  },
-  {
-    num: '06',
-    head: 'Traditional Methods',
-    body: 'Stone-grinding, wooden ghani cold-pressing, sun-drying — time-tested techniques done right.',
-  },
-];
-
-export default function WhySection() {
+export default function WhySection({ dict }: { dict: Dictionary }) {
+  const w = dict.home.why;
+  const reasons = w.reasons;
   const sectionRef = useRef<HTMLElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -73,14 +43,14 @@ export default function WhySection() {
         <ScrollReveal>
           <div className="mb-16 md:mb-20">
             <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C] mb-4">
-              Why HarvestVita
+              {w.eyebrow}
             </p>
             <h2
               className="font-display font-bold text-[#F5F0E8] leading-[0.95] tracking-tight max-w-3xl"
               style={{ fontSize: 'clamp(2.5rem, 5.729vw, 5.5rem)' }}
             >
-              Quality is not a promise.<br />
-              <span className="text-[#C9A84C]">It&apos;s our baseline.</span>
+              {w.headingLine1}<br />
+              <span className="text-[#C9A84C]">{w.headingHighlight}</span>
             </h2>
           </div>
         </ScrollReveal>
@@ -98,10 +68,10 @@ export default function WhySection() {
             </div>
             <div className="mt-8 border-l-2 border-[#C9A84C]/30 pl-6">
               <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#C9A84C]/60 mb-3">
-                Six Reasons
+                {w.sixReasons}
               </p>
               <p className="font-serif text-[#F5F0E8]/40 text-sm leading-relaxed max-w-xs">
-                These aren&apos;t marketing claims. They&apos;re the filters every batch passes through before it reaches you.
+                {w.sixReasonsDesc}
               </p>
             </div>
           </div>

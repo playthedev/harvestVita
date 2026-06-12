@@ -39,9 +39,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Hydrate from localStorage once on mount, before any user interaction.
+    // Deliberately synchronous: server and first client render must both produce
+    // [] to avoid a hydration mismatch, so the real value can only be applied here.
     if (!hydratedRef.current) {
       hydratedRef.current = true;
       const stored = readInitialCart();
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (stored.length > 0) setItems(stored);
     }
   }, []);

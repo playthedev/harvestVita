@@ -1,0 +1,138 @@
+const en = {
+  nav: {
+    about: 'About',
+    products: 'Products',
+    quality: 'Quality',
+    contact: 'Contact',
+    enquire: 'Enquire',
+    shop: 'Shop',
+    myAccount: 'My account',
+    signIn: 'Sign in',
+    cart: 'Cart',
+    toggleMenu: 'Toggle menu',
+    language: 'Language',
+  },
+  footer: {
+    tagline: 'Honest food. Thoughtful processing.',
+    taglineLine2: 'Farm to home.',
+    byAmoohaa: 'By Amoohaa Farms',
+    followUs: 'Follow Us',
+    products: 'Products',
+    company: 'Company',
+    contact: 'Contact',
+    legal: 'Legal',
+    ourStory: 'Our Story',
+    qualityStandards: 'Quality Standards',
+    allProducts: 'All Products',
+    termsConditions: 'Terms & Conditions',
+    privacyPolicy: 'Privacy Policy',
+    returnsPolicy: 'Return & Refund Policy',
+    address: 'Amoohaa Farms, India',
+    rights: 'All rights reserved.',
+  },
+  home: {
+    hero: {
+      eyebrow: 'By Amoohaa Farms',
+      estFromSoil: 'Est. From The Soil',
+      titleLine1: "Nature's",
+      titleLine2: 'Goodness,',
+      titleLine3: 'Preserved.',
+      subtitle:
+        'Pure, nourishing ingredients — dehydrated fruits & vegetables, cold-pressed oils, heritage flours, and whole spices. From farm to your table.',
+      exploreRange: 'Explore Range',
+      ourStory: 'Our Story',
+      stats: {
+        categories: 'Categories',
+        cleanLabel: 'Clean Label',
+        additives: 'Additives',
+      },
+      scrollJourney: 'Scroll the journey',
+      marquee: [
+        'Dehydrated Powders', 'Vegetable Flakes', 'Cold-Pressed Oils',
+        'Khapali Atta', 'Whole Spices', 'Spice Powders', 'Blended Flours',
+        'Clean Label', 'Farm to Home', 'No Additives',
+      ],
+    },
+    story: {
+      label: 'Our Story',
+      heading: 'Born from the belief that everyday food should be pure, nourishing, and honest.',
+      paragraph1:
+        "HarvestVita is the expression of Amoohaa Farms' commitment to natural, wholesome living. Every product is chosen with a simple purpose: to preserve nature's goodness while making it easy to use in modern life.",
+      paragraph2:
+        'From dehydrated fruits and vegetables to cold-pressed oils, khapali atta, and whole spices — the brand reflects a balance of tradition and convenience.',
+      imageCaption: 'Amoohaa Farms — India',
+      quote:
+        'Honest food, thoughtful processing, and ingredients that carry the richness of the farm to the heart of the home.',
+      readFullStory: 'Read Full Story',
+      pillarsLabel: 'The Four Pillars',
+      pillarsRange: '01 — 04',
+      pillars: [
+        { num: '01', title: 'Pure by Nature', desc: 'No additives, no artificial preservatives. Every ingredient is exactly what the label says.' },
+        { num: '02', title: 'Farm Rooted', desc: 'Direct sourcing from trusted farms. Shorter supply chains — fresher, more nutritious produce.' },
+        { num: '03', title: 'Thoughtful Processing', desc: 'Gentle dehydration, cold-pressing, stone-grinding — preserving nutrition and authentic taste.' },
+        { num: '04', title: 'Modern Convenience', desc: 'Ready to use in everyday cooking. No compromise between health and ease.' },
+      ],
+    },
+    journey: {
+      label: 'The Journey',
+      progressLabel: 'Seed → Harvest → Press → Pack',
+      scrollToAdvance: 'Scroll to advance',
+      frames: [
+        {
+          eyebrow: 'Frame 01 — Origin',
+          title: 'It starts with a single seed.',
+          body: 'Every product we make begins on Amoohaa Farms — chosen seeds, healthy soil, and the patience of a season.',
+        },
+        {
+          eyebrow: 'Frame 02 — Harvest',
+          title: 'Hand-picked, sun-ripened, fully formed.',
+          body: 'Heritage grains, fragrant spices, and field-fresh produce are gathered at their peak — never rushed for shelf life.',
+        },
+        {
+          eyebrow: 'Frame 03 — Press',
+          title: 'Cold-pressed, slowly extracted.',
+          body: 'Wooden ghani extraction below 50°C keeps every essential oil, antioxidant, and aroma intact — no heat, no solvents.',
+        },
+        {
+          eyebrow: 'Frame 04 — Your Table',
+          title: 'Sealed pure. Ready to nourish.',
+          body: 'Stone-ground flours, single-origin spice powders, and clean oils — packed straight from the farm to your kitchen.',
+        },
+      ],
+    },
+    products: {
+      eyebrow: 'Featured Products',
+      headingLine1: 'Bestsellers,',
+      headingItalic: 'freshly',
+      headingHighlight: 'picked.',
+      subtitle: 'Clean-label, single-ingredient essentials — what our kitchens reach for most.',
+      addToCart: 'Add to Cart',
+      added: 'Added',
+      inCartAddMore: 'In Cart · Add More',
+      bulkNote: '{count}+ products across six categories. Bulk & B2B available.',
+      shopAll: 'Shop All Products',
+    },
+    why: {
+      eyebrow: 'Why HarvestVita',
+      headingLine1: 'Quality is not a promise.',
+      headingHighlight: "It's our baseline.",
+      sixReasons: 'Six Reasons',
+      sixReasonsDesc: "These aren't marketing claims. They're the filters every batch passes through before it reaches you.",
+      reasons: [
+        { num: '01', head: 'No Hidden Additives', body: "Every label lists exactly what's inside. No fillers, no anti-caking agents, no artificial preservatives." },
+        { num: '02', head: 'Direct Farm Sourcing', body: 'We source directly from growers we trust. Fewer hands means fresher, more traceable ingredients.' },
+        { num: '03', head: 'Gentle Processing', body: 'Cold-pressing, low-temperature dehydration, and stone-grinding preserve the original nutrition.' },
+        { num: '04', head: 'Honest Packaging', body: 'Food-grade, light-protective packs. Sealed for maximum freshness without artificial intervention.' },
+        { num: '05', head: 'Batch Traceability', body: 'Every pack carries a batch code linking it back to the farm, the harvest, and the day it was made.' },
+        { num: '06', head: 'Traditional Methods', body: 'Stone-grinding, wooden ghani cold-pressing, sun-drying — time-tested techniques done right.' },
+      ],
+    },
+    cta: {
+      eyebrow: 'Start Here',
+      title: 'Bring farm-fresh purity to your table.',
+      buttonLabel: 'Write to Us',
+    },
+  },
+};
+
+export default en;

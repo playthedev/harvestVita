@@ -17,7 +17,7 @@ const CartItemSchema = z.object({
 
 const AddressSchema = z.object({
   name: z.string().min(2).trim(),
-  phone: z.string().trim().regex(/^\+?[\d\s-]{10,15}$/),
+  phone: z.string().trim().regex(/^\+?[\d\s-]{10,20}$/),
   address1: z.string().min(5).trim(),
   address2: z.string().trim().optional(),
   city: z.string().min(2).trim(),

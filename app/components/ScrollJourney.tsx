@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import type { Dictionary } from '../i18n/dictionaries';
 gsap.registerPlugin(ScrollTrigger);
 
 const ScrollFrames3D = dynamic(() => import('./three/ScrollFrames3D'), {
@@ -18,38 +19,11 @@ const ScrollFrames3D = dynamic(() => import('./three/ScrollFrames3D'), {
  * Captions on the side fade in/out at matching offsets.
  * ────────────────────────────────────────────────────────── */
 
-const frames = [
-  {
-    eyebrow: 'Frame 01 — Origin',
-    title: 'It starts with a single seed.',
-    body:
-      'Every product we make begins on Amoohaa Farms — chosen seeds, healthy soil, and the patience of a season.',
-    accent: '#C9A84C',
-  },
-  {
-    eyebrow: 'Frame 02 — Harvest',
-    title: 'Hand-picked, sun-ripened, fully formed.',
-    body:
-      'Heritage grains, fragrant spices, and field-fresh produce are gathered at their peak — never rushed for shelf life.',
-    accent: '#C9A84C',
-  },
-  {
-    eyebrow: 'Frame 03 — Press',
-    title: 'Cold-pressed, slowly extracted.',
-    body:
-      'Wooden ghani extraction below 50°C keeps every essential oil, antioxidant, and aroma intact — no heat, no solvents.',
-    accent: '#C9A84C',
-  },
-  {
-    eyebrow: 'Frame 04 — Your Table',
-    title: 'Sealed pure. Ready to nourish.',
-    body:
-      'Stone-ground flours, single-origin spice powders, and clean oils — packed straight from the farm to your kitchen.',
-    accent: '#C9A84C',
-  },
-];
+const ACCENT = '#C9A84C';
 
-export default function ScrollJourney() {
+export default function ScrollJourney({ dict }: { dict: Dictionary }) {
+  const j = dict.home.journey;
+  const frames = j.frames.map((f) => ({ ...f, accent: ACCENT }));
   const sectionRef = useRef<HTMLElement>(null);
   const canvasWrapRef = useRef<HTMLDivElement>(null);
   const captionsRef = useRef<HTMLDivElement>(null);
@@ -154,7 +128,7 @@ export default function ScrollJourney() {
       <div className="absolute top-8 left-[5.128vw] z-[10] flex items-center gap-3">
         <span className="block w-2 h-2 bg-[#C9A84C] rounded-full animate-pulse" />
         <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">
-          The Journey
+          {j.label}
         </p>
       </div>
       <div className="absolute top-8 right-[5.128vw] z-[10] flex items-center gap-3">
@@ -209,10 +183,10 @@ export default function ScrollJourney() {
       <div className="absolute bottom-12 left-[5.128vw] right-[5.128vw] z-[10]">
         <div className="flex items-center justify-between mb-3">
           <p className="font-sans-harvest text-[9px] tracking-[0.3em] uppercase text-[#F5F0E8]/35">
-            Seed → Harvest → Press → Pack
+            {j.progressLabel}
           </p>
           <p className="font-sans-harvest text-[9px] tracking-[0.3em] uppercase text-[#F5F0E8]/35">
-            Scroll to advance
+            {j.scrollToAdvance}
           </p>
         </div>
         <div className="relative h-px w-full bg-[#F5F0E8]/10">

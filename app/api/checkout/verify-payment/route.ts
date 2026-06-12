@@ -28,11 +28,12 @@ export async function POST(req: Request) {
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest('hex');
 
+    const expectedBuf = Buffer.from(expectedSig, 'hex');
+    const receivedBuf = Buffer.from(razorpay_signature, 'hex');
+
     if (
-      !crypto.timingSafeEqual(
-        Buffer.from(expectedSig, 'hex'),
-        Buffer.from(razorpay_signature, 'hex')
-      )
+      expectedBuf.length !== receivedBuf.length ||
+      !crypto.timingSafeEqual(expectedBuf, receivedBuf)
     ) {
       console.warn('[verify-payment] signature mismatch for order:', razorpay_order_id);
       return NextResponse.json({ error: 'Payment verification failed.' }, { status: 400 });

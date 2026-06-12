@@ -10,6 +10,7 @@ import type { Address } from './user-store';
 import type { CartItem } from './CartContext';
 import { getProductById } from './products';
 import { resend, FROM_ADDRESS, OWNER_EMAIL } from './resend';
+import { safeRedirect } from './url';
 import {
   orderConfirmationCustomer,
   orderNotificationOwner,
@@ -82,7 +83,7 @@ export type AuthState = {
 export async function initiateSignup(_prev: AuthState, formData: FormData): Promise<AuthState> {
   const redirectTo = (() => {
     const r = formData.get('redirectTo') as string | null;
-    return r && r.startsWith('/') ? r : '/account';
+    return safeRedirect(r);
   })();
 
   const raw = {
@@ -145,7 +146,7 @@ export async function verifyOtp(_prev: AuthState, formData: FormData): Promise<A
   const otp = (formData.get('otp') as string | null)?.trim() ?? '';
   const redirectTo = (() => {
     const r = formData.get('redirectTo') as string | null;
-    return r && r.startsWith('/') ? r : '/account';
+    return safeRedirect(r);
   })();
 
   if (!email || !/^\d{6}$/.test(otp)) {
@@ -269,7 +270,7 @@ export async function resendOtp(_prev: AuthState, formData: FormData): Promise<A
 export async function signIn(_prev: AuthState, formData: FormData): Promise<AuthState> {
   const redirectTo = (() => {
     const r = formData.get('redirectTo') as string | null;
-    return r && r.startsWith('/') ? r : '/account';
+    return safeRedirect(r);
   })();
 
   const raw = {

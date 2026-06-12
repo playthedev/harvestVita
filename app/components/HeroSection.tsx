@@ -6,6 +6,9 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { localizedHref } from '../lib/locale-path';
+import type { Locale } from '../i18n/config';
+import type { Dictionary } from '../i18n/dictionaries';
 gsap.registerPlugin(ScrollTrigger);
 
 const WireframeTerrain = dynamic(
@@ -73,7 +76,8 @@ function Cross({ className }: { className?: string }) {
   );
 }
 
-export default function HeroSection() {
+export default function HeroSection({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  const h = dict.home.hero;
   const wheatRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
@@ -202,24 +206,24 @@ export default function HeroSection() {
         <div ref={eyebrowRef} className="flex items-center gap-3 mb-10 opacity-0">
           <span className="block h-px w-8 bg-[#C9A84C]" />
           <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">
-            By Amoohaa Farms
+            {h.eyebrow}
           </p>
           <span className="hidden md:inline-block text-[#C9A84C]/40 text-[10px]">·</span>
           <p className="hidden md:inline-block font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#F5F0E8]/35">
-            Est. From The Soil
+            {h.estFromSoil}
           </p>
         </div>
 
         {/* Main headline — large, tight, like Terminal */}
         <div ref={titleRef} className="overflow-hidden mb-8">
           <div className="font-display font-bold text-[#F5F0E8] leading-[0.92] tracking-[-0.02em] overflow-hidden" style={{ fontSize: 'clamp(3.5rem, 10.256vw, 10rem)' }}>
-            <span className="block opacity-0">Nature&apos;s</span>
+            <span className="block opacity-0">{h.titleLine1}</span>
           </div>
           <div className="font-display font-bold leading-[0.92] tracking-[-0.02em] overflow-hidden" style={{ fontSize: 'clamp(3.5rem, 10.256vw, 10rem)', color: '#C9A84C' }}>
-            <span className="block opacity-0">Goodness,</span>
+            <span className="block opacity-0">{h.titleLine2}</span>
           </div>
           <div className="font-display font-bold text-[#F5F0E8] leading-[0.92] tracking-[-0.02em] overflow-hidden" style={{ fontSize: 'clamp(3.5rem, 10.256vw, 10rem)' }}>
-            <span className="block opacity-0">Preserved.</span>
+            <span className="block opacity-0">{h.titleLine3}</span>
           </div>
         </div>
 
@@ -230,23 +234,23 @@ export default function HeroSection() {
             className="font-serif text-[#F5F0E8]/65 leading-relaxed max-w-md opacity-0"
             style={{ fontSize: 'clamp(1rem, 1.4vw, 1.3rem)' }}
           >
-            Pure, nourishing ingredients — dehydrated fruits &amp; vegetables, cold-pressed oils, heritage flours, and whole spices. From farm to your table.
+            {h.subtitle}
           </p>
           <div ref={ctaRef} className="flex gap-3 opacity-0 flex-shrink-0">
             <Link
-              href="/products"
+              href={localizedHref('/products', locale)}
               className="group relative font-sans-harvest text-[11px] tracking-[0.18em] uppercase px-7 py-3.5 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-all duration-300 select-none overflow-hidden flex items-center gap-2"
             >
-              <span className="relative z-10">Explore Range</span>
+              <span className="relative z-10">{h.exploreRange}</span>
               <svg className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
             <Link
-              href="/about"
+              href={localizedHref('/about', locale)}
               className="group font-sans-harvest text-[11px] tracking-[0.18em] uppercase px-7 py-3.5 border border-[#F5F0E8]/25 text-[#F5F0E8]/75 hover:border-[#C9A84C] hover:text-[#C9A84C] hover:bg-[#C9A84C]/5 transition-all duration-300 select-none flex items-center gap-2"
             >
-              Our Story
+              {h.ourStory}
               <span className="block w-1 h-1 rounded-full bg-[#C9A84C]/40 group-hover:bg-[#C9A84C] transition-colors" />
             </Link>
           </div>
@@ -259,9 +263,9 @@ export default function HeroSection() {
           {/* Left: three quick stats */}
           <div className="flex items-center gap-8 md:gap-12">
             {[
-              { k: '6', l: 'Categories' },
-              { k: '100%', l: 'Clean Label' },
-              { k: '0', l: 'Additives' },
+              { k: '6', l: h.stats.categories },
+              { k: '100%', l: h.stats.cleanLabel },
+              { k: '0', l: h.stats.additives },
             ].map((s) => (
               <div key={s.l} className="flex items-baseline gap-2">
                 <span className="font-display font-bold text-[#C9A84C]" style={{ fontSize: 'clamp(1.4rem, 2vw, 1.8rem)' }}>
@@ -275,7 +279,7 @@ export default function HeroSection() {
           </div>
           {/* Right: scroll cue */}
           <div className="flex items-center gap-3">
-            <p className="font-sans-harvest text-[9px] tracking-[0.3em] uppercase text-[#F5F0E8]/35">Scroll the journey</p>
+            <p className="font-sans-harvest text-[9px] tracking-[0.3em] uppercase text-[#F5F0E8]/35">{h.scrollJourney}</p>
             <div className="relative w-px h-8 overflow-hidden bg-[#F5F0E8]/10">
               <div className="absolute inset-x-0 h-3 bg-[#C9A84C] animate-scrollCue" />
             </div>
@@ -290,11 +294,7 @@ export default function HeroSection() {
         style={{ background: 'rgba(13,13,13,0.7)', backdropFilter: 'blur(8px)' }}
       >
         <div className="flex animate-marquee whitespace-nowrap will-change-transform">
-          {Array(2).fill([
-            'Dehydrated Powders', 'Vegetable Flakes', 'Cold-Pressed Oils',
-            'Khapali Atta', 'Whole Spices', 'Spice Powders', 'Blended Flours',
-            'Clean Label', 'Farm to Home', 'No Additives',
-          ]).flat().map((item, i) => (
+          {Array(2).fill(h.marquee).flat().map((item, i) => (
             <span key={i} className="font-sans-harvest text-[10px] tracking-[0.22em] uppercase text-[#F5F0E8]/30 mx-6">
               {item}
               <span className="mx-6 text-[#C9A84C] opacity-60">·</span>
