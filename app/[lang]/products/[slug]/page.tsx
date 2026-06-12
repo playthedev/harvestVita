@@ -6,6 +6,9 @@ import PageHero from '../../../components/PageHero';
 import CTABand from '../../../components/CTABand';
 import ScrollReveal from '../../../components/ScrollReveal';
 import { products, getProductBySlug } from '../../../lib/products';
+import { getDictionary } from '../../../i18n/dictionaries';
+import { isLocale, type Locale } from '../../../i18n/config';
+import { localizedHref } from '../../../lib/locale-path';
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -14,7 +17,7 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ lang: string; slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
   const product = getProductBySlug(slug);
@@ -37,9 +40,11 @@ const categoryImages: Record<string, string> = {
 export default async function ProductCategoryPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ lang: string; slug: string }>;
 }) {
-  const { slug } = await params;
+  const { lang, slug } = await params;
+  const locale: Locale = isLocale(lang) ? lang : 'en';
+  const dict = await getDictionary(locale);
   const product = getProductBySlug(slug);
   if (!product) notFound();
 
@@ -48,14 +53,14 @@ export default async function ProductCategoryPage({
   return (
     <>
       <PageHero
-        eyebrow={`Category ${product.num}`}
+        eyebrow={dict.products.category.categoryEyebrow.replace('{num}', product.num)}
         title={product.title}
         subtitle={product.short}
         geometry={product.geometry}
         color={product.color}
         stat={[
-          { k: String(product.items.length), l: 'SKUs' },
-          { k: String(product.features.length), l: 'Standards' },
+          { k: String(product.items.length), l: dict.products.category.skuLabel },
+          { k: String(product.features.length), l: dict.products.category.standardsLabel },
         ]}
       />
 
@@ -76,7 +81,7 @@ export default async function ProductCategoryPage({
               <div className="flex items-center gap-3">
                 <span className="block w-2 h-2 rounded-full bg-[#4A2545]" />
                 <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545]">
-                  About this Category
+                  {dict.products.category.aboutLabel}
                 </p>
                 <span className="block h-px w-12 bg-[#4A2545]/30" />
               </div>
@@ -99,7 +104,7 @@ export default async function ProductCategoryPage({
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, transparent 40%, rgba(46,21,48,0.4))' }} />
                   <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
                     <p className="font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/90 bg-[#1C1C1C]/50 backdrop-blur-sm px-3 py-1.5">
-                      Category {product.num} — HarvestVita
+                      {dict.products.category.categoryBadge.replace('{num}', product.num)}
                     </p>
                   </div>
                 </div>
@@ -126,7 +131,7 @@ export default async function ProductCategoryPage({
                 <div className="flex items-center gap-3 mb-6">
                   <span className="block w-2 h-2 rounded-full bg-[#C9A84C] animate-pulse" />
                   <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">
-                    What Makes It
+                    {dict.products.category.whatMakesIt}
                   </p>
                 </div>
                 <ul className="space-y-5">
@@ -157,16 +162,16 @@ export default async function ProductCategoryPage({
                 <div className="flex items-center gap-3 mb-3">
                   <span className="block w-2 h-2 rounded-full bg-[#4A2545]" />
                   <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545]">
-                    In This Range
+                    {dict.products.category.inThisRange}
                   </p>
                 </div>
                 <h2 className="font-display font-bold text-[#1C1C1C] leading-tight tracking-tight"
                   style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}>
-                  Available Products
+                  {dict.products.category.availableProducts}
                 </h2>
               </div>
               <p className="font-serif text-[#6B6456] max-w-md">
-                All variants available in retail, wholesale, and custom packaging on request.
+                {dict.products.category.availableProductsDesc}
               </p>
             </div>
           </ScrollReveal>
@@ -207,16 +212,16 @@ export default async function ProductCategoryPage({
               <div className="flex items-center gap-3 mb-4">
                 <span className="block w-2 h-2 rounded-full bg-[#C9A84C] animate-pulse" />
                 <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">
-                  How to Use
+                  {dict.products.category.howToUseLabel}
                 </p>
               </div>
               <h2 className="font-display font-bold text-[#F5F0E8] leading-[0.95] tracking-tight mb-6"
                 style={{ fontSize: 'clamp(2.2rem, 4vw, 3.5rem)' }}>
-                From kitchen<br />
-                <span className="italic text-[#C9A84C]">to creation.</span>
+                {dict.products.category.fromKitchenLine1}<br />
+                <span className="italic text-[#C9A84C]">{dict.products.category.fromKitchenHighlight}</span>
               </h2>
               <p className="font-serif text-[#F5F0E8]/55 text-lg leading-relaxed">
-                Versatile, easy to incorporate, and built to fit into the way you already cook.
+                {dict.products.category.howToUseDesc}
               </p>
             </div>
           </ScrollReveal>
@@ -247,19 +252,19 @@ export default async function ProductCategoryPage({
                 <div className="flex items-center gap-3 mb-3">
                   <span className="block w-2 h-2 rounded-full bg-[#C9A84C]" />
                   <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">
-                    Continue Exploring
+                    {dict.products.category.continueExploring}
                   </p>
                 </div>
                 <h2 className="font-display font-bold text-[#F5F0E8] leading-tight tracking-tight"
                   style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}>
-                  Other Categories
+                  {dict.products.category.otherCategories}
                 </h2>
               </div>
               <Link
-                href="/products"
+                href={localizedHref('/products', locale)}
                 className="hidden md:inline-flex items-center gap-2 font-sans-harvest text-xs tracking-[0.2em] uppercase text-[#C9A84C] hover:text-[#E2C47A] transition-colors group"
               >
-                View All
+                {dict.products.category.viewAll}
                 <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
               </Link>
             </div>
@@ -268,7 +273,7 @@ export default async function ProductCategoryPage({
             {related.map((r, i) => (
               <ScrollReveal key={r.slug} delay={i * 0.07}>
                 <Link
-                  href={`/products/${r.slug}`}
+                  href={localizedHref(`/products/${r.slug}`, locale)}
                   className="group relative block bg-[#2D4A2D] overflow-hidden hover:bg-[#3D6B3D] transition-colors h-full"
                 >
                   <span className="absolute top-0 left-0 h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-[#C9A84C] to-transparent transition-all duration-700" />
@@ -301,10 +306,10 @@ export default async function ProductCategoryPage({
       </section>
 
       <CTABand
-        eyebrow="Order or Enquire"
-        title="Bring this range to your kitchen."
-        buttonLabel="Contact Us"
-        buttonHref="/contact"
+        eyebrow={dict.products.category.ctaEyebrow}
+        title={dict.products.category.ctaTitle}
+        buttonLabel={dict.products.category.ctaButton}
+        buttonHref={localizedHref('/contact', locale)}
         bg="dark"
       />
     </>
