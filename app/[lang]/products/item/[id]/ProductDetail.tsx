@@ -7,6 +7,9 @@ import type { Product, ProductCategory } from '../../../../lib/products';
 import { useCart } from '../../../../lib/CartContext';
 import ScrollReveal from '../../../../components/ScrollReveal';
 import { toggleWishlist } from '../../../../lib/auth-actions';
+import { localizedHref } from '../../../../lib/locale-path';
+import type { Locale } from '../../../../i18n/config';
+import type { Dictionary } from '../../../../i18n/dictionaries';
 
 function Cross({ className }: { className?: string }) {
   return (
@@ -22,11 +25,15 @@ export default function ProductDetail({
   category,
   related,
   initialWishlisted = false,
+  locale,
+  dict,
 }: {
   product: Product;
   category?: ProductCategory;
   related: Product[];
   initialWishlisted?: boolean;
+  locale: Locale;
+  dict: Dictionary;
 }) {
   const { addMany, items } = useCart();
   const [qty, setQty] = useState(1);
@@ -83,9 +90,9 @@ export default function ProductDetail({
         <div className="relative max-w-[1800px] mx-auto px-[5.128vw]">
           {/* Breadcrumb */}
           <div className="flex items-center gap-3 mb-10 font-sans-harvest text-[10px] tracking-[0.2em] uppercase">
-            <Link href="/" className="text-[#F5F0E8]/35 hover:text-[#C9A84C] transition-colors">Home</Link>
+            <Link href={localizedHref('/', locale)} className="text-[#F5F0E8]/35 hover:text-[#C9A84C] transition-colors">{dict.products.item.breadcrumbHome}</Link>
             <span className="text-[#F5F0E8]/20">/</span>
-            <Link href="/products" className="text-[#F5F0E8]/35 hover:text-[#C9A84C] transition-colors">Shop</Link>
+            <Link href={localizedHref('/products', locale)} className="text-[#F5F0E8]/35 hover:text-[#C9A84C] transition-colors">{dict.products.item.breadcrumbShop}</Link>
             <span className="text-[#F5F0E8]/20">/</span>
             <span className="text-[#C9A84C]">{product.name}</span>
           </div>
@@ -124,9 +131,9 @@ export default function ProductDetail({
               {/* Trust badges row */}
               <div className="mt-6 grid grid-cols-3 gap-px bg-[#F5F0E8]/8">
                 {[
-                  { k: '100%', l: 'Pure' },
-                  { k: '0', l: 'Additives' },
-                  { k: '12mo', l: 'Shelf life' },
+                  { k: '100%', l: dict.products.item.trustBadges.pure },
+                  { k: '0', l: dict.products.item.trustBadges.additives },
+                  { k: '12mo', l: dict.products.item.trustBadges.shelfLife },
                 ].map((b) => (
                   <div key={b.l} className="bg-[#0D0D0D] py-4 text-center">
                     <p className="font-display font-bold text-[#C9A84C] text-xl">{b.k}</p>
@@ -163,8 +170,8 @@ export default function ProductDetail({
                   ₹{product.price}
                 </span>
                 <div className="pb-2">
-                  <p className="font-sans-harvest text-[10px] tracking-[0.2em] uppercase text-[#F5F0E8]/40">per {product.unit}</p>
-                  <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#C9A84C]/70 mt-1">Inclusive of taxes</p>
+                  <p className="font-sans-harvest text-[10px] tracking-[0.2em] uppercase text-[#F5F0E8]/40">{dict.products.item.perUnit.replace('{unit}', product.unit)}</p>
+                  <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#C9A84C]/70 mt-1">{dict.products.item.inclusiveOfTaxes}</p>
                 </div>
               </div>
 
@@ -195,11 +202,11 @@ export default function ProductDetail({
                   {added ? (
                     <>
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 6L4 9L11 2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      Added to Cart
+                      {dict.products.item.addedToCart}
                     </>
                   ) : (
                     <>
-                      Add to Cart · ₹{(product.price * qty).toLocaleString('en-IN')}
+                      {dict.products.item.addToCart.replace('{price}', (product.price * qty).toLocaleString('en-IN'))}
                       <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
                     </>
                   )}
@@ -209,7 +216,7 @@ export default function ProductDetail({
                 <button
                   onClick={handleWishlist}
                   disabled={wishPending}
-                  aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+                  aria-label={wishlisted ? dict.products.item.wishlistRemove : dict.products.item.wishlistAdd}
                   className={`w-14 flex items-center justify-center border transition-colors duration-200 ${
                     wishlisted
                       ? 'border-[#C9A84C] text-[#C9A84C] bg-[#C9A84C]/10'
@@ -224,11 +231,11 @@ export default function ProductDetail({
 
               {inCart && (
                 <Link
-                  href="/cart"
+                  href={localizedHref('/cart', locale)}
                   className="inline-flex items-center gap-2 font-sans-harvest text-[10px] tracking-[0.2em] uppercase text-[#C9A84C] hover:text-[#E2C47A] transition-colors mb-8 group"
                 >
                   <span className="block w-1.5 h-1.5 rounded-full bg-[#C9A84C] animate-pulse" />
-                  {inCart.qty} already in cart · View Cart
+                  {dict.products.item.alreadyInCart.replace('{count}', String(inCart.qty))}
                   <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
                 </Link>
               )}
@@ -238,7 +245,7 @@ export default function ProductDetail({
                 <div className="bg-[#161616] border border-[#F5F0E8]/8 p-6 relative overflow-hidden">
                   <span className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-[#C9A84C] to-transparent" />
                   <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#C9A84C] mb-5">
-                    What Makes It
+                    {dict.products.item.whatMakesIt}
                   </p>
                   <ul className="space-y-3">
                     {category.features.map((f, i) => (
@@ -274,22 +281,22 @@ export default function ProductDetail({
                 <div className="flex items-center gap-3 mb-4">
                   <span className="block w-2 h-2 rounded-full bg-[#4A2545]" />
                   <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545]">
-                    How to Use
+                    {dict.products.item.howToUseLabel}
                   </p>
                 </div>
                 <h2 className="font-display font-bold text-[#1C1C1C] leading-[0.95] tracking-tight mb-6"
                   style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}>
-                  From pantry<br />
-                  <span className="italic text-[#4A2545]">to plate.</span>
+                  {dict.products.item.fromPantryLine1}<br />
+                  <span className="italic text-[#4A2545]">{dict.products.item.fromPantryHighlight}</span>
                 </h2>
                 <p className="font-serif text-[#6B6456] leading-relaxed text-lg">
-                  Versatile, easy to incorporate, and built for the way you already cook.
+                  {dict.products.item.howToUseDesc}
                 </p>
                 <Link
-                  href={`/products/${product.categorySlug}`}
+                  href={localizedHref(`/products/${product.categorySlug}`, locale)}
                   className="mt-8 inline-flex items-center gap-2 font-sans-harvest text-[10px] tracking-[0.22em] uppercase text-[#C9A84C] hover:text-[#1C1C1C] transition-colors group"
                 >
-                  Read full category guide
+                  {dict.products.item.readFullCategoryGuide}
                   <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
                 </Link>
               </div>
@@ -324,19 +331,19 @@ export default function ProductDetail({
                   <div className="flex items-center gap-3 mb-3">
                     <span className="block w-2 h-2 rounded-full bg-[#C9A84C]" />
                     <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">
-                      You May Also Like
+                      {dict.products.item.youMayAlsoLike}
                     </p>
                   </div>
                   <h2 className="font-display font-bold text-[#F5F0E8] leading-tight tracking-tight"
                     style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}>
-                    More from this range
+                    {dict.products.item.moreFromRange}
                   </h2>
                 </div>
                 <Link
-                  href="/products"
+                  href={localizedHref('/products', locale)}
                   className="hidden md:inline-flex items-center gap-2 font-sans-harvest text-xs tracking-[0.2em] uppercase text-[#C9A84C] hover:text-[#E2C47A] transition-colors group"
                 >
-                  View All
+                  {dict.products.item.viewAll}
                   <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
                 </Link>
               </div>
@@ -345,7 +352,7 @@ export default function ProductDetail({
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#F5F0E8]/8">
               {related.map((r, i) => (
                 <ScrollReveal key={r.id} delay={i * 0.05}>
-                  <Link href={`/products/item/${r.id}`} className="group relative block bg-[#0D0D0D] hover:bg-[#161616] transition-colors overflow-hidden h-full">
+                  <Link href={localizedHref(`/products/item/${r.id}`, locale)} className="group relative block bg-[#0D0D0D] hover:bg-[#161616] transition-colors overflow-hidden h-full">
                     <span className="absolute top-0 left-0 h-0.5 w-0 group-hover:w-full bg-[#C9A84C] transition-all duration-700 z-20" />
                     <div className="relative aspect-square overflow-hidden">
                       <Image
