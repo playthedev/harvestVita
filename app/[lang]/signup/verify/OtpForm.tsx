@@ -3,18 +3,22 @@
 import { useActionState, useRef, useEffect, useCallback } from 'react';
 import { verifyOtp, resendOtp } from '../../../lib/auth-actions';
 import type { AuthState } from '../../../lib/auth-actions';
+import type { Dictionary } from '../../../i18n/dictionaries';
 
 const initial: AuthState = {};
 
 export default function OtpForm({
   email,
   redirectTo,
+  dict,
 }: {
   email: string;
   redirectTo: string;
+  dict: Dictionary;
 }) {
   const [verifyState, verifyAction, verifyPending] = useActionState(verifyOtp, initial);
   const [resendState, resendAction, resendPending] = useActionState(resendOtp, initial);
+  const t = dict.signup.verify;
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -63,9 +67,25 @@ export default function OtpForm({
     focusInput(Math.min(digits.length, 5));
   }
 
-  const errorMsg = verifyState.errors?.otp?.[0] ?? verifyState.message;
-  const successMsg = resendState.message;
-  const resendError = resendState.errors?.otp?.[0] ?? (resendState.message?.startsWith('Could') ? resendState.message : null);
+  // The "Incorrect code. {remaining} attempt(s) remaining." message carries a
+  // dynamic count from the server, so match it by pattern and re-render from dict.
+  function translateOtpMessage(msg: string | undefined | null): string | undefined | null {
+    if (!msg) return msg;
+    const incorrectMatch = msg.match(/^Incorrect code\. (\d+) attempts? remaining\.$/);
+    if (incorrectMatch) {
+      const remaining = incorrectMatch[1];
+      return t.incorrectCode
+        .replace('{remaining}', remaining)
+        .replace(/\{plural\}/g, remaining === '1' ? '' : 's');
+    }
+    return t.errors[msg as keyof typeof t.errors] ?? msg;
+  }
+
+  const errorMsg = translateOtpMessage(verifyState.errors?.otp?.[0] ?? verifyState.message);
+  const successMsg = translateOtpMessage(resendState.message);
+  const resendError = translateOtpMessage(
+    resendState.errors?.otp?.[0] ?? (resendState.message?.startsWith('Could') ? resendState.message : null)
+  );
 
   return (
     <div className="space-y-6">
@@ -82,7 +102,7 @@ export default function OtpForm({
 
         <div>
           <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#C9A84C]/80 mb-4">
-            Verification Code
+            {t.codeLabel}
           </p>
           <div className="flex gap-2 justify-between">
             {Array.from({ length: 6 }, (_, i) => (
@@ -112,7 +132,7 @@ export default function OtpForm({
           disabled={verifyPending}
           className="w-full font-sans-harvest text-[11px] tracking-[0.22em] uppercase py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {verifyPending ? 'Verifying…' : 'Verify & Create Account'}
+          {verifyPending ? t.verifying : t.verify}
         </button>
       </form>
 
@@ -130,7 +150,7 @@ export default function OtpForm({
           disabled={resendPending}
           className="font-sans-harvest text-[9px] tracking-[0.2em] uppercase text-[#F5F0E8]/40 hover:text-[#C9A84C] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {resendPending ? 'Sending…' : "Didn't get a code? Resend"}
+          {resendPending ? t.resending : t.resend}
         </button>
       </form>
     </div>
