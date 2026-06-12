@@ -133,6 +133,172 @@ const en = {
       buttonLabel: 'Write to Us',
     },
   },
+  about: {
+    hero: {
+      eyebrow: 'Our Story',
+      title: 'Honest food, rooted in the farm.',
+      subtitle:
+        "HarvestVita is the expression of Amoohaa Farms' commitment to natural, wholesome living — built on the belief that everyday food should be pure, nourishing, and authentic.",
+      stats: [
+        { k: '6', l: 'Categories' },
+        { k: '100%', l: 'Clean Label' },
+        { k: '0', l: 'Additives' },
+      ],
+    },
+    storySection: {
+      decorativeWord: 'Story',
+      label: 'The Brand',
+      heading:
+        'HarvestVita was born from a simple observation: modern life has made it harder to bring real food to the everyday table.',
+      paragraph1:
+        'Convenience used to come at the cost of nutrition. Pre-packaged shortcuts brought additives, preservatives, and a slow drift from what food was meant to be. We wanted to change that — to build a pantry where every ingredient was as honest as the soil it grew in.',
+      paragraph2:
+        "From dehydrated fruits and vegetables in powder and flake form to cold-pressed oils, khapali atta, original spice powders, and whole spices, every product is chosen with a simple purpose: to preserve nature's goodness while making it easy to use in modern life. The brand reflects a balance of tradition and convenience — clean-label essentials that fit seamlessly into daily cooking and mindful eating.",
+      paragraph3:
+        'At HarvestVita, quality is not treated as a promise but as a standard. Each product is developed with attention to purity, taste, and natural value, so customers can trust what they bring home for their families.',
+      quote:
+        'As part of Amoohaa Farms, HarvestVita stands for honest food, thoughtful processing, and ingredients that carry the richness of the farm to the heart of the home.',
+      quoteAttribution: 'The HarvestVita Promise',
+      imageAlt: 'Farm fields at sunset',
+      imageCaption: 'From Our Farm — India',
+      facts: [
+        { k: 'Cold', l: 'Pressed' },
+        { k: 'Stone', l: 'Ground' },
+        { k: 'Sun', l: 'Dried' },
+      ],
+    },
+    timeline: {
+      label: 'Journey',
+      headingLine1: 'From farm',
+      headingHighlight: 'to brand.',
+      subtitle: 'A short walk through the milestones that shaped how — and why — HarvestVita exists today.',
+      milestones: [
+        {
+          year: 'Origin',
+          title: 'Amoohaa Farms',
+          desc: 'A farming initiative rooted in ethical agriculture, transparency, and respect for the land.',
+        },
+        {
+          year: 'Idea',
+          title: 'A pure pantry',
+          desc: 'A growing awareness that modern kitchens were losing the goodness of real, traditional ingredients.',
+        },
+        {
+          year: 'Launch',
+          title: 'HarvestVita',
+          desc: 'A clean-label brand built to bring authentic, minimally processed essentials back to the everyday table.',
+        },
+        {
+          year: 'Today',
+          title: 'Six categories. One standard.',
+          desc: 'Powders, flakes, oils, flours, whole spices, and spice powders — all crafted with the same uncompromising care.',
+        },
+      ],
+    },
+    valuesSection: {
+      label: 'What We Stand For',
+      headingLine1: 'Four values',
+      headingHighlight: 'guide every decision.',
+      subtitle:
+        "These aren't marketing words. They're the filters we use when we source, process, package, and ship every product that carries the HarvestVita name.",
+      values: [
+        {
+          title: 'Purity',
+          desc: "What's on the label is what's in the pack. Always.",
+        },
+        {
+          title: 'Tradition',
+          desc: 'Time-honoured methods — stone-grinding, cold-pressing, sun-drying — done right.',
+        },
+        {
+          title: 'Convenience',
+          desc: 'Ready for modern kitchens without sacrificing what makes food honest.',
+        },
+        {
+          title: 'Traceability',
+          desc: 'From the farm where it grew to the pack on your shelf.',
+        },
+      ],
+    },
+    cta: {
+      eyebrow: 'Explore',
+      title: 'See what HarvestVita has on offer.',
+      buttonLabel: 'View Products',
+    },
+  },
+  quality: {
+    hero: {
+      eyebrow: 'Our Standard',
+      title: "Quality is not a promise. It's our baseline.",
+      subtitle:
+        'Every HarvestVita product is developed with attention to purity, taste, and natural value — so customers can trust what they bring home for their families.',
+      stats: [
+        { k: '5', l: 'Step Process' },
+        { k: '6', l: 'Standards' },
+      ],
+    },
+    standardsSection: {
+      decorativeWord: 'STANDARD',
+      label: 'Six Standards',
+      headingLine1: 'What clean-label',
+      headingHighlight: 'actually means.',
+      subtitle: "These aren't certifications hung on a wall. They're the working rules that shape every batch, every pack, every shipment.",
+      standards: [
+        { label: 'Clean Label', detail: 'Every product lists only what it contains. No hidden fillers, no undisclosed additives.' },
+        { label: 'No Artificial Preservatives', detail: 'Natural preservation through dehydration, cold-pressing, and proper packaging.' },
+        { label: 'Minimal Processing', detail: 'Gentle methods that maintain the original nutritional profile of every ingredient.' },
+        { label: 'Batch Traceability', detail: "Every batch is tracked from farm to packaging so you always know what you're getting." },
+        { label: 'No Added Colours', detail: 'The colour in HarvestVita products comes only from the ingredient itself.' },
+        { label: 'No Anti-Caking Agents', detail: 'Our powders and flours are pure — store them right and they stay that way naturally.' },
+      ],
+    },
+    processSection: {
+      decorativeWord: 'Process',
+      label: 'Process',
+      headingLine1: 'Five steps,',
+      headingHighlight: 'farm to pack.',
+      subtitle: 'Each step is deliberate. Each step is logged. Each step protects the goodness of what reaches your kitchen.',
+      stepOfLabel: 'Step {num} of 05',
+      process: [
+        {
+          num: '01',
+          title: 'Sourcing',
+          desc: 'Direct relationships with farms that share our standards. Soil health, ethical practices, and seasonal availability shape every harvest.',
+        },
+        {
+          num: '02',
+          title: 'Inspection',
+          desc: "Hand-sorting and visual inspection at intake. Anything that doesn't meet the bar goes back, no exceptions.",
+        },
+        {
+          num: '03',
+          title: 'Processing',
+          desc: 'Cold-pressing, low-temperature dehydration, and stone-grinding — methods chosen to preserve nutrition, not to maximise yield.',
+        },
+        {
+          num: '04',
+          title: 'Packaging',
+          desc: 'Food-grade, light-protective packaging. Sealed for freshness with minimal headspace to extend shelf life naturally.',
+        },
+        {
+          num: '05',
+          title: 'Traceability',
+          desc: 'Batch codes that connect every pack back to the farm, the harvest, and the day it was made.',
+        },
+      ],
+    },
+    stats: [
+      { value: '100%', label: 'Natural Ingredients' },
+      { value: '6+', label: 'Product Categories' },
+      { value: '0', label: 'Artificial Additives' },
+      { value: '∞', label: 'Commitment to Purity' },
+    ],
+    cta: {
+      eyebrow: 'Have Questions?',
+      title: 'Talk to us about sourcing & quality.',
+      buttonLabel: 'Contact Us',
+    },
+  },
 };
 
 export default en;

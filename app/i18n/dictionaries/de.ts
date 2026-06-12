@@ -135,6 +135,172 @@ const de: typeof en = {
       buttonLabel: 'Schreiben Sie uns',
     },
   },
+  about: {
+    hero: {
+      eyebrow: 'Unsere Geschichte',
+      title: 'Ehrliches Essen, verwurzelt auf dem Hof.',
+      subtitle:
+        'HarvestVita ist Ausdruck des Engagements von Amoohaa Farms für ein natürliches, gesundes Leben — getragen von der Überzeugung, dass alltägliches Essen rein, nährend und authentisch sein sollte.',
+      stats: [
+        { k: '6', l: 'Kategorien' },
+        { k: '100%', l: 'Reine Zutaten' },
+        { k: '0', l: 'Zusatzstoffe' },
+      ],
+    },
+    storySection: {
+      decorativeWord: 'Geschichte',
+      label: 'Die Marke',
+      heading:
+        'HarvestVita entstand aus einer einfachen Beobachtung: Das moderne Leben hat es schwerer gemacht, echtes Essen auf den alltäglichen Tisch zu bringen.',
+      paragraph1:
+        'Bequemlichkeit ging früher oft zu Lasten der Nährwerte. Vorverpackte Abkürzungen brachten Zusatzstoffe, Konservierungsmittel und eine schleichende Entfernung von dem, was Essen eigentlich sein sollte. Das wollten wir ändern — eine Vorratskammer schaffen, in der jede Zutat so ehrlich ist wie der Boden, aus dem sie stammt.',
+      paragraph2:
+        'Von getrockneten Früchten und Gemüse in Pulver- und Flockenform über kaltgepresste Öle, Khapali-Mehl, original Gewürzpulver bis hin zu ganzen Gewürzen — jedes Produkt wird mit einem klaren Ziel ausgewählt: die Güte der Natur zu bewahren und gleichzeitig die Nutzung im modernen Alltag zu erleichtern. Die Marke spiegelt die Balance zwischen Tradition und Komfort wider — reine Essentials, die sich nahtlos in den täglichen Kochalltag und bewusstes Essen einfügen.',
+      paragraph3:
+        'Bei HarvestVita ist Qualität kein Versprechen, sondern ein Standard. Jedes Produkt wird mit Sorgfalt hinsichtlich Reinheit, Geschmack und natürlichem Wert entwickelt, damit unsere Kunden dem vertrauen können, was sie für ihre Familien nach Hause bringen.',
+      quote:
+        'Als Teil von Amoohaa Farms steht HarvestVita für ehrliches Essen, durchdachte Verarbeitung und Zutaten, die den Reichtum des Hofes ins Herz Ihres Zuhauses bringen.',
+      quoteAttribution: 'Das HarvestVita-Versprechen',
+      imageAlt: 'Farmfelder bei Sonnenuntergang',
+      imageCaption: 'Von unserem Hof — Indien',
+      facts: [
+        { k: 'Kalt', l: 'gepresst' },
+        { k: 'Stein', l: 'gemahlen' },
+        { k: 'Sonnen', l: 'getrocknet' },
+      ],
+    },
+    timeline: {
+      label: 'Reise',
+      headingLine1: 'Vom Hof',
+      headingHighlight: 'zur Marke.',
+      subtitle: 'Ein kurzer Rückblick auf die Meilensteine, die geprägt haben, wie — und warum — HarvestVita heute existiert.',
+      milestones: [
+        {
+          year: 'Ursprung',
+          title: 'Amoohaa Farms',
+          desc: 'Eine landwirtschaftliche Initiative, verwurzelt in ethischer Landwirtschaft, Transparenz und Respekt für den Boden.',
+        },
+        {
+          year: 'Idee',
+          title: 'Eine reine Vorratskammer',
+          desc: 'Ein wachsendes Bewusstsein dafür, dass moderne Küchen die Güte echter, traditioneller Zutaten verloren.',
+        },
+        {
+          year: 'Start',
+          title: 'HarvestVita',
+          desc: 'Eine Marke mit reinen Zutaten, die authentische, minimal verarbeitete Essentials zurück auf den alltäglichen Tisch bringt.',
+        },
+        {
+          year: 'Heute',
+          title: 'Sechs Kategorien. Ein Standard.',
+          desc: 'Pulver, Flocken, Öle, Mehle, ganze Gewürze und Gewürzpulver — alle mit derselben kompromisslosen Sorgfalt hergestellt.',
+        },
+      ],
+    },
+    valuesSection: {
+      label: 'Wofür wir stehen',
+      headingLine1: 'Vier Werte',
+      headingHighlight: 'leiten jede Entscheidung.',
+      subtitle:
+        'Das sind keine Marketingworte. Das sind die Filter, die wir beim Beziehen, Verarbeiten, Verpacken und Versenden jedes Produkts anwenden, das den Namen HarvestVita trägt.',
+      values: [
+        {
+          title: 'Reinheit',
+          desc: 'Was auf dem Etikett steht, ist das, was in der Packung ist. Immer.',
+        },
+        {
+          title: 'Tradition',
+          desc: 'Bewährte Methoden — Steinmahlung, Kaltpressung, Sonnentrocknung — richtig angewendet.',
+        },
+        {
+          title: 'Komfort',
+          desc: 'Bereit für moderne Küchen, ohne das zu opfern, was Essen ehrlich macht.',
+        },
+        {
+          title: 'Rückverfolgbarkeit',
+          desc: 'Vom Hof, auf dem es gewachsen ist, bis zur Packung in Ihrem Regal.',
+        },
+      ],
+    },
+    cta: {
+      eyebrow: 'Entdecken',
+      title: 'Entdecken Sie das Angebot von HarvestVita.',
+      buttonLabel: 'Produkte ansehen',
+    },
+  },
+  quality: {
+    hero: {
+      eyebrow: 'Unser Standard',
+      title: 'Qualität ist kein Versprechen. Sie ist unser Standard.',
+      subtitle:
+        'Jedes HarvestVita-Produkt wird mit Sorgfalt hinsichtlich Reinheit, Geschmack und natürlichem Wert entwickelt — damit unsere Kunden dem vertrauen können, was sie für ihre Familien nach Hause bringen.',
+      stats: [
+        { k: '5', l: 'Schritte' },
+        { k: '6', l: 'Standards' },
+      ],
+    },
+    standardsSection: {
+      decorativeWord: 'STANDARD',
+      label: 'Sechs Standards',
+      headingLine1: 'Was reine Zutaten',
+      headingHighlight: 'wirklich bedeuten.',
+      subtitle: 'Das sind keine Zertifikate an der Wand. Das sind die Arbeitsregeln, die jede Charge, jede Packung und jede Lieferung prägen.',
+      standards: [
+        { label: 'Reine Zutaten', detail: 'Jedes Produkt listet nur das, was es enthält. Keine versteckten Füllstoffe, keine nicht deklarierten Zusatzstoffe.' },
+        { label: 'Keine künstlichen Konservierungsmittel', detail: 'Natürliche Haltbarkeit durch Trocknung, Kaltpressung und geeignete Verpackung.' },
+        { label: 'Minimale Verarbeitung', detail: 'Schonende Methoden, die das ursprüngliche Nährwertprofil jeder Zutat erhalten.' },
+        { label: 'Chargen-Rückverfolgbarkeit', detail: 'Jede Charge wird vom Hof bis zur Verpackung verfolgt, damit Sie immer wissen, was Sie kaufen.' },
+        { label: 'Keine zugesetzten Farbstoffe', detail: 'Die Farbe der HarvestVita-Produkte stammt ausschließlich von der Zutat selbst.' },
+        { label: 'Keine Trennmittel', detail: 'Unsere Pulver und Mehle sind rein — richtig gelagert bleiben sie auf natürliche Weise so.' },
+      ],
+    },
+    processSection: {
+      decorativeWord: 'Prozess',
+      label: 'Prozess',
+      headingLine1: 'Fünf Schritte,',
+      headingHighlight: 'vom Hof zur Packung.',
+      subtitle: 'Jeder Schritt ist bewusst gewählt. Jeder Schritt wird dokumentiert. Jeder Schritt schützt die Güte dessen, was in Ihrer Küche ankommt.',
+      stepOfLabel: 'Schritt {num} von 05',
+      process: [
+        {
+          num: '01',
+          title: 'Beschaffung',
+          desc: 'Direkte Beziehungen zu Höfen, die unsere Standards teilen. Bodengesundheit, ethische Praktiken und saisonale Verfügbarkeit prägen jede Ernte.',
+        },
+        {
+          num: '02',
+          title: 'Kontrolle',
+          desc: 'Handsortierung und Sichtkontrolle bei der Annahme. Alles, was den Anforderungen nicht entspricht, wird ohne Ausnahme zurückgewiesen.',
+        },
+        {
+          num: '03',
+          title: 'Verarbeitung',
+          desc: 'Kaltpressung, Trocknung bei niedriger Temperatur und Steinmahlung — Methoden, die gewählt wurden, um den Nährwert zu bewahren, nicht um die Ausbeute zu maximieren.',
+        },
+        {
+          num: '04',
+          title: 'Verpackung',
+          desc: 'Lebensmittelechte, lichtschützende Verpackung. Versiegelt für Frische, mit minimalem Luftraum, um die Haltbarkeit natürlich zu verlängern.',
+        },
+        {
+          num: '05',
+          title: 'Rückverfolgbarkeit',
+          desc: 'Chargencodes, die jede Packung mit dem Hof, der Ernte und dem Herstellungstag verbinden.',
+        },
+      ],
+    },
+    stats: [
+      { value: '100%', label: 'Natürliche Zutaten' },
+      { value: '6+', label: 'Produktkategorien' },
+      { value: '0', label: 'Künstliche Zusatzstoffe' },
+      { value: '∞', label: 'Engagement für Reinheit' },
+    ],
+    cta: {
+      eyebrow: 'Haben Sie Fragen?',
+      title: 'Sprechen Sie mit uns über Beschaffung & Qualität.',
+      buttonLabel: 'Kontaktieren Sie uns',
+    },
+  },
 };
 
 export default de;

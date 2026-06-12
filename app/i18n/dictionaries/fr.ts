@@ -135,6 +135,172 @@ const fr: typeof en = {
       buttonLabel: 'Écrivez-nous',
     },
   },
+  about: {
+    hero: {
+      eyebrow: 'Notre histoire',
+      title: 'Une alimentation honnête, ancrée dans la ferme.',
+      subtitle:
+        "HarvestVita incarne l'engagement d'Amoohaa Farms envers une vie naturelle et saine — fondé sur la conviction que l'alimentation quotidienne doit être pure, nourrissante et authentique.",
+      stats: [
+        { k: '6', l: 'Catégories' },
+        { k: '100%', l: 'Étiquette propre' },
+        { k: '0', l: 'Additifs' },
+      ],
+    },
+    storySection: {
+      decorativeWord: 'Histoire',
+      label: 'La marque',
+      heading:
+        "HarvestVita est née d'un constat simple : la vie moderne a rendu plus difficile l'accès à une alimentation vraie au quotidien.",
+      paragraph1:
+        "La praticité se faisait autrefois au détriment de la nutrition. Les solutions préemballées ont apporté additifs, conservateurs et un éloignement progressif de ce que devrait être l'alimentation. Nous avons voulu changer cela — créer un garde-manger où chaque ingrédient serait aussi honnête que la terre qui l'a vu naître.",
+      paragraph2:
+        "Des fruits et légumes déshydratés, en poudre ou en flocons, aux huiles pressées à froid, à la farine khapali, aux poudres d'épices originales et aux épices entières, chaque produit est choisi dans un but simple : préserver la bonté de la nature tout en facilitant son usage au quotidien. La marque reflète un équilibre entre tradition et praticité — des essentiels à étiquette propre qui s'intègrent naturellement à la cuisine de tous les jours et à une alimentation consciente.",
+      paragraph3:
+        "Chez HarvestVita, la qualité n'est pas une promesse mais une norme. Chaque produit est élaboré avec une attention particulière à la pureté, au goût et à la valeur naturelle, pour que nos clients puissent avoir confiance en ce qu'ils ramènent chez eux pour leur famille.",
+      quote:
+        "En tant que membre d'Amoohaa Farms, HarvestVita incarne une alimentation honnête, une transformation réfléchie et des ingrédients qui portent la richesse de la ferme au cœur du foyer.",
+      quoteAttribution: 'La promesse HarvestVita',
+      imageAlt: 'Champs au coucher du soleil',
+      imageCaption: 'Depuis notre ferme — Inde',
+      facts: [
+        { k: 'Pressé', l: 'à froid' },
+        { k: 'Moulu', l: 'à la pierre' },
+        { k: 'Séché', l: 'au soleil' },
+      ],
+    },
+    timeline: {
+      label: 'Parcours',
+      headingLine1: 'De la ferme',
+      headingHighlight: 'à la marque.',
+      subtitle: "Un bref parcours à travers les étapes qui ont façonné le comment — et le pourquoi — de HarvestVita aujourd'hui.",
+      milestones: [
+        {
+          year: 'Origine',
+          title: 'Amoohaa Farms',
+          desc: "Une initiative agricole fondée sur l'agriculture éthique, la transparence et le respect de la terre.",
+        },
+        {
+          year: 'Idée',
+          title: 'Un garde-manger pur',
+          desc: "Une prise de conscience grandissante que les cuisines modernes perdaient la bonté des ingrédients traditionnels et véritables.",
+        },
+        {
+          year: 'Lancement',
+          title: 'HarvestVita',
+          desc: "Une marque à étiquette propre conçue pour redonner à la table de tous les jours des essentiels authentiques et peu transformés.",
+        },
+        {
+          year: "Aujourd'hui",
+          title: 'Six catégories. Une seule norme.',
+          desc: "Poudres, flocons, huiles, farines, épices entières et poudres d'épices — tous élaborés avec le même soin sans compromis.",
+        },
+      ],
+    },
+    valuesSection: {
+      label: 'Nos valeurs',
+      headingLine1: 'Quatre valeurs',
+      headingHighlight: 'guident chaque décision.',
+      subtitle:
+        "Ce ne sont pas de simples mots marketing. Ce sont les filtres que nous appliquons à chaque étape — approvisionnement, transformation, conditionnement et expédition — de tout produit portant le nom HarvestVita.",
+      values: [
+        {
+          title: 'Pureté',
+          desc: "Ce qui est sur l'étiquette est ce qu'il y a dans le paquet. Toujours.",
+        },
+        {
+          title: 'Tradition',
+          desc: 'Des méthodes ancestrales — mouture à la pierre, pression à froid, séchage au soleil — exécutées dans les règles.',
+        },
+        {
+          title: 'Praticité',
+          desc: "Prêts pour les cuisines modernes, sans sacrifier ce qui rend l'alimentation honnête.",
+        },
+        {
+          title: 'Traçabilité',
+          desc: "De la ferme où il a poussé jusqu'au paquet sur votre étagère.",
+        },
+      ],
+    },
+    cta: {
+      eyebrow: 'Découvrir',
+      title: 'Découvrez ce que HarvestVita a à offrir.',
+      buttonLabel: 'Voir les produits',
+    },
+  },
+  quality: {
+    hero: {
+      eyebrow: 'Notre standard',
+      title: "La qualité n'est pas une promesse. C'est notre standard.",
+      subtitle:
+        "Chaque produit HarvestVita est élaboré avec une attention particulière à la pureté, au goût et à la valeur naturelle — pour que nos clients puissent avoir confiance en ce qu'ils ramènent chez eux pour leur famille.",
+      stats: [
+        { k: '5', l: 'Étapes' },
+        { k: '6', l: 'Normes' },
+      ],
+    },
+    standardsSection: {
+      decorativeWord: 'STANDARD',
+      label: 'Six normes',
+      headingLine1: 'Ce que signifie vraiment',
+      headingHighlight: 'une étiquette propre.',
+      subtitle: "Ce ne sont pas des certifications accrochées au mur. Ce sont les règles concrètes qui façonnent chaque lot, chaque paquet, chaque envoi.",
+      standards: [
+        { label: 'Étiquette propre', detail: "Chaque produit liste uniquement ce qu'il contient. Aucune charge cachée, aucun additif non déclaré." },
+        { label: 'Sans conservateurs artificiels', detail: 'Conservation naturelle grâce à la déshydratation, à la pression à froid et à un conditionnement adapté.' },
+        { label: 'Transformation minimale', detail: 'Des méthodes douces qui préservent le profil nutritionnel original de chaque ingrédient.' },
+        { label: 'Traçabilité par lot', detail: "Chaque lot est suivi de la ferme jusqu'au conditionnement, pour que vous sachiez toujours ce que vous achetez." },
+        { label: 'Sans colorants ajoutés', detail: "La couleur des produits HarvestVita provient uniquement de l'ingrédient lui-même." },
+        { label: 'Sans agents anti-agglomérants', detail: 'Nos poudres et farines sont pures — conservez-les correctement et elles le restent naturellement.' },
+      ],
+    },
+    processSection: {
+      decorativeWord: 'Processus',
+      label: 'Processus',
+      headingLine1: 'Cinq étapes,',
+      headingHighlight: 'de la ferme au paquet.',
+      subtitle: 'Chaque étape est réfléchie. Chaque étape est consignée. Chaque étape protège la bonté de ce qui arrive dans votre cuisine.',
+      stepOfLabel: 'Étape {num} sur 05',
+      process: [
+        {
+          num: '01',
+          title: 'Approvisionnement',
+          desc: 'Des relations directes avec des fermes qui partagent nos normes. La santé du sol, des pratiques éthiques et la disponibilité saisonnière façonnent chaque récolte.',
+        },
+        {
+          num: '02',
+          title: 'Inspection',
+          desc: "Tri manuel et inspection visuelle à la réception. Tout ce qui ne répond pas aux exigences est refusé, sans exception.",
+        },
+        {
+          num: '03',
+          title: 'Transformation',
+          desc: 'Pression à froid, déshydratation à basse température et mouture à la pierre — des méthodes choisies pour préserver la nutrition, non pour maximiser le rendement.',
+        },
+        {
+          num: '04',
+          title: 'Conditionnement',
+          desc: "Emballage alimentaire, protecteur contre la lumière. Scellé pour la fraîcheur, avec un espace de tête minimal pour prolonger naturellement la durée de conservation.",
+        },
+        {
+          num: '05',
+          title: 'Traçabilité',
+          desc: 'Des codes de lot qui relient chaque paquet à la ferme, à la récolte et au jour de fabrication.',
+        },
+      ],
+    },
+    stats: [
+      { value: '100%', label: 'Ingrédients naturels' },
+      { value: '6+', label: 'Catégories de produits' },
+      { value: '0', label: 'Additifs artificiels' },
+      { value: '∞', label: 'Engagement envers la pureté' },
+    ],
+    cta: {
+      eyebrow: 'Des questions ?',
+      title: "Parlons de l'approvisionnement et de la qualité.",
+      buttonLabel: 'Contactez-nous',
+    },
+  },
 };
 
 export default fr;
