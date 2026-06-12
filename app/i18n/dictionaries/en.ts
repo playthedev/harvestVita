@@ -361,7 +361,7 @@ const en = {
       },
       perUnit: 'per {unit}',
       inclusiveOfTaxes: 'Inclusive of taxes',
-      addToCart: 'Add to Cart · ₹{price}',
+      addToCart: 'Add to Cart · {price}',
       addedToCart: 'Added to Cart',
       alreadyInCart: '{count} already in cart · View Cart',
       wishlistAdd: 'Add to wishlist',
@@ -565,6 +565,7 @@ const en = {
       free: 'Free',
       total: 'Total',
       taxNote: 'Inclusive of taxes',
+      estimateNote: 'Estimated in {currency} · charged in INR',
       badges: [
         { k: '2-day', l: 'Dispatch' },
         { k: 'UPI', l: 'Accepted' },

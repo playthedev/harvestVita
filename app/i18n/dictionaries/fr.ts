@@ -363,7 +363,7 @@ const fr: typeof en = {
       },
       perUnit: 'par {unit}',
       inclusiveOfTaxes: 'Taxes incluses',
-      addToCart: 'Ajouter au panier · ₹{price}',
+      addToCart: 'Ajouter au panier · {price}',
       addedToCart: 'Ajouté au panier',
       alreadyInCart: '{count} déjà dans le panier · Voir le panier',
       wishlistAdd: 'Ajouter aux favoris',
@@ -567,6 +567,7 @@ const fr: typeof en = {
       free: 'Gratuite',
       total: 'Total',
       taxNote: 'Taxes incluses',
+      estimateNote: 'Estimation en {currency} · facturé en INR',
       badges: [
         { k: '2 jours', l: 'Expédition' },
         { k: 'UPI', l: 'Accepté' },

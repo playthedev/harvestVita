@@ -8,6 +8,8 @@ import { allProducts } from '../../lib/products';
 import { useCart } from '../../lib/CartContext';
 import ScrollReveal from '../../components/ScrollReveal';
 import { localizedHref } from '../../lib/locale-path';
+import { formatPrice } from '../../lib/currency';
+import { useCountry } from '../../lib/CurrencyContext';
 import type { Locale } from '../../i18n/config';
 import type { Dictionary } from '../../i18n/dictionaries';
 
@@ -72,6 +74,7 @@ function AddToCartBtn({ productId, dict }: { productId: string; dict: Dictionary
 export default function ProductsPageClient({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const [active, setActive] = useState('All');
   const { count } = useCart();
+  const country = useCountry();
 
   const filtered = active === 'All' ? allProducts : allProducts.filter((p) => p.category === active);
   const activeLabel = dict.products.list.categories.find((c) => c.value === active)?.label ?? active;
@@ -284,7 +287,7 @@ export default function ProductsPageClient({ locale, dict }: { locale: Locale; d
                       {product.short}
                     </p>
                     <div className="flex items-baseline gap-1.5">
-                      <span className="font-display font-bold text-[#C9A84C] text-2xl">₹{product.price}</span>
+                      <span className="font-display font-bold text-[#C9A84C] text-2xl">{formatPrice(product.price, locale, country)}</span>
                       <span className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/35">{dict.products.list.perUnit.replace('{unit}', product.unit)}</span>
                     </div>
                     <AddToCartBtn productId={product.id} dict={dict} />

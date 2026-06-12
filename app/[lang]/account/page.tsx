@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -10,6 +11,7 @@ import AddressForm from './AddressForm';
 import { getDictionary } from '../../i18n/dictionaries';
 import { isLocale, type Locale } from '../../i18n/config';
 import { localizedHref } from '../../lib/locale-path';
+import { formatPrice } from '../../lib/currency';
 
 export const metadata: Metadata = { title: 'My Account — HarvestVita' };
 
@@ -17,6 +19,7 @@ export default async function AccountPage({ params }: { params: Promise<{ lang: 
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : 'en';
   const dict = await getDictionary(locale);
+  const country = (await headers()).get('x-vercel-ip-country');
 
   const session = await getSession();
   if (!session) redirect(localizedHref('/login', locale));
@@ -94,7 +97,7 @@ export default async function AccountPage({ params }: { params: Promise<{ lang: 
                           </span>
                         </div>
                         <span className="font-display font-bold text-[#C9A84C]">
-                          ₹{(order.total + order.shipping).toLocaleString('en-IN')}
+                          {formatPrice(order.total + order.shipping, locale, country)}
                         </span>
                       </div>
                       <p className="font-sans-harvest text-[9px] tracking-[0.1em] uppercase text-[#F5F0E8]/30 mb-3">
@@ -141,7 +144,7 @@ export default async function AccountPage({ params }: { params: Promise<{ lang: 
                     <div className="flex-1 min-w-0">
                       <p className="font-display font-bold text-[#F5F0E8] text-sm leading-snug">{p.name}</p>
                       <p className="font-sans-harvest text-[9px] tracking-[0.1em] uppercase text-[#F5F0E8]/35 mt-0.5">{p.unit}</p>
-                      <p className="font-display font-bold text-[#C9A84C] mt-1">₹{p.price}</p>
+                      <p className="font-display font-bold text-[#C9A84C] mt-1">{formatPrice(p.price, locale, country)}</p>
                     </div>
                   </Link>
                 ))}

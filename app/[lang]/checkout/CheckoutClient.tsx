@@ -7,6 +7,8 @@ import Script from 'next/script';
 import { useCart } from '../../lib/CartContext';
 import type { Address } from '../../lib/user-store';
 import { localizedHref } from '../../lib/locale-path';
+import { formatPrice, localeCurrency } from '../../lib/currency';
+import { useCountry } from '../../lib/CurrencyContext';
 import type { Locale } from '../../i18n/config';
 import type { Dictionary } from '../../i18n/dictionaries';
 
@@ -103,6 +105,7 @@ function validateAddress(form: FormState, phoneNumber: string, errors: Dictionar
 
 export default function CheckoutClient({ userId, userName, userEmail, savedAddress, locale, dict }: Props) {
   const { items, total, count, clear } = useCart();
+  const country = useCountry();
   const t = dict.checkout;
 
   const fields: Field[] = [
@@ -610,13 +613,13 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                           <p className="font-display font-bold text-[#F5F0E8] text-sm leading-snug truncate">{item.name}</p>
                           <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/35 mt-0.5">{item.unit}</p>
                         </div>
-                        <span className="font-display font-bold text-[#C9A84C] text-sm flex-shrink-0">₹{(item.price * item.qty).toLocaleString('en-IN')}</span>
+                        <span className="font-display font-bold text-[#C9A84C] text-sm flex-shrink-0">{formatPrice(item.price * item.qty, locale, country)}</span>
                       </div>
                     ))}
                   </div>
                   <div className="space-y-2 mb-5 pt-5 border-t border-[#F5F0E8]/10">
-                    <div className="flex justify-between font-serif text-sm text-[#F5F0E8]/65"><span>{t.summary.subtotal}</span><span>₹{total.toLocaleString('en-IN')}</span></div>
-                    <div className="flex justify-between font-serif text-sm text-[#F5F0E8]/65"><span>{t.summary.shipping}</span><span>{shipping === 0 ? <span className="text-[#C9A84C]">{t.summary.free}</span> : `₹${shipping}`}</span></div>
+                    <div className="flex justify-between font-serif text-sm text-[#F5F0E8]/65"><span>{t.summary.subtotal}</span><span>{formatPrice(total, locale, country)}</span></div>
+                    <div className="flex justify-between font-serif text-sm text-[#F5F0E8]/65"><span>{t.summary.shipping}</span><span>{shipping === 0 ? <span className="text-[#C9A84C]">{t.summary.free}</span> : formatPrice(shipping, locale, country)}</span></div>
                   </div>
                   <div className="flex justify-between items-end pt-5 border-t border-[#F5F0E8]/10">
                     <div>
@@ -625,6 +628,11 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                     </div>
                     <span className="font-display font-bold text-[#C9A84C] leading-none" style={{ fontSize: 'clamp(1.8rem, 2.5vw, 2.2rem)' }}>₹{orderTotal.toLocaleString('en-IN')}</span>
                   </div>
+                  {country !== 'IN' && (
+                    <p className="font-sans-harvest text-[8px] tracking-[0.1em] uppercase text-[#F5F0E8]/30 mt-2 text-right">
+                      {t.summary.estimateNote.replace('{currency}', localeCurrency[locale].code)}
+                    </p>
+                  )}
                 </div>
                 <div className="grid grid-cols-3 gap-px bg-[#F5F0E8]/8 border-t border-[#F5F0E8]/10">
                   {t.summary.badges.map((b) => (

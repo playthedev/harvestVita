@@ -8,6 +8,8 @@ import { useCart } from '../../../../lib/CartContext';
 import ScrollReveal from '../../../../components/ScrollReveal';
 import { toggleWishlist } from '../../../../lib/auth-actions';
 import { localizedHref } from '../../../../lib/locale-path';
+import { formatPrice } from '../../../../lib/currency';
+import { useCountry } from '../../../../lib/CurrencyContext';
 import type { Locale } from '../../../../i18n/config';
 import type { Dictionary } from '../../../../i18n/dictionaries';
 
@@ -36,6 +38,7 @@ export default function ProductDetail({
   dict: Dictionary;
 }) {
   const { addMany, items } = useCart();
+  const country = useCountry();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [wishlisted, setWishlisted] = useState(initialWishlisted);
@@ -167,7 +170,7 @@ export default function ProductDetail({
               {/* Price block */}
               <div className="border-y border-[#F5F0E8]/10 py-6 mb-8 flex items-end gap-4">
                 <span className="font-display font-bold text-[#C9A84C] leading-none" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
-                  ₹{product.price}
+                  {formatPrice(product.price, locale, country)}
                 </span>
                 <div className="pb-2">
                   <p className="font-sans-harvest text-[10px] tracking-[0.2em] uppercase text-[#F5F0E8]/40">{dict.products.item.perUnit.replace('{unit}', product.unit)}</p>
@@ -206,7 +209,7 @@ export default function ProductDetail({
                     </>
                   ) : (
                     <>
-                      {dict.products.item.addToCart.replace('{price}', (product.price * qty).toLocaleString('en-IN'))}
+                      {dict.products.item.addToCart.replace('{price}', formatPrice(product.price * qty, locale, country))}
                       <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
                     </>
                   )}
@@ -371,7 +374,7 @@ export default function ProductDetail({
                       <h3 className="font-display text-base font-bold text-[#F5F0E8] mb-2 leading-snug group-hover:text-[#C9A84C] transition-colors">
                         {r.name}
                       </h3>
-                      <p className="font-display font-bold text-[#C9A84C] text-lg">₹{r.price}</p>
+                      <p className="font-display font-bold text-[#C9A84C] text-lg">{formatPrice(r.price, locale, country)}</p>
                     </div>
                   </Link>
                 </ScrollReveal>

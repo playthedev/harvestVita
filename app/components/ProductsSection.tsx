@@ -7,6 +7,8 @@ import { allProducts } from '../lib/products';
 import { useCart } from '../lib/CartContext';
 import ScrollReveal from './ScrollReveal';
 import { localizedHref } from '../lib/locale-path';
+import { formatPrice } from '../lib/currency';
+import { useCountry } from '../lib/CurrencyContext';
 import type { Locale } from '../i18n/config';
 import type { Dictionary } from '../i18n/dictionaries';
 
@@ -62,6 +64,7 @@ function AddBtn({ id, dict }: { id: string; dict: Dictionary }) {
 
 export default function ProductsSection({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const p = dict.home.products;
+  const country = useCountry();
   return (
     <section className="bg-[#0D0D0D] py-28 md:py-36 relative overflow-hidden">
       {/* Faint background text — Terminal Industries style */}
@@ -176,7 +179,7 @@ export default function ProductsSection({ locale, dict }: { locale: Locale; dict
                   </p>
 
                   <div className="flex items-baseline gap-1.5">
-                    <span className="font-display font-bold text-[#C9A84C] text-2xl">₹{prod.price}</span>
+                    <span className="font-display font-bold text-[#C9A84C] text-2xl">{formatPrice(prod.price, locale, country)}</span>
                     <span className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/35">
                       / {prod.unit}
                     </span>

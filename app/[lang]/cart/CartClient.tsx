@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '../../lib/CartContext';
 import { localizedHref } from '../../lib/locale-path';
+import { formatPrice } from '../../lib/currency';
+import { useCountry } from '../../lib/CurrencyContext';
 import type { Locale } from '../../i18n/config';
 import type { Dictionary } from '../../i18n/dictionaries';
 
@@ -18,6 +20,7 @@ function Cross({ className }: { className?: string }) {
 
 export default function CartClient({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const { items, count, total, remove, updateQty } = useCart();
+  const country = useCountry();
   const t = dict.cart;
 
   // ═══════════════ EMPTY CART ═══════════════
@@ -207,7 +210,7 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
                         </h3>
                       </Link>
                       <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/35 mt-1">
-                        ₹{item.price} / {item.unit}
+                        {formatPrice(item.price, locale, country)} / {item.unit}
                       </p>
 
                       {/* Mobile inline qty + price row */}
@@ -226,7 +229,7 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
                           >+</button>
                         </div>
                         <span className="font-display font-bold text-[#C9A84C] text-lg">
-                          ₹{(item.price * item.qty).toLocaleString('en-IN')}
+                          {formatPrice(item.price * item.qty, locale, country)}
                         </span>
                       </div>
                     </div>
@@ -250,7 +253,7 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
 
                     {/* Subtotal (desktop) */}
                     <span className="hidden md:block font-display font-bold text-[#C9A84C] text-xl w-24 text-right">
-                      ₹{(item.price * item.qty).toLocaleString('en-IN')}
+                      {formatPrice(item.price * item.qty, locale, country)}
                     </span>
 
                     {/* Remove */}
@@ -305,18 +308,18 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
                   <div className="space-y-3 mb-6 pb-6 border-b border-[#F5F0E8]/10">
                     <div className="flex justify-between font-serif text-[#F5F0E8]/75 text-sm">
                       <span>{t.summary.subtotal.replace('{count}', String(count))}</span>
-                      <span>₹{total.toLocaleString('en-IN')}</span>
+                      <span>{formatPrice(total, locale, country)}</span>
                     </div>
                     <div className="flex justify-between font-serif text-[#F5F0E8]/75 text-sm">
                       <span>{t.summary.shipping}</span>
-                      <span>{shipping === 0 ? <span className="text-[#C9A84C]">{t.summary.free}</span> : `₹${shipping}`}</span>
+                      <span>{shipping === 0 ? <span className="text-[#C9A84C]">{t.summary.free}</span> : formatPrice(shipping, locale, country)}</span>
                     </div>
                     {shipping > 0 && total < 499 && (
                       <div className="bg-[#161616] border border-[#C9A84C]/20 p-3 mt-4 flex items-start gap-3">
                         <span className="block w-1.5 h-1.5 rounded-full bg-[#C9A84C] mt-1.5 flex-shrink-0 animate-pulse" />
                         <p className="font-sans-harvest text-[10px] tracking-[0.1em] text-[#F5F0E8]/60 leading-relaxed">
                           {(() => {
-                            const amount = `₹${(499 - total).toLocaleString('en-IN')}`;
+                            const amount = formatPrice(499 - total, locale, country);
                             const [before, after] = t.summary.freeShippingNote.split('{amount}');
                             return (
                               <>
@@ -339,7 +342,7 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
                       </p>
                     </div>
                     <span className="font-display font-bold text-[#C9A84C] leading-none" style={{ fontSize: 'clamp(2rem, 3vw, 2.4rem)' }}>
-                      ₹{orderTotal.toLocaleString('en-IN')}
+                      {formatPrice(orderTotal, locale, country)}
                     </span>
                   </div>
 

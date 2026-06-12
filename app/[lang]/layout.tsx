@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "../components/HeaderAuth";
 import Footer from "../components/Footer";
 import SmoothScroll from "../components/SmoothScroll";
 import { CartProvider } from "../lib/CartContext";
+import { CurrencyProvider } from "../lib/CurrencyContext";
 import { locales, isLocale, type Locale } from "../i18n/config";
 import { getDictionary } from "../i18n/dictionaries";
 
@@ -89,16 +91,19 @@ export default async function RootLayout({
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : 'en';
   const dict = await getDictionary(locale);
+  const country = (await headers()).get('x-vercel-ip-country');
 
   return (
     <html lang={locale} className={`${playfair.variable} ${dmSans.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col antialiased">
-        <CartProvider>
-          <SmoothScroll />
-          <Header locale={locale} dict={dict} />
-          <main className="flex-1">{children}</main>
-          <Footer locale={locale} dict={dict} />
-        </CartProvider>
+        <CurrencyProvider country={country}>
+          <CartProvider>
+            <SmoothScroll />
+            <Header locale={locale} dict={dict} />
+            <main className="flex-1">{children}</main>
+            <Footer locale={locale} dict={dict} />
+          </CartProvider>
+        </CurrencyProvider>
       </body>
     </html>
   );
