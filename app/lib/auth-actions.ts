@@ -20,7 +20,7 @@ import {
 import type { Address } from './user-store';
 import type { CartItem } from './CartContext';
 import { getProductById } from './products';
-import { resend, FROM_ADDRESS, OWNER_EMAIL } from './resend';
+import { sendMail, FROM_ADDRESS, OWNER_EMAIL } from './mailer';
 import { safeRedirect } from './url';
 import {
   orderConfirmationCustomer,
@@ -127,13 +127,13 @@ export async function initiateSignup(_prev: AuthState, formData: FormData): Prom
       expires_at,
     });
 
-    const emailRes = await resend.emails.send({
+    const emailRes = await sendMail({
       from: FROM_ADDRESS,
       to: parsed.data.email,
       ...otpEmail({ name: parsed.data.name, otp }),
     });
     if (emailRes.error) {
-      console.error('[initiateSignup] resend error:', emailRes.error);
+      console.error('[initiateSignup] mailer error:', emailRes.error);
       return { message: 'Could not send verification email. Please try again.' };
     }
   } catch (err) {
@@ -209,8 +209,7 @@ export async function verifyOtp(_prev: AuthState, formData: FormData): Promise<A
 
     await createSession(user.id, user.name, user.email);
 
-    resend.emails
-      .send({ from: FROM_ADDRESS, to: user.email, ...welcomeEmail({ name: user.name }) })
+    sendMail({ from: FROM_ADDRESS, to: user.email, ...welcomeEmail({ name: user.name }) })
       .then((r) => { if (r.error) console.error('[verifyOtp] welcome email failed:', r.error); })
       .catch((e) => console.error('[verifyOtp] welcome email threw:', e));
   } catch (err) {
@@ -236,13 +235,13 @@ export async function resendOtp(_prev: AuthState, formData: FormData): Promise<A
 
     await updatePendingSignupOtp({ email, otp_hash, expires_at });
 
-    const emailRes = await resend.emails.send({
+    const emailRes = await sendMail({
       from: FROM_ADDRESS,
       to: row.email,
       ...otpEmail({ name: row.name, otp }),
     });
     if (emailRes.error) {
-      console.error('[resendOtp] resend error:', emailRes.error);
+      console.error('[resendOtp] mailer error:', emailRes.error);
       return { message: 'Could not send email. Please try again.' };
     }
   } catch (err) {
@@ -382,7 +381,7 @@ export async function placeOrder(input: {
 
     // Wait for emails so we can surface failures to the caller.
     const [ack, notify] = await Promise.allSettled([
-      resend.emails.send({
+      sendMail({
         from: FROM_ADDRESS,
         to: customerEmail!,
         ...orderConfirmationCustomer({
@@ -394,7 +393,7 @@ export async function placeOrder(input: {
           shipping,
         }),
       }),
-      resend.emails.send({
+      sendMail({
         from: FROM_ADDRESS,
         to: OWNER_EMAIL,
         ...orderNotificationOwner({

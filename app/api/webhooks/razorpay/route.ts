@@ -7,7 +7,7 @@ import {
   recordPaymentEventIfNew,
 } from '../../../lib/payments-store';
 import { saveOrder } from '../../../lib/user-store';
-import { resend, FROM_ADDRESS, OWNER_EMAIL } from '../../../lib/resend';
+import { sendMail, FROM_ADDRESS, OWNER_EMAIL } from '../../../lib/mailer';
 import { orderConfirmationCustomer, orderNotificationOwner } from '../../../lib/email-templates';
 
 // Razorpay sends webhooks with this header for deduplication
@@ -115,7 +115,7 @@ export async function POST(req: Request) {
 
       // Send emails non-blocking
       Promise.allSettled([
-        resend.emails.send({
+        sendMail({
           from: FROM_ADDRESS,
           to: rzpRecord.customer_email,
           ...orderConfirmationCustomer({
@@ -127,7 +127,7 @@ export async function POST(req: Request) {
             shipping: snap.shipping,
           }),
         }),
-        resend.emails.send({
+        sendMail({
           from: FROM_ADDRESS,
           to: OWNER_EMAIL,
           ...orderNotificationOwner({

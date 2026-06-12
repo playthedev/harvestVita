@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { resend, FROM_ADDRESS, OWNER_EMAIL } from '../../lib/resend';
+import { sendMail, FROM_ADDRESS, OWNER_EMAIL } from '../../lib/mailer';
 import { contactAcknowledgement, contactNotificationOwner } from '../../lib/email-templates';
 
 const schema = z.object({
@@ -22,12 +22,12 @@ export async function POST(req: Request) {
     const { name, email, phone, subject, message } = parsed.data;
 
     const [ack, notify] = await Promise.all([
-      resend.emails.send({
+      sendMail({
         from: FROM_ADDRESS,
         to: email,
         ...contactAcknowledgement({ name, subject, message }),
       }),
-      resend.emails.send({
+      sendMail({
         from: FROM_ADDRESS,
         to: OWNER_EMAIL,
         replyTo: email,
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     ]);
 
     if (ack.error || notify.error) {
-      console.error('Resend error:', ack.error ?? notify.error);
+      console.error('Mailer error:', ack.error ?? notify.error);
       return NextResponse.json({ error: 'Failed to send email.' }, { status: 500 });
     }
 

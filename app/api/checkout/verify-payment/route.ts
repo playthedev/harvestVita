@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import { z } from 'zod';
 import { findRazorpayOrderById, markRazorpayOrderPaid } from '../../../lib/payments-store';
 import { saveOrder } from '../../../lib/user-store';
-import { resend, FROM_ADDRESS, OWNER_EMAIL } from '../../../lib/resend';
+import { sendMail, FROM_ADDRESS, OWNER_EMAIL } from '../../../lib/mailer';
 import { orderConfirmationCustomer, orderNotificationOwner } from '../../../lib/email-templates';
 
 const BodySchema = z.object({
@@ -74,7 +74,7 @@ export async function POST(req: Request) {
 
     // ── 5. Send emails (non-blocking) ────────────────────────────────────────
     Promise.allSettled([
-      resend.emails.send({
+      sendMail({
         from: FROM_ADDRESS,
         to: rzpRecord.customer_email,
         ...orderConfirmationCustomer({
@@ -86,7 +86,7 @@ export async function POST(req: Request) {
           shipping: snap.shipping,
         }),
       }),
-      resend.emails.send({
+      sendMail({
         from: FROM_ADDRESS,
         to: OWNER_EMAIL,
         ...orderNotificationOwner({
@@ -102,7 +102,7 @@ export async function POST(req: Request) {
     ]).then((results) => {
       results.forEach((r, i) => {
         if (r.status === 'rejected') console.error(`[verify-payment] email[${i}] threw:`, r.reason);
-        else if (r.value.error) console.error(`[verify-payment] email[${i}] resend error:`, r.value.error);
+        else if (r.value.error) console.error(`[verify-payment] email[${i}] mailer error:`, r.value.error);
       });
     });
 
