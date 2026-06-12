@@ -5,7 +5,18 @@ import bcrypt from 'bcryptjs';
 import { createHash, randomInt } from 'crypto';
 import { z } from 'zod';
 import { createSession, deleteSession, getSession } from './session';
-import { createUser, findUserByEmail, findUserById, updateUser, saveOrder } from './user-store';
+import {
+  createUser,
+  findUserByEmail,
+  findUserById,
+  updateUser,
+  saveOrder,
+  upsertPendingSignup,
+  findPendingSignup,
+  deletePendingSignup,
+  incrementPendingSignupAttempts,
+  updatePendingSignupOtp,
+} from './user-store';
 import type { Address } from './user-store';
 import type { CartItem } from './CartContext';
 import { getProductById } from './products';
@@ -17,7 +28,6 @@ import {
   otpEmail,
   welcomeEmail,
 } from './email-templates';
-import { supabase } from './supabase';
 
 const OTP_TTL_MS = 10 * 60 * 1000;   // 10 minutes
 const MAX_ATTEMPTS = 5;               // lock after 5 wrong guesses
@@ -109,18 +119,13 @@ export async function initiateSignup(_prev: AuthState, formData: FormData): Prom
     const expires_at = new Date(Date.now() + OTP_TTL_MS).toISOString();
 
     // Upsert so a re-submit refreshes the OTP rather than erroring on the unique index
-    const { error } = await supabase.from('pending_signups').upsert(
-      {
-        email: parsed.data.email.toLowerCase(),
-        name: parsed.data.name,
-        password_hash,
-        otp_hash,
-        attempts: 0,
-        expires_at,
-      },
-      { onConflict: 'email' }
-    );
-    if (error) throw error;
+    await upsertPendingSignup({
+      email: parsed.data.email,
+      name: parsed.data.name,
+      password_hash,
+      otp_hash,
+      expires_at,
+    });
 
     const emailRes = await resend.emails.send({
       from: FROM_ADDRESS,
@@ -154,20 +159,14 @@ export async function verifyOtp(_prev: AuthState, formData: FormData): Promise<A
   }
 
   try {
-    const { data: row, error: fetchErr } = await supabase
-      .from('pending_signups')
-      .select('*')
-      .eq('email', email)
-      .maybeSingle();
-
-    if (fetchErr) throw fetchErr;
+    const row = await findPendingSignup(email);
 
     if (!row) {
       return { errors: { otp: ['No pending sign-up found. Please start again.'] } };
     }
 
     if (new Date(row.expires_at) < new Date()) {
-      await supabase.from('pending_signups').delete().eq('email', email);
+      await deletePendingSignup(email);
       return { errors: { otp: ['This code has expired. Please request a new one.'] } };
     }
 
@@ -177,10 +176,7 @@ export async function verifyOtp(_prev: AuthState, formData: FormData): Promise<A
 
     if (hashOtp(otp) !== row.otp_hash) {
       // Increment attempt counter
-      await supabase
-        .from('pending_signups')
-        .update({ attempts: row.attempts + 1 })
-        .eq('email', email);
+      await incrementPendingSignupAttempts(email);
       const remaining = MAX_ATTEMPTS - row.attempts - 1;
       return {
         errors: {
@@ -197,7 +193,7 @@ export async function verifyOtp(_prev: AuthState, formData: FormData): Promise<A
     const existingUser = await findUserByEmail(email);
     if (existingUser) {
       // Edge case: another tab completed the signup already
-      await supabase.from('pending_signups').delete().eq('email', email);
+      await deletePendingSignup(email);
       await createSession(existingUser.id, existingUser.name, existingUser.email);
       redirect(redirectTo);
     }
@@ -209,7 +205,7 @@ export async function verifyOtp(_prev: AuthState, formData: FormData): Promise<A
     });
 
     // Delete pending row — if this fails we still proceed; cleanup cron will handle it
-    await supabase.from('pending_signups').delete().eq('email', email);
+    await deletePendingSignup(email);
 
     await createSession(user.id, user.name, user.email);
 
@@ -231,24 +227,14 @@ export async function resendOtp(_prev: AuthState, formData: FormData): Promise<A
   if (!email) return { errors: { otp: ['Email missing. Please start sign-up again.'] } };
 
   try {
-    const { data: row, error: fetchErr } = await supabase
-      .from('pending_signups')
-      .select('name, email')
-      .eq('email', email)
-      .maybeSingle();
-
-    if (fetchErr) throw fetchErr;
+    const row = await findPendingSignup(email);
     if (!row) return { errors: { otp: ['No pending sign-up found. Please start again.'] } };
 
     const otp = generateOtp();
     const otp_hash = hashOtp(otp);
     const expires_at = new Date(Date.now() + OTP_TTL_MS).toISOString();
 
-    const { error: updateErr } = await supabase
-      .from('pending_signups')
-      .update({ otp_hash, attempts: 0, expires_at })
-      .eq('email', email);
-    if (updateErr) throw updateErr;
+    await updatePendingSignupOtp({ email, otp_hash, expires_at });
 
     const emailRes = await resend.emails.send({
       from: FROM_ADDRESS,

@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { supabase } from '../../../lib/supabase';
+import {
+  findRazorpayOrderById,
+  markRazorpayOrderPaid,
+  markRazorpayOrderFailedIfAttempted,
+  recordPaymentEventIfNew,
+} from '../../../lib/payments-store';
 import { saveOrder } from '../../../lib/user-store';
 import { resend, FROM_ADDRESS, OWNER_EMAIL } from '../../../lib/resend';
 import { orderConfirmationCustomer, orderNotificationOwner } from '../../../lib/email-templates';
@@ -56,24 +61,18 @@ export async function POST(req: Request) {
 
   // ── 2. Deduplicate via event_id ───────────────────────────────────────────
   if (eventId) {
-    const { data: existing } = await supabase
-      .from('payment_events')
-      .select('id')
-      .eq('event_id', eventId)
-      .maybeSingle();
-
-    if (existing) {
-      // Already processed — acknowledge immediately
-      return NextResponse.json({ ok: true });
-    }
-
-    await supabase.from('payment_events').insert({
+    const isNew = await recordPaymentEventIfNew({
       event_id: eventId,
       event_type: eventType,
       razorpay_order_id: razorpayOrderId ?? null,
       razorpay_payment_id: razorpayPaymentId ?? null,
       payload,
     });
+
+    if (!isNew) {
+      // Already processed — acknowledge immediately
+      return NextResponse.json({ ok: true });
+    }
   }
 
   // ── 3. Handle events ─────────────────────────────────────────────────────
@@ -83,11 +82,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: true });
     }
 
-    const { data: rzpRecord } = await supabase
-      .from('razorpay_orders')
-      .select('*')
-      .eq('id', razorpayOrderId)
-      .maybeSingle();
+    const rzpRecord = await findRazorpayOrderById(razorpayOrderId);
 
     if (!rzpRecord) {
       console.error('[webhook] razorpay order not found:', razorpayOrderId);
@@ -100,12 +95,7 @@ export async function POST(req: Request) {
     }
 
     try {
-      const snap = rzpRecord.cart_snapshot as {
-        items: Array<{ id: string; name: string; price: number; unit: string; image: string; category: string; categorySlug: string; qty: number; short: string; badge?: string }>;
-        address: { name: string; phone: string; address1: string; address2?: string; city: string; pin: string; state: string };
-        subtotal: number;
-        shipping: number;
-      };
+      const snap = rzpRecord.cart_snapshot;
 
       const hvOrder = await saveOrder({
         user_id: rzpRecord.user_id ?? null,
@@ -117,15 +107,11 @@ export async function POST(req: Request) {
         shipping: snap.shipping,
       });
 
-      await supabase
-        .from('razorpay_orders')
-        .update({
-          status: 'paid',
-          hv_order_id: hvOrder.id,
-          razorpay_payment_id: razorpayPaymentId ?? rzpRecord.razorpay_payment_id,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', razorpayOrderId);
+      await markRazorpayOrderPaid({
+        id: razorpayOrderId,
+        hv_order_id: hvOrder.id,
+        razorpay_payment_id: razorpayPaymentId ?? rzpRecord.razorpay_payment_id ?? '',
+      });
 
       // Send emails non-blocking
       Promise.allSettled([
@@ -169,11 +155,7 @@ export async function POST(req: Request) {
 
   if (eventType === 'payment.failed') {
     if (razorpayOrderId) {
-      await supabase
-        .from('razorpay_orders')
-        .update({ status: 'failed', updated_at: new Date().toISOString() })
-        .eq('id', razorpayOrderId)
-        .eq('status', 'attempted');
+      await markRazorpayOrderFailedIfAttempted(razorpayOrderId);
     }
   }
 

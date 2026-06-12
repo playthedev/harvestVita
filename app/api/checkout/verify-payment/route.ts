@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { z } from 'zod';
-import { supabase } from '../../../lib/supabase';
+import { findRazorpayOrderById, markRazorpayOrderPaid } from '../../../lib/payments-store';
 import { saveOrder } from '../../../lib/user-store';
 import { resend, FROM_ADDRESS, OWNER_EMAIL } from '../../../lib/resend';
 import { orderConfirmationCustomer, orderNotificationOwner } from '../../../lib/email-templates';
@@ -40,14 +40,10 @@ export async function POST(req: Request) {
     }
 
     // ── 2. Load our Razorpay order record ────────────────────────────────────
-    const { data: rzpRecord, error: fetchErr } = await supabase
-      .from('razorpay_orders')
-      .select('*')
-      .eq('id', razorpay_order_id)
-      .maybeSingle();
+    const rzpRecord = await findRazorpayOrderById(razorpay_order_id);
 
-    if (fetchErr || !rzpRecord) {
-      console.error('[verify-payment] order not found:', razorpay_order_id, fetchErr);
+    if (!rzpRecord) {
+      console.error('[verify-payment] order not found:', razorpay_order_id);
       return NextResponse.json({ error: 'Order not found.' }, { status: 404 });
     }
 
@@ -57,12 +53,7 @@ export async function POST(req: Request) {
     }
 
     // ── 3. Create HarvestVita order in DB ────────────────────────────────────
-    const snap = rzpRecord.cart_snapshot as {
-      items: Array<{ id: string; name: string; price: number; unit: string; image: string; category: string; categorySlug: string; qty: number; short: string; badge?: string }>;
-      address: { name: string; phone: string; address1: string; address2?: string; city: string; pin: string; state: string };
-      subtotal: number;
-      shipping: number;
-    };
+    const snap = rzpRecord.cart_snapshot;
 
     const hvOrder = await saveOrder({
       user_id: rzpRecord.user_id ?? null,
@@ -75,15 +66,11 @@ export async function POST(req: Request) {
     });
 
     // ── 4. Mark Razorpay order as paid ───────────────────────────────────────
-    await supabase
-      .from('razorpay_orders')
-      .update({
-        status: 'paid',
-        hv_order_id: hvOrder.id,
-        razorpay_payment_id,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', razorpay_order_id);
+    await markRazorpayOrderPaid({
+      id: razorpay_order_id,
+      hv_order_id: hvOrder.id,
+      razorpay_payment_id,
+    });
 
     // ── 5. Send emails (non-blocking) ────────────────────────────────────────
     Promise.allSettled([

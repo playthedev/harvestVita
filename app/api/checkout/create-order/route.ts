@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import Razorpay from 'razorpay';
 import { z } from 'zod';
 import { getSession } from '../../../lib/session';
-import { supabase } from '../../../lib/supabase';
+import { findActiveRazorpayOrderByReceipt, createRazorpayOrder } from '../../../lib/payments-store';
 import { getProductById } from '../../../lib/products';
 
 const rzp = new Razorpay({
@@ -72,12 +72,7 @@ export async function POST(req: Request) {
     const receipt = `hv_${(customerEmail).replace(/[^a-z0-9]/gi, '')}_${Buffer.from(cartFingerprint).toString('base64').slice(0, 12)}`.slice(0, 40);
 
     // Check for existing non-failed order with same receipt (prevents double-click duplicate orders)
-    const { data: existing } = await supabase
-      .from('razorpay_orders')
-      .select('id, status, amount_paise')
-      .eq('receipt', receipt)
-      .in('status', ['created', 'attempted'])
-      .maybeSingle();
+    const existing = await findActiveRazorpayOrderByReceipt(receipt);
 
     if (existing) {
       return NextResponse.json({
@@ -97,19 +92,18 @@ export async function POST(req: Request) {
     });
 
     // Persist to DB
-    const { error: dbErr } = await supabase.from('razorpay_orders').insert({
-      id: rzpOrder.id,
-      user_id: userId,
-      customer_name: customerName,
-      customer_email: customerEmail,
-      amount_paise: amountPaise,
-      currency: 'INR',
-      receipt,
-      status: 'created',
-      cart_snapshot: { items: lines, address, subtotal, shipping },
-    });
-
-    if (dbErr) {
+    try {
+      await createRazorpayOrder({
+        id: rzpOrder.id,
+        user_id: userId,
+        customer_name: customerName,
+        customer_email: customerEmail,
+        amount_paise: amountPaise,
+        currency: 'INR',
+        receipt,
+        cart_snapshot: { items: lines, address, subtotal, shipping },
+      });
+    } catch (dbErr) {
       console.error('[create-order] db insert failed:', dbErr);
       return NextResponse.json({ error: 'Could not initialise payment. Please try again.' }, { status: 500 });
     }
