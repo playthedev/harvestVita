@@ -4,19 +4,28 @@ import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import OtpForm from './OtpForm';
 import { safeRedirect } from '../../../lib/url';
+import { getDictionary } from '../../../i18n/dictionaries';
+import { isLocale, type Locale } from '../../../i18n/config';
+import { localizedHref } from '../../../lib/locale-path';
 
 export const metadata: Metadata = {
   title: 'Verify Email — HarvestVita',
 };
 
 export default async function VerifyPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ lang: string }>;
   searchParams: Promise<{ email?: string; redirectTo?: string }>;
 }) {
+  const { lang } = await params;
+  const locale: Locale = isLocale(lang) ? lang : 'en';
+  const dict = await getDictionary(locale);
+
   const { email, redirectTo } = await searchParams;
 
-  if (!email) redirect('/signup');
+  if (!email) redirect(localizedHref('/signup', locale));
 
   const safeTo = safeRedirect(redirectTo);
   const masked = email.replace(/(.{2})[^@]+(@.+)/, '$1***$2');
@@ -44,7 +53,7 @@ export default async function VerifyPage({
       />
 
       <div className="relative z-10 w-full max-w-md">
-        <Link href="/" className="flex justify-center mb-10">
+        <Link href={localizedHref('/', locale)} className="flex justify-center mb-10">
           <Image src="/logo.png" alt="HarvestVita" width={160} height={64} className="h-14 w-auto brightness-0 invert" />
         </Link>
 
@@ -55,20 +64,22 @@ export default async function VerifyPage({
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-3">
                 <span className="block w-1.5 h-1.5 rounded-full bg-[#C9A84C] animate-pulse" />
-                <p className="font-sans-harvest text-[9px] tracking-[0.35em] uppercase text-[#C9A84C]">Email Verification</p>
+                <p className="font-sans-harvest text-[9px] tracking-[0.35em] uppercase text-[#C9A84C]">{dict.signup.verify.eyebrow}</p>
               </div>
-              <h1 className="font-display font-bold text-[#F5F0E8] text-3xl leading-tight">Check your inbox.</h1>
+              <h1 className="font-display font-bold text-[#F5F0E8] text-3xl leading-tight">{dict.signup.verify.title}</h1>
               <p className="mt-2 font-serif text-sm text-[#F5F0E8]/45 leading-relaxed">
-                We sent a 6-digit code to <span className="text-[#F5F0E8]/70">{masked}</span>. It expires in 10 minutes.
+                {dict.signup.verify.subtitle.split('{email}')[0]}
+                <span className="text-[#F5F0E8]/70">{masked}</span>
+                {dict.signup.verify.subtitle.split('{email}')[1]}
               </p>
             </div>
 
-            <OtpForm email={email} redirectTo={safeTo} />
+            <OtpForm email={email} redirectTo={safeTo} dict={dict} />
 
             <p className="mt-6 text-center font-serif text-sm text-[#F5F0E8]/40">
-              Wrong email?{' '}
-              <Link href="/signup" className="text-[#C9A84C] hover:underline">
-                Start over
+              {dict.signup.verify.wrongEmail}{' '}
+              <Link href={localizedHref('/signup', locale)} className="text-[#C9A84C] hover:underline">
+                {dict.signup.verify.startOver}
               </Link>
             </p>
           </div>

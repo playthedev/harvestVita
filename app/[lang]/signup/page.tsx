@@ -3,12 +3,25 @@ import Link from 'next/link';
 import Image from 'next/image';
 import SignupForm from './SignupForm';
 import { safeRedirect } from '../../lib/url';
+import { getDictionary } from '../../i18n/dictionaries';
+import { isLocale, type Locale } from '../../i18n/config';
+import { localizedHref } from '../../lib/locale-path';
 
 export const metadata: Metadata = {
   title: 'Create Account — HarvestVita',
 };
 
-export default async function SignupPage({ searchParams }: { searchParams: Promise<{ redirect?: string }> }) {
+export default async function SignupPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ lang: string }>;
+  searchParams: Promise<{ redirect?: string }>;
+}) {
+  const { lang } = await params;
+  const locale: Locale = isLocale(lang) ? lang : 'en';
+  const dict = await getDictionary(locale);
+
   const { redirect } = await searchParams;
   const redirectTo = safeRedirect(redirect);
   return (
@@ -34,7 +47,7 @@ export default async function SignupPage({ searchParams }: { searchParams: Promi
       />
 
       <div className="relative z-10 w-full max-w-md">
-        <Link href="/" className="flex justify-center mb-10">
+        <Link href={localizedHref('/', locale)} className="flex justify-center mb-10">
           <Image src="/logo.png" alt="HarvestVita" width={160} height={64} className="h-14 w-auto brightness-0 invert" />
         </Link>
 
@@ -45,20 +58,20 @@ export default async function SignupPage({ searchParams }: { searchParams: Promi
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-3">
                 <span className="block w-1.5 h-1.5 rounded-full bg-[#C9A84C] animate-pulse" />
-                <p className="font-sans-harvest text-[9px] tracking-[0.35em] uppercase text-[#C9A84C]">Join HarvestVita</p>
+                <p className="font-sans-harvest text-[9px] tracking-[0.35em] uppercase text-[#C9A84C]">{dict.signup.eyebrow}</p>
               </div>
-              <h1 className="font-display font-bold text-[#F5F0E8] text-3xl leading-tight">Create your account.</h1>
+              <h1 className="font-display font-bold text-[#F5F0E8] text-3xl leading-tight">{dict.signup.title}</h1>
               <p className="mt-2 font-serif text-sm text-[#F5F0E8]/45 leading-relaxed">
-                Track orders, save your address, and build your wishlist.
+                {dict.signup.subtitle}
               </p>
             </div>
 
-            <SignupForm redirectTo={redirectTo} />
+            <SignupForm redirectTo={redirectTo} dict={dict} />
 
             <p className="mt-6 text-center font-serif text-sm text-[#F5F0E8]/40">
-              Already have an account?{' '}
-              <Link href={`/login?redirect=${encodeURIComponent(redirectTo)}`} className="text-[#C9A84C] hover:underline">
-                Sign in
+              {dict.signup.alreadyHaveAccount}{' '}
+              <Link href={`${localizedHref('/login', locale)}?redirect=${encodeURIComponent(redirectTo)}`} className="text-[#C9A84C] hover:underline">
+                {dict.signup.signIn}
               </Link>
             </p>
           </div>

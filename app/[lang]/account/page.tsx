@@ -7,15 +7,22 @@ import { findUserById, getOrdersByUser } from '../../lib/user-store';
 import { allProducts } from '../../lib/products';
 import { signOut, saveAddress } from '../../lib/auth-actions';
 import AddressForm from './AddressForm';
+import { getDictionary } from '../../i18n/dictionaries';
+import { isLocale, type Locale } from '../../i18n/config';
+import { localizedHref } from '../../lib/locale-path';
 
 export const metadata: Metadata = { title: 'My Account — HarvestVita' };
 
-export default async function AccountPage() {
+export default async function AccountPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const locale: Locale = isLocale(lang) ? lang : 'en';
+  const dict = await getDictionary(locale);
+
   const session = await getSession();
-  if (!session) redirect('/login');
+  if (!session) redirect(localizedHref('/login', locale));
 
   const user = await findUserById(session.userId);
-  if (!user) redirect('/login');
+  if (!user) redirect(localizedHref('/login', locale));
 
   const orders = await getOrdersByUser(user.id);
   const wishlistProducts = allProducts.filter((p) => user.wishlist.includes(p.id));
@@ -39,10 +46,11 @@ export default async function AccountPage() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <span className="block w-1.5 h-1.5 rounded-full bg-[#C9A84C] animate-pulse" />
-              <p className="font-sans-harvest text-[9px] tracking-[0.35em] uppercase text-[#C9A84C]">My Account</p>
+              <p className="font-sans-harvest text-[9px] tracking-[0.35em] uppercase text-[#C9A84C]">{dict.account.eyebrow}</p>
             </div>
             <h1 className="font-display font-bold text-[#F5F0E8] leading-tight" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-              Hello, <span className="italic text-[#C9A84C]">{user.name.split(' ')[0]}.</span>
+              {dict.account.greeting.split('{name}')[0]}
+              <span className="italic text-[#C9A84C]">{user.name.split(' ')[0]}.</span>
             </h1>
             <p className="font-serif text-[#F5F0E8]/40 text-sm mt-1">{user.email}</p>
           </div>
@@ -51,7 +59,7 @@ export default async function AccountPage() {
               type="submit"
               className="font-sans-harvest text-[10px] tracking-[0.2em] uppercase px-5 py-2.5 border border-[#F5F0E8]/15 text-[#F5F0E8]/55 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-colors duration-200"
             >
-              Sign Out
+              {dict.account.signOut}
             </button>
           </form>
         </div>
@@ -59,15 +67,15 @@ export default async function AccountPage() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* ── Orders ── */}
           <div className="lg:col-span-2 space-y-6">
-            <SectionHeading num="01" label="Order History" />
+            <SectionHeading num="01" label={dict.account.orders.sectionLabel} />
             {orders.length === 0 ? (
               <div className="bg-[#111] border border-[#F5F0E8]/8 p-8 text-center">
-                <p className="font-serif text-[#F5F0E8]/40 text-sm mb-4">You haven&apos;t placed any orders yet.</p>
+                <p className="font-serif text-[#F5F0E8]/40 text-sm mb-4">{dict.account.orders.empty}</p>
                 <Link
-                  href="/products"
+                  href={localizedHref('/products', locale)}
                   className="font-sans-harvest text-[10px] tracking-[0.2em] uppercase px-5 py-2.5 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors inline-block"
                 >
-                  Start Shopping
+                  {dict.account.orders.startShopping}
                 </Link>
               </div>
             ) : (
@@ -114,17 +122,17 @@ export default async function AccountPage() {
             )}
 
             {/* ── Wishlist ── */}
-            <SectionHeading num="02" label="Wishlist" />
+            <SectionHeading num="02" label={dict.account.wishlist.sectionLabel} />
             {wishlistProducts.length === 0 ? (
               <div className="bg-[#111] border border-[#F5F0E8]/8 p-8 text-center">
-                <p className="font-serif text-[#F5F0E8]/40 text-sm">No saved items yet. Heart a product to save it here.</p>
+                <p className="font-serif text-[#F5F0E8]/40 text-sm">{dict.account.wishlist.empty}</p>
               </div>
             ) : (
               <div className="grid sm:grid-cols-2 gap-3">
                 {wishlistProducts.map((p) => (
                   <Link
                     key={p.id}
-                    href={`/products/item/${p.id}`}
+                    href={localizedHref(`/products/item/${p.id}`, locale)}
                     className="group bg-[#111] border border-[#F5F0E8]/8 hover:border-[#C9A84C]/30 transition-colors flex gap-4 p-4"
                   >
                     <div className="relative w-16 h-16 flex-shrink-0 overflow-hidden bg-[#0A0A0A]">
@@ -143,10 +151,10 @@ export default async function AccountPage() {
 
           {/* ── Saved Address ── */}
           <div>
-            <SectionHeading num="03" label="Saved Address" />
+            <SectionHeading num="03" label={dict.account.address.sectionLabel} />
             <div className="bg-[#111] border border-[#F5F0E8]/8 p-6 relative overflow-hidden">
               <span className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-[#C9A84C] to-transparent" />
-              <AddressForm saved={user.saved_address ?? undefined} action={saveAddress} />
+              <AddressForm saved={user.saved_address ?? undefined} action={saveAddress} dict={dict} />
             </div>
           </div>
         </div>

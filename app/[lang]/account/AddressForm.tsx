@@ -3,10 +3,12 @@
 import { useActionState, useState } from 'react';
 import type { Address } from '../../lib/user-store';
 import type { AuthState } from '../../lib/auth-actions';
+import type { Dictionary } from '../../i18n/dictionaries';
 
 type Props = {
   saved?: Address;
   action: (_prev: AuthState, formData: FormData) => Promise<AuthState>;
+  dict: Dictionary;
 };
 
 type CountryCode = { code: string; dial: string; flag: string };
@@ -47,17 +49,9 @@ const INDIAN_STATES = [
   'Delhi', 'Jammu & Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry',
 ];
 
-const FRIENDLY: Record<string, string> = {
-  name: 'Please enter the recipient\'s full name (at least 2 characters).',
-  phone: 'Please enter a valid phone number.',
-  address1: 'Please enter your street address (at least 5 characters).',
-  city: 'Please enter your city.',
-  pin: 'Please enter a valid 6-digit PIN code.',
-  state: 'Please select your state.',
-};
-
-export default function AddressForm({ saved, action }: Props) {
+export default function AddressForm({ saved, action, dict }: Props) {
   const [state, formAction, pending] = useActionState(action, {});
+  const t = dict.account.addressForm;
 
   const { dial: initDial, number: initNumber } = parseSavedPhone(saved?.phone);
   const [dialCode, setDialCode] = useState(initDial);
@@ -74,11 +68,14 @@ export default function AddressForm({ saved, action }: Props) {
 
   function fieldErr(name: string): string | undefined {
     return state.errors?.[name]?.[0]
-      ? (FRIENDLY[name] ?? state.errors[name]![0])
+      ? (t.errors[name as keyof typeof t.errors] ?? state.errors[name]![0])
       : undefined;
   }
 
   const isSuccess = !state.errors && state.message === 'Address saved.';
+  const serverMessage = state.message
+    ? (t.serverMessages[state.message as keyof typeof t.serverMessages] ?? state.message)
+    : undefined;
 
   return (
     <form
@@ -92,12 +89,12 @@ export default function AddressForm({ saved, action }: Props) {
       {/* Full Name */}
       <div>
         <label className={`${labelClass} ${fieldErr('name') ? labelErrCls : labelOk}`}>
-          Full Name <span className="text-red-400">*</span>
+          {t.fullNameLabel} <span className="text-red-400">*</span>
         </label>
         <input
           name="name"
           required
-          placeholder="Recipient name"
+          placeholder={t.fullNamePlaceholder}
           defaultValue={saved?.name ?? ''}
           autoComplete="name"
           className={`${inputBase} ${fieldErr('name') ? inputErr : inputOk}`}
@@ -108,7 +105,7 @@ export default function AddressForm({ saved, action }: Props) {
       {/* Phone */}
       <div>
         <label className={`${labelClass} ${fieldErr('phone') ? labelErrCls : labelOk}`}>
-          Phone <span className="text-red-400">*</span>
+          {t.phoneLabel} <span className="text-red-400">*</span>
         </label>
         <div className="flex gap-2">
           <select
@@ -125,7 +122,7 @@ export default function AddressForm({ saved, action }: Props) {
           </select>
           <input
             type="tel"
-            placeholder="98765 43210"
+            placeholder={t.phonePlaceholder}
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value.replace(/[^\d\s-]/g, ''))}
             autoComplete="tel-national"
@@ -138,12 +135,12 @@ export default function AddressForm({ saved, action }: Props) {
       {/* Address Line 1 */}
       <div>
         <label className={`${labelClass} ${fieldErr('address1') ? labelErrCls : labelOk}`}>
-          Address Line 1 <span className="text-red-400">*</span>
+          {t.address1Label} <span className="text-red-400">*</span>
         </label>
         <input
           name="address1"
           required
-          placeholder="House / Flat, Street"
+          placeholder={t.address1Placeholder}
           defaultValue={saved?.address1 ?? ''}
           autoComplete="address-line1"
           className={`${inputBase} ${fieldErr('address1') ? inputErr : inputOk}`}
@@ -153,10 +150,10 @@ export default function AddressForm({ saved, action }: Props) {
 
       {/* Address Line 2 */}
       <div>
-        <label className={`${labelClass} ${labelOk}`}>Address Line 2</label>
+        <label className={`${labelClass} ${labelOk}`}>{t.address2Label}</label>
         <input
           name="address2"
-          placeholder="Area, Locality (optional)"
+          placeholder={t.address2Placeholder}
           defaultValue={saved?.address2 ?? ''}
           autoComplete="address-line2"
           className={`${inputBase} ${inputOk}`}
@@ -167,12 +164,12 @@ export default function AddressForm({ saved, action }: Props) {
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className={`${labelClass} ${fieldErr('city') ? labelErrCls : labelOk}`}>
-            City <span className="text-red-400">*</span>
+            {t.cityLabel} <span className="text-red-400">*</span>
           </label>
           <input
             name="city"
             required
-            placeholder="City"
+            placeholder={t.cityPlaceholder}
             defaultValue={saved?.city ?? ''}
             autoComplete="address-level2"
             className={`${inputBase} ${fieldErr('city') ? inputErr : inputOk}`}
@@ -181,12 +178,12 @@ export default function AddressForm({ saved, action }: Props) {
         </div>
         <div>
           <label className={`${labelClass} ${fieldErr('pin') ? labelErrCls : labelOk}`}>
-            PIN Code <span className="text-red-400">*</span>
+            {t.pinLabel} <span className="text-red-400">*</span>
           </label>
           <input
             name="pin"
             required
-            placeholder="400001"
+            placeholder={t.pinPlaceholder}
             defaultValue={saved?.pin ?? ''}
             inputMode="numeric"
             maxLength={6}
@@ -200,7 +197,7 @@ export default function AddressForm({ saved, action }: Props) {
       {/* State */}
       <div>
         <label className={`${labelClass} ${fieldErr('state') ? labelErrCls : labelOk}`}>
-          State <span className="text-red-400">*</span>
+          {t.stateLabel} <span className="text-red-400">*</span>
         </label>
         <select
           name="state"
@@ -209,7 +206,7 @@ export default function AddressForm({ saved, action }: Props) {
           autoComplete="address-level1"
           className={`${inputBase} ${fieldErr('state') ? inputErr : inputOk}`}
         >
-          <option value="" disabled>Select state</option>
+          <option value="" disabled>{t.selectState}</option>
           {INDIAN_STATES.map((s) => (
             <option key={s} value={s}>{s}</option>
           ))}
@@ -224,13 +221,13 @@ export default function AddressForm({ saved, action }: Props) {
             <polyline points="20 6 9 17 4 12"/>
           </svg>
           <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#4CAF50]">
-            Address saved successfully.
+            {t.successMessage}
           </p>
         </div>
       )}
       {!isSuccess && state.message && !state.errors && (
         <p className="font-serif text-xs text-red-400 bg-red-500/8 border border-red-500/20 px-3 py-2.5">
-          {state.message}
+          {serverMessage}
         </p>
       )}
 
@@ -239,7 +236,7 @@ export default function AddressForm({ saved, action }: Props) {
         disabled={pending}
         className="w-full font-sans-harvest text-[10px] tracking-[0.2em] uppercase py-3 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors disabled:opacity-50 mt-1"
       >
-        {pending ? 'Saving…' : saved ? 'Update Address' : 'Save Address'}
+        {pending ? t.saving : saved ? t.updateAddress : t.saveAddress}
       </button>
     </form>
   );
