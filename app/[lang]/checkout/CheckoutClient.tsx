@@ -6,6 +6,9 @@ import Image from 'next/image';
 import Script from 'next/script';
 import { useCart } from '../../lib/CartContext';
 import type { Address } from '../../lib/user-store';
+import { localizedHref } from '../../lib/locale-path';
+import type { Locale } from '../../i18n/config';
+import type { Dictionary } from '../../i18n/dictionaries';
 
 // Razorpay types
 declare global {
@@ -49,15 +52,6 @@ function Cross({ className }: { className?: string }) {
 
 type Field = { label: string; name: keyof Address; type?: string; placeholder: string; half?: boolean; optional?: boolean };
 
-const fields: Field[] = [
-  { label: 'Full Name', name: 'name', placeholder: 'Your full name' },
-  { label: 'Address Line 1', name: 'address1', placeholder: 'House / Flat number, Street' },
-  { label: 'Address Line 2', name: 'address2', placeholder: 'Area, Locality (optional)', optional: true },
-  { label: 'City', name: 'city', placeholder: 'City', half: true },
-  { label: 'PIN Code', name: 'pin', placeholder: '400001', half: true },
-  { label: 'State', name: 'state', placeholder: 'State' },
-];
-
 type CountryCode = { code: string; dial: string; flag: string };
 
 const COUNTRY_CODES: CountryCode[] = [
@@ -84,40 +78,50 @@ type Props = {
   userName: string | null;
   userEmail: string | null;
   savedAddress: Address | null;
+  locale: Locale;
+  dict: Dictionary;
 };
 
 type FieldErrors = Partial<Record<keyof Address | 'phoneNumber', string>>;
 
-function validateAddress(form: FormState, phoneNumber: string): FieldErrors {
+function validateAddress(form: FormState, phoneNumber: string, errors: Dictionary['checkout']['errors']): FieldErrors {
   const errs: FieldErrors = {};
   if (!form.name?.trim() || form.name.trim().length < 2)
-    errs.name = 'Please enter your full name.';
+    errs.name = errors.nameRequired;
   if (!phoneNumber.trim() || !/^\d{5,15}$/.test(phoneNumber.replace(/[\s-]/g, '')))
-    errs.phoneNumber = 'Enter a valid phone number (digits only, no country code).';
+    errs.phoneNumber = errors.phoneInvalid;
   if (!form.address1?.trim() || form.address1.trim().length < 5)
-    errs.address1 = 'Please enter your full street address.';
+    errs.address1 = errors.address1Invalid;
   if (!form.city?.trim() || form.city.trim().length < 2)
-    errs.city = 'Please enter your city.';
+    errs.city = errors.cityRequired;
   if (!form.pin?.trim() || !/^\d{6}$/.test(form.pin.trim()))
-    errs.pin = 'Enter a valid 6-digit PIN code.';
+    errs.pin = errors.pinInvalid;
   if (!form.state?.trim() || form.state.trim().length < 2)
-    errs.state = 'Please enter your state.';
+    errs.state = errors.stateRequired;
   return errs;
 }
 
-const FRIENDLY_ERRORS: Record<string, string> = {
-  'Could not initialise payment.': 'We couldn\'t start your payment. Please try again.',
-  'Payment verification failed.': 'We couldn\'t verify your payment. If money was debited, contact us with your payment ID.',
-  'Payment was cancelled. You can try again.': 'Payment cancelled — your cart is safe. Try again when ready.',
-  'Something went wrong. Please try again.': 'Something went wrong on our end. Please refresh and try again.',
-};
-
-function friendlyError(msg: string): string {
-  return FRIENDLY_ERRORS[msg] ?? msg;
-}
-
-export default function CheckoutClient({ userId, userName, userEmail, savedAddress }: Props) {
+export default function CheckoutClient({ userId, userName, userEmail, savedAddress, locale, dict }: Props) {
   const { items, total, count, clear } = useCart();
+  const t = dict.checkout;
+
+  const fields: Field[] = [
+    { label: t.form.fields.name.label, name: 'name', placeholder: t.form.fields.name.placeholder },
+    { label: t.form.fields.address1.label, name: 'address1', placeholder: t.form.fields.address1.placeholder },
+    { label: t.form.fields.address2.label, name: 'address2', placeholder: t.form.fields.address2.placeholder, optional: true },
+    { label: t.form.fields.city.label, name: 'city', placeholder: t.form.fields.city.placeholder, half: true },
+    { label: t.form.fields.pin.label, name: 'pin', placeholder: t.form.fields.pin.placeholder, half: true },
+    { label: t.form.fields.state.label, name: 'state', placeholder: t.form.fields.state.placeholder },
+  ];
+
+  const FRIENDLY_ERRORS: Record<string, string> = {
+    'Could not initialise payment.': t.errors.couldNotInitPayment,
+    'Payment verification failed.': t.errors.verificationFailed,
+    'Payment was cancelled. You can try again.': t.errors.paymentCancelled,
+    'Something went wrong. Please try again.': t.errors.generic,
+  };
+
+  const friendlyError = (msg: string): string => FRIENDLY_ERRORS[msg] ?? msg;
 
   // Parse saved phone into dial code + number if possible
   const parseSavedPhone = () => {
@@ -166,7 +170,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
     setError(null);
 
     // Client-side field validation
-    const errs = validateAddress(form, phoneNumber);
+    const errs = validateAddress(form, phoneNumber, t.errors);
     if (Object.keys(errs).length > 0) {
       setFieldErrors(errs);
       const firstField = Object.keys(errs)[0];
@@ -296,27 +300,27 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
           </div>
           <div className="flex items-center justify-center gap-3 mb-5">
             <span className="block h-px w-8 bg-[#C9A84C]" />
-            <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">Account Required</p>
+            <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">{t.notLoggedIn.badge}</p>
             <span className="block h-px w-8 bg-[#C9A84C]" />
           </div>
           <h1 className="font-display font-bold text-[#F5F0E8] text-3xl mb-4 leading-tight">
-            Sign in to<br /><span className="italic text-[#C9A84C]">place your order.</span>
+            {t.notLoggedIn.headingLine1}<br /><span className="italic text-[#C9A84C]">{t.notLoggedIn.headingHighlight}</span>
           </h1>
           <p className="font-serif text-[#F5F0E8]/55 mb-10 leading-relaxed">
-            Create a free account to checkout securely, track your orders, and save your delivery address.
+            {t.notLoggedIn.body}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href={`/signup?redirect=/checkout`}
+              href={`${localizedHref('/signup', locale)}?redirect=/checkout`}
               className="group font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors inline-flex items-center justify-center gap-2"
             >
-              Create Account <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+              {t.notLoggedIn.createAccount} <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
             </Link>
             <Link
-              href={`/login?redirect=/checkout`}
+              href={`${localizedHref('/login', locale)}?redirect=/checkout`}
               className="font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 border border-[#F5F0E8]/20 text-[#F5F0E8]/70 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-colors"
             >
-              Sign In
+              {t.notLoggedIn.signIn}
             </Link>
           </div>
         </div>
@@ -333,10 +337,10 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
         <Cross className="absolute top-[110px] left-[5.128vw]" />
         <Cross className="absolute top-[110px] right-[5.128vw]" />
         <div className="text-center max-w-md relative z-10">
-          <h1 className="font-display font-bold text-[#F5F0E8] text-4xl mb-4">Nothing to checkout.</h1>
-          <p className="font-serif text-[#F5F0E8]/55 mb-8">Your cart is empty. Add a few essentials before heading here.</p>
-          <Link href="/products" className="font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors">
-            Back to Shop
+          <h1 className="font-display font-bold text-[#F5F0E8] text-4xl mb-4">{t.empty.heading}</h1>
+          <p className="font-serif text-[#F5F0E8]/55 mb-8">{t.empty.body}</p>
+          <Link href={localizedHref('/products', locale)} className="font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors">
+            {t.empty.backToShop}
           </Link>
         </div>
       </section>
@@ -353,7 +357,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
         <Cross className="absolute top-[110px] right-[5.128vw]" />
         <Cross className="absolute bottom-8 left-[5.128vw]" />
         <Cross className="absolute bottom-8 right-[5.128vw]" />
-        <div aria-hidden className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display font-bold text-[#F5F0E8]/[0.025] leading-none select-none pointer-events-none whitespace-nowrap" style={{ fontSize: 'clamp(8rem, 22vw, 24rem)' }}>THANK YOU</div>
+        <div aria-hidden className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display font-bold text-[#F5F0E8]/[0.025] leading-none select-none pointer-events-none whitespace-nowrap" style={{ fontSize: 'clamp(8rem, 22vw, 24rem)' }}>{t.success.bgWord}</div>
 
         <div className="relative z-10 text-center max-w-xl">
           <div className="inline-flex items-center justify-center w-24 h-24 mb-10 relative">
@@ -367,27 +371,27 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
           </div>
           <div className="flex items-center justify-center gap-3 mb-6">
             <span className="block h-px w-12 bg-[#C9A84C]" />
-            <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">Payment Confirmed</p>
+            <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">{t.success.badge}</p>
             <span className="block h-px w-12 bg-[#C9A84C]" />
           </div>
           <h1 className="font-display font-bold text-[#F5F0E8] leading-[0.95] mb-6" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>
-            Thank you for<br /><span className="italic text-[#C9A84C]">your order.</span>
+            {t.success.headingLine1}<br /><span className="italic text-[#C9A84C]">{t.success.headingHighlight}</span>
           </h1>
           <p className="font-serif text-[#F5F0E8]/60 text-lg leading-relaxed mb-10 max-w-md mx-auto">
-            Payment received. We&apos;ll dispatch your order within 2–3 working days.
+            {t.success.body}
           </p>
           <div className="inline-flex items-center gap-3 bg-[#161616] border border-[#F5F0E8]/10 px-5 py-3 mb-10">
-            <span className="font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/35">Order ID</span>
+            <span className="font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/35">{t.success.orderIdLabel}</span>
             <span className="block h-3 w-px bg-[#F5F0E8]/15" />
             <span className="font-sans-harvest text-xs tracking-[0.15em] text-[#C9A84C]">{placedOrderId}</span>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/products" className="group font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors duration-200 inline-flex items-center justify-center gap-2">
-              Continue Shopping <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+            <Link href={localizedHref('/products', locale)} className="group font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors duration-200 inline-flex items-center justify-center gap-2">
+              {t.success.continueShopping} <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
             </Link>
             {userId && (
-              <Link href="/account" className="font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 border border-[#F5F0E8]/20 text-[#F5F0E8]/70 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-colors duration-200">
-                View Orders
+              <Link href={localizedHref('/account', locale)} className="font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 border border-[#F5F0E8]/20 text-[#F5F0E8]/70 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-colors duration-200">
+                {t.success.viewOrders}
               </Link>
             )}
           </div>
@@ -410,12 +414,12 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
         <div className="relative max-w-[1800px] mx-auto px-[5.128vw]">
           <div className="flex items-center gap-3 mb-6">
             <span className="block w-2 h-2 rounded-full bg-[#C9A84C] animate-pulse" />
-            <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">Checkout</p>
+            <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">{t.hero.label}</p>
             <span className="block h-px w-16 bg-gradient-to-r from-[#C9A84C] to-transparent" />
           </div>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <h1 className="font-display font-bold text-[#F5F0E8] leading-[0.95] tracking-tight" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 5rem)' }}>
-              Delivery <span className="italic text-[#C9A84C]">details.</span>
+              {t.hero.headingLine1} <span className="italic text-[#C9A84C]">{t.hero.headingHighlight}</span>
             </h1>
           </div>
         </div>
@@ -429,12 +433,12 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                 <div className="flex items-center gap-3 mb-6">
                   <span className="font-display font-bold text-[#C9A84C] text-2xl leading-none">01</span>
                   <span className="block h-px flex-1 bg-[#F5F0E8]/10" />
-                  <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#C9A84C]">Shipping Address</p>
+                  <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#C9A84C]">{t.form.sectionShipping}</p>
                 </div>
                 {savedAddress && (
                   <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#C9A84C]/60 mb-4 flex items-center gap-2">
                     <span className="block w-1 h-1 rounded-full bg-[#C9A84C]" />
-                    Pre-filled from your saved address
+                    {t.form.prefilledNote}
                   </p>
                 )}
                 <div className="grid grid-cols-2 gap-5">
@@ -473,7 +477,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                   {/* Phone with country code dropdown */}
                   <div className="col-span-2">
                     <label className={`block font-sans-harvest text-[10px] tracking-[0.22em] uppercase mb-2 ${fieldErrors.phoneNumber ? 'text-red-400' : 'text-[#F5F0E8]/50'}`}>
-                      Phone
+                      {t.form.fields.phone.label}
                     </label>
                     <div className={`flex border transition-colors ${fieldErrors.phoneNumber ? 'border-red-400' : 'border-[#F5F0E8]/15 focus-within:border-[#C9A84C] hover:border-[#F5F0E8]/30'}`}>
                       <select
@@ -490,7 +494,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                       <input
                         type="tel"
                         name="phoneNumber"
-                        placeholder="98765 43210"
+                        placeholder={t.form.fields.phone.placeholder}
                         value={phoneNumber}
                         onChange={handlePhoneChange}
                         className="flex-1 bg-[#0A0A0A] px-4 py-3.5 font-serif text-[#F5F0E8] placeholder-[#F5F0E8]/25 focus:outline-none"
@@ -506,7 +510,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                       </p>
                     ) : (
                       <p className="mt-1.5 font-sans-harvest text-[9px] tracking-[0.1em] uppercase text-[#F5F0E8]/25">
-                        For delivery updates · The payment screen may show your Razorpay-saved number
+                        {t.form.phoneNote}
                       </p>
                     )}
                   </div>
@@ -518,7 +522,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                 <div className="flex items-center gap-3 mb-6">
                   <span className="font-display font-bold text-[#C9A84C] text-2xl leading-none">02</span>
                   <span className="block h-px flex-1 bg-[#F5F0E8]/10" />
-                  <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#C9A84C]">Payment Method</p>
+                  <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#C9A84C]">{t.form.sectionPayment}</p>
                 </div>
                 <div className="bg-[#0A0A0A] border border-[#C9A84C] p-6 flex items-start gap-5 relative overflow-hidden">
                   <span className="absolute top-0 left-0 h-full w-1 bg-[#C9A84C]" />
@@ -527,15 +531,15 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between flex-wrap gap-2">
-                      <p className="font-sans-harvest text-[11px] tracking-[0.18em] uppercase text-[#F5F0E8]">Online Payment</p>
-                      <span className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#C9A84C] px-2 py-0.5 border border-[#C9A84C]/40">Secure</span>
+                      <p className="font-sans-harvest text-[11px] tracking-[0.18em] uppercase text-[#F5F0E8]">{t.form.payment.onlinePayment}</p>
+                      <span className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#C9A84C] px-2 py-0.5 border border-[#C9A84C]/40">{t.form.payment.secureBadge}</span>
                     </div>
                     <p className="font-serif text-[#F5F0E8]/55 text-sm mt-2 leading-relaxed">
-                      UPI · Cards · Net Banking · Wallets — powered by Razorpay.
+                      {t.form.payment.methodsNote}
                     </p>
                     <div className="mt-3 flex items-center gap-2">
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5V3.5a3 3 0 0 1 6 0V5M2 5h8v6H2z" stroke="#C9A84C" strokeWidth="1" /></svg>
-                      <p className="font-sans-harvest text-[9px] tracking-[0.12em] uppercase text-[#C9A84C]/60">256-bit SSL · PCI DSS compliant</p>
+                      <p className="font-sans-harvest text-[9px] tracking-[0.12em] uppercase text-[#C9A84C]/60">{t.form.payment.sslNote}</p>
                     </div>
                   </div>
                 </div>
@@ -543,10 +547,15 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
 
               <div className="pt-6 border-t border-[#F5F0E8]/8">
                 <p className="font-serif text-xs text-[#F5F0E8]/40 leading-relaxed mb-6">
-                  By placing your order you agree to our{' '}
-                  <Link href="/terms" className="text-[#C9A84C] hover:underline">Terms &amp; Conditions</Link>,{' '}
-                  <Link href="/privacy" className="text-[#C9A84C] hover:underline">Privacy Policy</Link>, and{' '}
-                  <Link href="/returns" className="text-[#C9A84C] hover:underline">Return &amp; Refund Policy</Link>.
+                  {(() => {
+                    const parts = t.form.legalNote.split(/(\{terms\}|\{privacy\}|\{returns\})/g);
+                    return parts.map((part, i) => {
+                      if (part === '{terms}') return <Link key={i} href={localizedHref('/terms', locale)} className="text-[#C9A84C] hover:underline">{t.form.legalLinks.terms}</Link>;
+                      if (part === '{privacy}') return <Link key={i} href={localizedHref('/privacy', locale)} className="text-[#C9A84C] hover:underline">{t.form.legalLinks.privacy}</Link>;
+                      if (part === '{returns}') return <Link key={i} href={localizedHref('/returns', locale)} className="text-[#C9A84C] hover:underline">{t.form.legalLinks.returns}</Link>;
+                      return <span key={i}>{part}</span>;
+                    });
+                  })()}
                 </p>
                 {error && (
                   <div className="mb-6 border border-red-400/30 bg-red-400/5 px-4 py-4 flex items-start gap-3">
@@ -555,7 +564,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                       <path d="M8 5v3.5M8 10.5h.01" stroke="#f87171" strokeWidth="1.25" strokeLinecap="round" />
                     </svg>
                     <div>
-                      <p className="font-sans-harvest text-[10px] tracking-[0.2em] uppercase text-red-400 mb-1">Payment Error</p>
+                      <p className="font-sans-harvest text-[10px] tracking-[0.2em] uppercase text-red-400 mb-1">{t.form.paymentErrorLabel}</p>
                       <p className="font-serif text-red-300 text-sm leading-relaxed">{error}</p>
                     </div>
                   </div>
@@ -565,16 +574,16 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                   disabled={submitting}
                   className="group w-full font-sans-harvest text-[11px] tracking-[0.25em] uppercase py-5 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {submitting ? 'Opening Payment…' : (
+                  {submitting ? t.form.submitting : (
                     <>
-                      Pay ₹{orderTotal.toLocaleString('en-IN')} Securely
+                      {t.form.payButton.replace('{amount}', `₹${orderTotal.toLocaleString('en-IN')}`)}
                       <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
                     </>
                   )}
                 </button>
                 <div className="mt-5 flex items-center justify-center gap-2">
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5V3.5a3 3 0 0 1 6 0V5M2 5h8v6H2z" stroke="#C9A84C" strokeWidth="1" /></svg>
-                  <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/35">Secure Checkout · Powered by Razorpay</p>
+                  <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/35">{t.form.secureCheckoutNote}</p>
                 </div>
               </div>
             </form>
@@ -587,8 +596,8 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                 <div className="p-7">
                   <div className="flex items-center gap-3 mb-6">
                     <span className="block w-2 h-2 rounded-full bg-[#C9A84C] animate-pulse" />
-                    <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">Your Order</p>
-                    <span className="font-sans-harvest text-[9px] tracking-[0.2em] uppercase text-[#F5F0E8]/40 ml-auto">{count} items</span>
+                    <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]">{t.summary.label}</p>
+                    <span className="font-sans-harvest text-[9px] tracking-[0.2em] uppercase text-[#F5F0E8]/40 ml-auto">{t.summary.itemCount.replace('{count}', String(count))}</span>
                   </div>
                   <div className="space-y-4 mb-5 max-h-[300px] overflow-y-auto pr-1">
                     {items.map((item) => (
@@ -606,19 +615,19 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                     ))}
                   </div>
                   <div className="space-y-2 mb-5 pt-5 border-t border-[#F5F0E8]/10">
-                    <div className="flex justify-between font-serif text-sm text-[#F5F0E8]/65"><span>Subtotal</span><span>₹{total.toLocaleString('en-IN')}</span></div>
-                    <div className="flex justify-between font-serif text-sm text-[#F5F0E8]/65"><span>Shipping</span><span>{shipping === 0 ? <span className="text-[#C9A84C]">Free</span> : `₹${shipping}`}</span></div>
+                    <div className="flex justify-between font-serif text-sm text-[#F5F0E8]/65"><span>{t.summary.subtotal}</span><span>₹{total.toLocaleString('en-IN')}</span></div>
+                    <div className="flex justify-between font-serif text-sm text-[#F5F0E8]/65"><span>{t.summary.shipping}</span><span>{shipping === 0 ? <span className="text-[#C9A84C]">{t.summary.free}</span> : `₹${shipping}`}</span></div>
                   </div>
                   <div className="flex justify-between items-end pt-5 border-t border-[#F5F0E8]/10">
                     <div>
-                      <p className="font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/40">Total</p>
-                      <p className="font-sans-harvest text-[8px] tracking-[0.1em] uppercase text-[#F5F0E8]/30 mt-0.5">Inclusive of taxes</p>
+                      <p className="font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/40">{t.summary.total}</p>
+                      <p className="font-sans-harvest text-[8px] tracking-[0.1em] uppercase text-[#F5F0E8]/30 mt-0.5">{t.summary.taxNote}</p>
                     </div>
                     <span className="font-display font-bold text-[#C9A84C] leading-none" style={{ fontSize: 'clamp(1.8rem, 2.5vw, 2.2rem)' }}>₹{orderTotal.toLocaleString('en-IN')}</span>
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-px bg-[#F5F0E8]/8 border-t border-[#F5F0E8]/10">
-                  {[{ k: '2-day', l: 'Dispatch' }, { k: 'UPI', l: 'Accepted' }, { k: 'Easy', l: 'Returns' }].map((b) => (
+                  {t.summary.badges.map((b) => (
                     <div key={b.l} className="bg-[#0A0A0A] py-4 text-center">
                       <p className="font-display font-bold text-[#C9A84C] text-sm">{b.k}</p>
                       <p className="font-sans-harvest text-[8px] tracking-[0.15em] uppercase text-[#F5F0E8]/35 mt-0.5">{b.l}</p>
