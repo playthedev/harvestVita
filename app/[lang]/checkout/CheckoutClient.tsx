@@ -227,7 +227,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
         currency,
         name: 'HarvestVita',
         description: 'By Amoohaa Farms',
-        image: 'https://harvestvita.in/logo.png',
+        image: 'https://res.cloudinary.com/dxt8zvs77/image/upload/v1781467740/icon_1_pxze9x.png',
         order_id: rzpOrderId,
         prefill: {
           name: userName ?? '',

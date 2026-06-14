@@ -95,12 +95,13 @@ export default function ContactForm({ dict }: { dict: Dictionary }) {
       <div className="grid md:grid-cols-2 gap-8">
         <div>
           <label htmlFor="phone" className={labelClass}>
-            {t.fields.phone.label}
+            {t.fields.phone.label} <span className="text-[#C9A84C]">*</span>
           </label>
           <input
             id="phone"
             name="phone"
             type="tel"
+            required
             value={form.phone}
             onChange={handleChange}
             className={inputClass}
