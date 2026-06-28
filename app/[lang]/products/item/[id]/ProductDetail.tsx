@@ -9,7 +9,7 @@ import ScrollReveal from '../../../../components/ScrollReveal';
 import { toggleWishlist } from '../../../../lib/auth-actions';
 import { localizedHref } from '../../../../lib/locale-path';
 import { formatPrice } from '../../../../lib/currency';
-import { useCountry } from '../../../../lib/CurrencyContext';
+import { useCurrency } from '../../../../lib/CurrencyContext';
 import type { Locale } from '../../../../i18n/config';
 import type { Dictionary } from '../../../../i18n/dictionaries';
 
@@ -38,7 +38,7 @@ export default function ProductDetail({
   dict: Dictionary;
 }) {
   const { addMany, items } = useCart();
-  const country = useCountry();
+  const { code } = useCurrency();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [wishlisted, setWishlisted] = useState(initialWishlisted);
@@ -61,7 +61,7 @@ export default function ProductDetail({
   return (
     <>
       {/* ═══════════════ MAIN PRODUCT SECTION ═══════════════ */}
-      <section className="relative bg-[#0A0A0A] pt-32 md:pt-36 pb-20 md:pb-28 overflow-hidden">
+      <section className="relative bg-[#3A1A3D] pt-32 md:pt-36 pb-20 md:pb-28 overflow-hidden">
         {/* Spotlight */}
         <div
           aria-hidden
@@ -109,7 +109,7 @@ export default function ProductDetail({
               <span className="absolute -bottom-3 -left-3 w-8 h-8 border-b-2 border-l-2 border-[#C9A84C] z-10" />
               <span className="absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-[#C9A84C] z-10" />
 
-              <div className="relative aspect-square overflow-hidden bg-[#161616] group">
+              <div className="relative aspect-square overflow-hidden bg-[#4A2545] group">
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -118,14 +118,14 @@ export default function ProductDetail({
                   sizes="(max-width:1024px) 90vw, 45vw"
                   className="object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D]/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2E1530]/40 to-transparent" />
                 {product.badge && (
-                  <span className="absolute top-5 left-5 font-sans-harvest text-[10px] tracking-[0.22em] uppercase px-3 py-1.5 bg-[#C9A84C] text-[#0D0D0D]">
+                  <span className="absolute top-5 left-5 font-sans-harvest text-[10px] tracking-[0.22em] uppercase px-3 py-1.5 bg-[#C9A84C] text-[#2E1530]">
                     {product.badge}
                   </span>
                 )}
                 <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between">
-                  <p className="font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/85 bg-[#0D0D0D]/60 backdrop-blur-sm px-3 py-1.5">
+                  <p className="font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/85 bg-[#2E1530]/60 backdrop-blur-sm px-3 py-1.5">
                     HarvestVita · {product.unit}
                   </p>
                 </div>
@@ -138,7 +138,7 @@ export default function ProductDetail({
                   { k: '0', l: dict.products.item.trustBadges.additives },
                   { k: '12mo', l: dict.products.item.trustBadges.shelfLife },
                 ].map((b) => (
-                  <div key={b.l} className="bg-[#0D0D0D] py-4 text-center">
+                  <div key={b.l} className="bg-[#2E1530] py-4 text-center">
                     <p className="font-display font-bold text-[#C9A84C] text-xl">{b.k}</p>
                     <p className="font-sans-harvest text-[9px] tracking-[0.2em] uppercase text-[#F5F0E8]/40 mt-0.5">{b.l}</p>
                   </div>
@@ -170,7 +170,7 @@ export default function ProductDetail({
               {/* Price block */}
               <div className="border-y border-[#F5F0E8]/10 py-6 mb-8 flex items-end gap-4">
                 <span className="font-display font-bold text-[#C9A84C] leading-none" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
-                  {formatPrice(product.price, locale, country)}
+                  {formatPrice(product.price, code)}
                 </span>
                 <div className="pb-2">
                   <p className="font-sans-harvest text-[10px] tracking-[0.2em] uppercase text-[#F5F0E8]/40">{dict.products.item.perUnit.replace('{unit}', product.unit)}</p>
@@ -198,8 +198,8 @@ export default function ProductDetail({
                   onClick={handleAdd}
                   className={`group flex-1 font-sans-harvest text-[11px] tracking-[0.22em] uppercase py-4 transition-all duration-300 flex items-center justify-center gap-2 ${
                     added
-                      ? 'bg-[#2D4A2D] text-[#F5F0E8]'
-                      : 'bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A]'
+                      ? 'bg-[#4A2545] text-[#F5F0E8]'
+                      : 'bg-[#C9A84C] text-[#2E1530] hover:bg-[#E2C47A]'
                   }`}
                 >
                   {added ? (
@@ -209,7 +209,7 @@ export default function ProductDetail({
                     </>
                   ) : (
                     <>
-                      {dict.products.item.addToCart.replace('{price}', formatPrice(product.price * qty, locale, country))}
+                      {dict.products.item.addToCart.replace('{price}', formatPrice(product.price * qty, code))}
                       <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
                     </>
                   )}
@@ -245,7 +245,7 @@ export default function ProductDetail({
 
               {/* Specs */}
               {category && (
-                <div className="bg-[#161616] border border-[#F5F0E8]/8 p-6 relative overflow-hidden">
+                <div className="bg-[#4A2545] border border-[#F5F0E8]/8 p-6 relative overflow-hidden">
                   <span className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-[#C9A84C] to-transparent" />
                   <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#C9A84C] mb-5">
                     {dict.products.item.whatMakesIt}
@@ -272,7 +272,7 @@ export default function ProductDetail({
         <section className="bg-[#F5F0E8] py-20 md:py-28 relative overflow-hidden border-y border-[#1C1C1C]/5">
           <div
             aria-hidden
-            className="absolute -top-6 right-[-4vw] font-display font-bold text-[#4A2545]/[0.04] select-none pointer-events-none leading-none whitespace-nowrap"
+            className="absolute -top-6 right-[-4vw] font-display font-bold text-[#161616]/[0.04] select-none pointer-events-none leading-none whitespace-nowrap"
             style={{ fontSize: 'clamp(8rem, 18vw, 18rem)' }}
           >
             USES
@@ -282,15 +282,15 @@ export default function ProductDetail({
             <ScrollReveal>
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="block w-2 h-2 rounded-full bg-[#4A2545]" />
-                  <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545]">
+                  <span className="block w-2 h-2 rounded-full bg-[#161616]" />
+                  <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#161616]">
                     {dict.products.item.howToUseLabel}
                   </p>
                 </div>
                 <h2 className="font-display font-bold text-[#1C1C1C] leading-[0.95] tracking-tight mb-6"
                   style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}>
                   {dict.products.item.fromPantryLine1}<br />
-                  <span className="italic text-[#4A2545]">{dict.products.item.fromPantryHighlight}</span>
+                  <span className="italic text-[#161616]">{dict.products.item.fromPantryHighlight}</span>
                 </h2>
                 <p className="font-serif text-[#6B6456] leading-relaxed text-lg">
                   {dict.products.item.howToUseDesc}
@@ -312,7 +312,7 @@ export default function ProductDetail({
                     <span className="font-sans-harvest text-xs tracking-[0.2em] text-[#C9A84C] flex-shrink-0 w-8">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <span className="font-display text-lg md:text-xl text-[#1C1C1C] group-hover:text-[#4A2545] transition-colors flex-1">
+                    <span className="font-display text-lg md:text-xl text-[#1C1C1C] group-hover:text-[#161616] transition-colors flex-1">
                       {use}
                     </span>
                     <span className="text-[#C9A84C]/40 group-hover:text-[#C9A84C] group-hover:translate-x-1 transition-all">→</span>
@@ -326,7 +326,7 @@ export default function ProductDetail({
 
       {/* ═══════════════ RELATED ═══════════════ */}
       {related.length > 0 && (
-        <section className="bg-[#0D0D0D] py-20 md:py-28 relative overflow-hidden">
+        <section className="bg-[#2E1530] py-20 md:py-28 relative overflow-hidden">
           <div className="relative max-w-[1800px] mx-auto px-[5.128vw]">
             <ScrollReveal>
               <div className="mb-12 flex items-end justify-between gap-6">
@@ -355,7 +355,7 @@ export default function ProductDetail({
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#F5F0E8]/8">
               {related.map((r, i) => (
                 <ScrollReveal key={r.id} delay={i * 0.05}>
-                  <Link href={localizedHref(`/products/item/${r.id}`, locale)} className="group relative block bg-[#0D0D0D] hover:bg-[#161616] transition-colors overflow-hidden h-full">
+                  <Link href={localizedHref(`/products/item/${r.id}`, locale)} className="group relative block bg-[#2E1530] hover:bg-[#4A2545] transition-colors overflow-hidden h-full">
                     <span className="absolute top-0 left-0 h-0.5 w-0 group-hover:w-full bg-[#C9A84C] transition-all duration-700 z-20" />
                     <div className="relative aspect-square overflow-hidden">
                       <Image
@@ -365,7 +365,7 @@ export default function ProductDetail({
                         sizes="(max-width:768px) 50vw, 25vw"
                         className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D]/80 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#2E1530]/80 to-transparent" />
                     </div>
                     <div className="p-5">
                       <p className="font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#C9A84C]/70 mb-2">
@@ -374,7 +374,7 @@ export default function ProductDetail({
                       <h3 className="font-display text-base font-bold text-[#F5F0E8] mb-2 leading-snug group-hover:text-[#C9A84C] transition-colors">
                         {r.name}
                       </h3>
-                      <p className="font-display font-bold text-[#C9A84C] text-lg">{formatPrice(r.price, locale, country)}</p>
+                      <p className="font-display font-bold text-[#C9A84C] text-lg">{formatPrice(r.price, code)}</p>
                     </div>
                   </Link>
                 </ScrollReveal>

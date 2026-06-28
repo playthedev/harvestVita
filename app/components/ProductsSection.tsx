@@ -8,7 +8,7 @@ import { useCart } from '../lib/CartContext';
 import ScrollReveal from './ScrollReveal';
 import { localizedHref } from '../lib/locale-path';
 import { formatPrice } from '../lib/currency';
-import { useCountry } from '../lib/CurrencyContext';
+import { useCurrency } from '../lib/CurrencyContext';
 import type { Locale } from '../i18n/config';
 import type { Dictionary } from '../i18n/dictionaries';
 
@@ -35,10 +35,10 @@ function AddBtn({ id, dict }: { id: string; dict: Dictionary }) {
       onClick={handle}
       className={`group/btn relative w-full mt-5 py-3 font-sans-harvest text-[10px] tracking-[0.22em] uppercase transition-all duration-300 border ${
         inCart
-          ? 'bg-[#2D4A2D] text-[#F5F0E8] border-[#2D4A2D]'
+          ? 'bg-[#4A2545] text-[#F5F0E8] border-[#4A2545]'
           : added
-          ? 'bg-[#C9A84C] text-[#0D0D0D] border-[#C9A84C]'
-          : 'bg-transparent text-[#C9A84C] border-[#C9A84C]/40 hover:border-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0D0D]'
+          ? 'bg-[#C9A84C] text-[#2E1530] border-[#C9A84C]'
+          : 'bg-transparent text-[#C9A84C] border-[#C9A84C]/40 hover:border-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#2E1530]'
       }`}
     >
       <span className="relative z-10 flex items-center justify-center gap-2">
@@ -64,9 +64,9 @@ function AddBtn({ id, dict }: { id: string; dict: Dictionary }) {
 
 export default function ProductsSection({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const p = dict.home.products;
-  const country = useCountry();
+  const { code } = useCurrency();
   return (
-    <section className="bg-[#0D0D0D] py-28 md:py-36 relative overflow-hidden">
+    <section className="bg-[#2E1530] py-28 md:py-36 relative overflow-hidden">
       {/* Faint background text — Terminal Industries style */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display font-bold text-[#F5F0E8]/[0.025] leading-none select-none pointer-events-none whitespace-nowrap"
@@ -128,14 +128,14 @@ export default function ProductsSection({ locale, dict }: { locale: Locale; dict
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#F5F0E8]/8">
           {featured.map((prod, i) => (
             <ScrollReveal key={prod.id} delay={i * 0.06}>
-              <div className="group relative bg-[#0D0D0D] hover:bg-[#161616] transition-colors duration-300 h-full flex flex-col border border-transparent hover:border-[#C9A84C]/20 overflow-hidden">
+              <div className="group relative bg-[#2E1530] hover:bg-[#4A2545] transition-colors duration-300 h-full flex flex-col border border-transparent hover:border-[#C9A84C]/20 overflow-hidden">
                 {/* Top sliver */}
                 <span className="absolute top-0 left-0 h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-[#C9A84C] to-transparent transition-all duration-700 z-20" />
 
                 {/* Image */}
                 <Link
                   href={localizedHref(`/products/item/${prod.id}`, locale)}
-                  className="block relative w-full aspect-[4/3] overflow-hidden bg-[#161616]"
+                  className="block relative w-full aspect-[4/3] overflow-hidden bg-[#4A2545]"
                 >
                   <Image
                     src={prod.image}
@@ -144,17 +144,17 @@ export default function ProductsSection({ locale, dict }: { locale: Locale; dict
                     sizes="(max-width:640px) 90vw, (max-width:1024px) 45vw, 30vw"
                     className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2E1530] via-[#2E1530]/20 to-transparent" />
                   <div
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.18) 0%, transparent 55%)' }}
                   />
                   {prod.badge && (
-                    <span className="absolute top-3 left-3 font-sans-harvest text-[9px] tracking-[0.18em] uppercase px-2.5 py-1 bg-[#C9A84C] text-[#0D0D0D]">
+                    <span className="absolute top-3 left-3 font-sans-harvest text-[9px] tracking-[0.18em] uppercase px-2.5 py-1 bg-[#C9A84C] text-[#2E1530]">
                       {prod.badge}
                     </span>
                   )}
-                  <div className="absolute bottom-3 left-3 font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/80 bg-[#0D0D0D]/60 backdrop-blur-sm px-2.5 py-1">
+                  <div className="absolute bottom-3 left-3 font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/80 bg-[#2E1530]/60 backdrop-blur-sm px-2.5 py-1">
                     {prod.unit}
                   </div>
                 </Link>
@@ -179,7 +179,7 @@ export default function ProductsSection({ locale, dict }: { locale: Locale; dict
                   </p>
 
                   <div className="flex items-baseline gap-1.5">
-                    <span className="font-display font-bold text-[#C9A84C] text-2xl">{formatPrice(prod.price, locale, country)}</span>
+                    <span className="font-display font-bold text-[#C9A84C] text-2xl">{formatPrice(prod.price, code)}</span>
                     <span className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/35">
                       / {prod.unit}
                     </span>
@@ -200,7 +200,7 @@ export default function ProductsSection({ locale, dict }: { locale: Locale; dict
             </p>
             <Link
               href={localizedHref('/products', locale)}
-              className="group font-sans-harvest text-[11px] tracking-[0.15em] uppercase px-6 py-3 border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0D0D] transition-all duration-200 whitespace-nowrap select-none inline-flex items-center gap-2"
+              className="group font-sans-harvest text-[11px] tracking-[0.15em] uppercase px-6 py-3 border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#2E1530] transition-all duration-200 whitespace-nowrap select-none inline-flex items-center gap-2"
             >
               {p.shopAll}
               <span className="inline-block transition-transform group-hover:translate-x-1">→</span>

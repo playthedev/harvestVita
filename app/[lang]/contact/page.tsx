@@ -52,7 +52,7 @@ export default async function ContactPage({
     ),
   ];
 
-  const channelHrefs = ['mailto:hello@harvestvita.in', 'tel:+919999999999', '#'];
+  const channelHrefs = ['mailto:letsconnect@harvestvita.in', 'tel:+919163969111', '#'];
 
   const channels = t.channels.map((c, i) => ({
     ...c,
@@ -75,7 +75,7 @@ export default async function ContactPage({
       <section className="bg-[#F5F0E8] py-20 md:py-24 border-b border-[#1C1C1C]/5 relative overflow-hidden">
         <div
           aria-hidden
-          className="absolute -top-6 right-[-4vw] font-display font-bold text-[#4A2545]/[0.04] select-none pointer-events-none leading-none whitespace-nowrap"
+          className="absolute -top-6 right-[-4vw] font-display font-bold text-[#161616]/[0.04] select-none pointer-events-none leading-none whitespace-nowrap"
           style={{ fontSize: 'clamp(8rem, 18vw, 18rem)' }}
         >
           {t.channelsSection.bgWord}
@@ -85,8 +85,8 @@ export default async function ContactPage({
           <ScrollReveal>
             <div className="mb-12">
               <div className="flex items-center gap-3 mb-4">
-                <span className="block w-2 h-2 rounded-full bg-[#4A2545]" />
-                <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545]">
+                <span className="block w-2 h-2 rounded-full bg-[#161616]" />
+                <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#161616]">
                   {t.channelsSection.label}
                 </p>
               </div>
@@ -112,11 +112,11 @@ export default async function ContactPage({
                         {c.label}
                       </p>
                     </div>
-                    <div className="text-[#4A2545] group-hover:text-[#C9A84C] transition-colors">
+                    <div className="text-[#161616] group-hover:text-[#C9A84C] transition-colors">
                       {c.icon}
                     </div>
                   </div>
-                  <p className="font-display text-xl md:text-2xl font-bold text-[#1C1C1C] mb-3 group-hover:text-[#4A2545] transition-colors break-words">
+                  <p className="font-display text-xl md:text-2xl font-bold text-[#1C1C1C] mb-3 group-hover:text-[#161616] transition-colors break-words">
                     {c.value}
                   </p>
                   <div className="h-px w-8 bg-[#C9A84C] mb-4 group-hover:w-full transition-all duration-500" />
@@ -165,7 +165,7 @@ export default async function ContactPage({
       </section>
 
       {/* B2B band */}
-      <section className="bg-[#2E1530] py-20 md:py-24 relative overflow-hidden">
+      <section className="bg-[#0D0D0D] py-20 md:py-24 relative overflow-hidden">
         <div
           aria-hidden
           className="absolute top-1/2 right-[-4vw] -translate-y-1/2 font-display font-bold text-[#F5F0E8]/[0.03] select-none pointer-events-none leading-none whitespace-nowrap"

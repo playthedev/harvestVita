@@ -3,6 +3,8 @@ const en = {
     about: 'About',
     products: 'Products',
     quality: 'Quality',
+    myths: 'Myths',
+    blog: 'Blog',
     contact: 'Contact',
     enquire: 'Enquire',
     shop: 'Shop',
@@ -11,11 +13,12 @@ const en = {
     cart: 'Cart',
     toggleMenu: 'Toggle menu',
     language: 'Language',
+    currency: 'Currency',
   },
   footer: {
     tagline: 'Honest food. Thoughtful processing.',
     taglineLine2: 'Farm to home.',
-    byAmoohaa: 'By Amoohaa Farms',
+    byAmoohaa: 'By Amooha Farms Pvt Ltd',
     followUs: 'Follow Us',
     products: 'Products',
     company: 'Company',
@@ -27,12 +30,99 @@ const en = {
     termsConditions: 'Terms & Conditions',
     privacyPolicy: 'Privacy Policy',
     returnsPolicy: 'Return & Refund Policy',
-    address: 'Amoohaa Farms, India',
+    address: 'Amooha Farms Pvt Ltd., Kristal Quartz 5, Flat # 101, 1st Floor, Kristal Quartz 10, SH 35, Chikkadunnasandra, Yamare, Bangalore 562125, India',
     rights: 'All rights reserved.',
+    myths: 'Myths & Facts',
+    blog: 'Journal',
+  },
+  myths: {
+    meta: {
+      title: 'Myths & Facts — HarvestVita',
+      description:
+        'Honest answers to the most common myths about natural, dehydrated, and minimally processed food. No marketing, just the facts.',
+    },
+    hero: {
+      eyebrow: 'Myths & Facts',
+      title: 'Separating fact from food folklore.',
+      subtitle:
+        'There is a lot of noise around natural and processed food. We cut through the common myths with plain, honest answers.',
+      statLabel: 'Myths busted',
+    },
+    mythLabel: 'Myth',
+    factLabel: 'Fact',
+    intro: {
+      label: 'Why this page',
+      heading: 'Good food deserves honest information.',
+      body: 'Marketing thrives on half-truths. We would rather you understand exactly what dehydration, cold-pressing, and clean labels actually mean — even when the truth is less convenient than the slogan.',
+    },
+    items: [
+      {
+        myth: 'Dried food has no nutrition left in it.',
+        fact: 'Low-temperature drying removes water, not nutrients. Most minerals, fibre, and many vitamins survive intact — and because the water is gone, nutrition is actually more concentrated per gram.',
+      },
+      {
+        myth: 'If it is processed at all, it cannot be healthy.',
+        fact: 'Processing is a spectrum. Washing, drying, and pressing are minimal processes that make food last and stay usable. The problem is not processing itself — it is fillers, additives, and refining that strip food down.',
+      },
+      {
+        myth: 'Natural products do not need an expiry date.',
+        fact: 'Everything degrades eventually. Clean, additive-free products often have a shorter shelf life precisely because nothing artificial is holding them stable. We print honest dates and storage advice on every pack.',
+      },
+      {
+        myth: 'Cold-pressed and refined oils are basically the same.',
+        fact: 'Refining uses high heat and bleaching to make a neutral, long-life oil — and strips out antioxidants, vitamin E, and aroma along the way. Cold-pressing keeps them, at the cost of a shorter shelf life.',
+      },
+      {
+        myth: 'Brighter colour means artificial colour.',
+        fact: 'With careful low-heat drying, natural pigments survive. A vivid beetroot or spinach powder is a sign the process was gentle — not a sign that colour was added.',
+      },
+      {
+        myth: 'Single-ingredient products are too plain to be useful.',
+        fact: 'Single-ingredient means you control the recipe. One pure powder or flake can go into smoothies, baking, soups, and seasoning blends — without dragging hidden sugar, salt, or starch along with it.',
+      },
+    ],
+    cta: {
+      eyebrow: 'Still have a question?',
+      title: 'Ask us anything about how we make our food.',
+      buttonLabel: 'Get in Touch',
+    },
+  },
+  blog: {
+    meta: {
+      title: 'Journal — HarvestVita',
+      description:
+        'Notes from our kitchen on natural food, honest processing, and getting the most from clean-label ingredients.',
+    },
+    hero: {
+      eyebrow: 'The Journal',
+      title: 'Notes from the kitchen.',
+      subtitle:
+        'Short, practical reads on natural food, honest processing, and how to use clean-label ingredients well.',
+      statLabel: 'Articles',
+    },
+    listing: {
+      label: 'Latest writing',
+      heading: 'Read, cook, eat better.',
+      readMore: 'Read article',
+      minRead: '{min} min read',
+      empty: 'No articles yet. Check back soon.',
+    },
+    article: {
+      backToBlog: 'Back to Journal',
+      byLine: 'By {author}',
+      relatedLabel: 'Keep reading',
+      relatedHeading: 'More from the Journal',
+      viewAll: 'View all articles',
+    },
+    cta: {
+      eyebrow: 'Taste the difference',
+      title: 'Bring honest food into your kitchen.',
+      buttonLabel: 'Shop the Range',
+    },
   },
   home: {
     hero: {
-      eyebrow: 'By Amoohaa Farms',
+      eyebrow: 'By Amooha Farms Pvt Ltd',
       estFromSoil: 'Est. From The Soil',
       titleLine1: "Nature's",
       titleLine2: 'Goodness,',
@@ -57,10 +147,10 @@ const en = {
       label: 'Our Story',
       heading: 'Born from the belief that everyday food should be pure, nourishing, and honest.',
       paragraph1:
-        "HarvestVita is the expression of Amoohaa Farms' commitment to natural, wholesome living. Every product is chosen with a simple purpose: to preserve nature's goodness while making it easy to use in modern life.",
+        "HarvestVita is the expression of Amooha Farms Pvt Ltd' commitment to natural, wholesome living. Every product is chosen with a simple purpose: to preserve nature's goodness while making it easy to use in modern life.",
       paragraph2:
         'From dehydrated fruits and vegetables to cold-pressed oils, khapali atta, and whole spices — the brand reflects a balance of tradition and convenience.',
-      imageCaption: 'Amoohaa Farms — India',
+      imageCaption: 'Amooha Farms Pvt Ltd — India',
       quote:
         'Honest food, thoughtful processing, and ingredients that carry the richness of the farm to the heart of the home.',
       readFullStory: 'Read Full Story',
@@ -81,7 +171,7 @@ const en = {
         {
           eyebrow: 'Frame 01 — Origin',
           title: 'It starts with a single seed.',
-          body: 'Every product we make begins on Amoohaa Farms — chosen seeds, healthy soil, and the patience of a season.',
+          body: 'Every product we make begins on Amooha Farms Pvt Ltd — chosen seeds, healthy soil, and the patience of a season.',
         },
         {
           eyebrow: 'Frame 02 — Harvest',
@@ -138,7 +228,7 @@ const en = {
       eyebrow: 'Our Story',
       title: 'Honest food, rooted in the farm.',
       subtitle:
-        "HarvestVita is the expression of Amoohaa Farms' commitment to natural, wholesome living — built on the belief that everyday food should be pure, nourishing, and authentic.",
+        "HarvestVita is the expression of Amooha Farms Pvt Ltd' commitment to natural, wholesome living — built on the belief that everyday food should be pure, nourishing, and authentic.",
       stats: [
         { k: '6', l: 'Categories' },
         { k: '100%', l: 'Clean Label' },
@@ -157,7 +247,7 @@ const en = {
       paragraph3:
         'At HarvestVita, quality is not treated as a promise but as a standard. Each product is developed with attention to purity, taste, and natural value, so customers can trust what they bring home for their families.',
       quote:
-        'As part of Amoohaa Farms, HarvestVita stands for honest food, thoughtful processing, and ingredients that carry the richness of the farm to the heart of the home.',
+        'As part of Amooha Farms Pvt Ltd, HarvestVita stands for honest food, thoughtful processing, and ingredients that carry the richness of the farm to the heart of the home.',
       quoteAttribution: 'The HarvestVita Promise',
       imageAlt: 'Farm fields at sunset',
       imageCaption: 'From Our Farm — India',
@@ -175,7 +265,7 @@ const en = {
       milestones: [
         {
           year: 'Origin',
-          title: 'Amoohaa Farms',
+          title: 'Amooha Farms Pvt Ltd',
           desc: 'A farming initiative rooted in ethical agriculture, transparency, and respect for the land.',
         },
         {
@@ -398,17 +488,17 @@ const en = {
     channels: [
       {
         label: 'Email',
-        value: 'hello@harvestvita.in',
+        value: 'letsconnect@harvestvita.in',
         desc: 'For general enquiries, partnership, and product information.',
       },
       {
         label: 'Phone',
-        value: '+91 99999 99999',
+        value: '+91 91639 69111 / +91 93399 98587',
         desc: 'Reach us Monday to Saturday, 10 AM – 7 PM IST.',
       },
       {
         label: 'Visit',
-        value: 'Amoohaa Farms, India',
+        value: 'Amooha Farms Pvt Ltd., Kristal Quartz 5, Flat # 101, 1st Floor, Kristal Quartz 10, SH 35, Chikkadunnasandra, Yamare, Bangalore 562125, India',
         desc: 'Schedule a farm visit by prior appointment.',
       },
     ],
@@ -479,7 +569,7 @@ const en = {
       remove: 'Remove item',
     },
     promo: [
-      { heading: 'Free Shipping', body: 'On orders above ₹499' },
+      { heading: 'Free Shipping', body: 'On orders above ₹999' },
       { heading: 'Secure Payments', body: 'COD or online' },
       { heading: '2-day Dispatch', body: 'Across India' },
     ],
@@ -718,7 +808,7 @@ const en = {
     sections: [
       {
         title: '1. Introduction',
-        body: `HarvestVita (a brand of Amoohaa Farms) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your personal information when you visit our website or purchase our products. By using our website, you consent to the practices described in this policy.`,
+        body: `HarvestVita (a brand of Amooha Farms Pvt Ltd) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your personal information when you visit our website or purchase our products. By using our website, you consent to the practices described in this policy.`,
       },
       {
         title: '2. Information We Collect',
@@ -746,7 +836,7 @@ const en = {
       },
       {
         title: '8. Your Rights',
-        body: `You have the right to access, correct, or request deletion of your personal information held by us. To exercise these rights, please contact us at hello@harvestvita.in. We will respond to your request within 30 days. Please note that certain information may need to be retained for legal or operational reasons.`,
+        body: `You have the right to access, correct, or request deletion of your personal information held by us. To exercise these rights, please contact us at letsconnect@harvestvita.in. We will respond to your request within 30 days. Please note that certain information may need to be retained for legal or operational reasons.`,
       },
       {
         title: '9. Children\'s Privacy',
@@ -758,7 +848,7 @@ const en = {
       },
       {
         title: '11. Contact Us',
-        body: `If you have any questions or concerns about this Privacy Policy or how your data is handled, please contact us at: hello@harvestvita.in | +91 99999 99999 | Amoohaa Farms, India.`,
+        body: `If you have any questions or concerns about this Privacy Policy or how your data is handled, please contact us at: letsconnect@harvestvita.in | +91 91639 69111 / +91 93399 98587 | Amooha Farms Pvt Ltd., Kristal Quartz 5, Flat # 101, 1st Floor, Kristal Quartz 10, SH 35, Chikkadunnasandra, Yamare, Bangalore 562125, India.`,
       },
     ],
     footerLinks: {
@@ -778,7 +868,7 @@ const en = {
       },
       {
         title: '2. About HarvestVita',
-        body: `HarvestVita is a brand owned and operated by Amoohaa Farms, engaged in the sale of natural food products including dehydrated fruits and vegetables, cold-pressed oils, heritage flours, whole spices, and spice powders. Our registered address is Amoohaa Farms, India.`,
+        body: `HarvestVita is a brand owned and operated by Amooha Farms Pvt Ltd, engaged in the sale of natural food products including dehydrated fruits and vegetables, cold-pressed oils, heritage flours, whole spices, and spice powders. Our registered address is Amooha Farms Pvt Ltd., Kristal Quartz 5, Flat # 101, 1st Floor, Kristal Quartz 10, SH 35, Chikkadunnasandra, Yamare, Bangalore 562125, India.`,
       },
       {
         title: '3. Products & Descriptions',
@@ -802,7 +892,7 @@ const en = {
       },
       {
         title: '8. Intellectual Property',
-        body: `All content on this website — including text, images, logos, product photography, and design — is the intellectual property of HarvestVita / Amoohaa Farms and is protected by applicable copyright laws. Unauthorised use of any content is strictly prohibited.`,
+        body: `All content on this website — including text, images, logos, product photography, and design — is the intellectual property of HarvestVita / Amooha Farms Pvt Ltd and is protected by applicable copyright laws. Unauthorised use of any content is strictly prohibited.`,
       },
       {
         title: '9. Limitation of Liability',
@@ -818,7 +908,7 @@ const en = {
       },
       {
         title: '12. Contact',
-        body: `For any questions regarding these Terms & Conditions, please write to us at hello@harvestvita.in or reach us at +91 99999 99999.`,
+        body: `For any questions regarding these Terms & Conditions, please write to us at letsconnect@harvestvita.in or reach us at +91 91639 69111 / +91 93399 98587.`,
       },
     ],
     footerLinks: {
@@ -844,7 +934,7 @@ const en = {
       },
       {
         title: '2. Cancellation Policy',
-        body: `You may cancel your order within 24 hours of placing it, provided it has not yet been dispatched. To cancel, email us at hello@harvestvita.in or call +91 99999 99999 with your order details. If the order has already been dispatched, cancellation is not possible and the return process would apply instead. Since we currently operate on Cash on Delivery, no payment is charged at the time of ordering — so there is no amount to refund for pre-dispatch cancellations.`,
+        body: `You may cancel your order within 24 hours of placing it, provided it has not yet been dispatched. To cancel, email us at letsconnect@harvestvita.in or call +91 91639 69111 / +91 93399 98587 with your order details. If the order has already been dispatched, cancellation is not possible and the return process would apply instead. Since we currently operate on Cash on Delivery, no payment is charged at the time of ordering — so there is no amount to refund for pre-dispatch cancellations.`,
       },
       {
         title: '3. Return Eligibility',
@@ -852,7 +942,7 @@ const en = {
       },
       {
         title: '4. How to Raise a Return Request',
-        body: `If you wish to return a product, please contact us within 48 hours of receiving the delivery at hello@harvestvita.in. Include your order details, a description of the issue, and clear photographs of the product and its packaging. Our team will review your request and respond within 2 working days. Once a return is approved, we will arrange for a pickup or advise you on shipping the product back. Do not return any item without prior approval from our team.`,
+        body: `If you wish to return a product, please contact us within 48 hours of receiving the delivery at letsconnect@harvestvita.in. Include your order details, a description of the issue, and clear photographs of the product and its packaging. Our team will review your request and respond within 2 working days. Once a return is approved, we will arrange for a pickup or advise you on shipping the product back. Do not return any item without prior approval from our team.`,
       },
       {
         title: '5. Refund Policy',
@@ -860,7 +950,7 @@ const en = {
       },
       {
         title: '6. Damaged or Tampered Delivery',
-        body: `If your order arrives with visible damage to the outer packaging, please photograph it before accepting delivery and report it to us immediately at hello@harvestvita.in. If the product inside is damaged or the tamper-evident seal is broken upon arrival, you may refuse delivery and it will be returned to us. Once reported with photographic evidence, we will either resend the product or issue a full refund at no cost to you.`,
+        body: `If your order arrives with visible damage to the outer packaging, please photograph it before accepting delivery and report it to us immediately at letsconnect@harvestvita.in. If the product inside is damaged or the tamper-evident seal is broken upon arrival, you may refuse delivery and it will be returned to us. Once reported with photographic evidence, we will either resend the product or issue a full refund at no cost to you.`,
       },
       {
         title: '7. Non-Returnable Items',
@@ -872,7 +962,7 @@ const en = {
       },
       {
         title: '9. Contact for Returns & Refunds',
-        body: `For all return, refund, and cancellation requests, reach us at: Email: hello@harvestvita.in | Phone: +91 99999 99999 (Mon–Sat, 10 AM – 7 PM IST). Please have your order number and product details ready when contacting us.`,
+        body: `For all return, refund, and cancellation requests, reach us at: Email: letsconnect@harvestvita.in | Phone: +91 91639 69111 / +91 93399 98587 (Mon–Sat, 10 AM – 7 PM IST). Please have your order number and product details ready when contacting us.`,
       },
     ],
     footerLinks: {

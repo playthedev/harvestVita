@@ -11,7 +11,7 @@ import AddressForm from './AddressForm';
 import { getDictionary } from '../../i18n/dictionaries';
 import { isLocale, type Locale } from '../../i18n/config';
 import { localizedHref } from '../../lib/locale-path';
-import { formatPrice } from '../../lib/currency';
+import { formatPrice, autoCurrencyCode } from '../../lib/currency';
 
 export const metadata: Metadata = { title: 'My Account — HarvestVita' };
 
@@ -20,6 +20,7 @@ export default async function AccountPage({ params }: { params: Promise<{ lang: 
   const locale: Locale = isLocale(lang) ? lang : 'en';
   const dict = await getDictionary(locale);
   const country = (await headers()).get('x-vercel-ip-country');
+  const code = autoCurrencyCode(locale, country);
 
   const session = await getSession();
   if (!session) redirect(localizedHref('/login', locale));
@@ -31,7 +32,7 @@ export default async function AccountPage({ params }: { params: Promise<{ lang: 
   const wishlistProducts = allProducts.filter((p) => user.wishlist.includes(p.id));
 
   return (
-    <main className="min-h-screen bg-[#0D0D0D] pt-32 pb-24 px-[5.128vw] relative overflow-hidden">
+    <main className="min-h-screen bg-[#2E1530] pt-32 pb-24 px-[5.128vw] relative overflow-hidden">
       {/* Background grid */}
       <div
         aria-hidden
@@ -72,11 +73,11 @@ export default async function AccountPage({ params }: { params: Promise<{ lang: 
           <div className="lg:col-span-2 space-y-6">
             <SectionHeading num="01" label={dict.account.orders.sectionLabel} />
             {orders.length === 0 ? (
-              <div className="bg-[#111] border border-[#F5F0E8]/8 p-8 text-center">
+              <div className="bg-[#2E1530] border border-[#F5F0E8]/8 p-8 text-center">
                 <p className="font-serif text-[#F5F0E8]/40 text-sm mb-4">{dict.account.orders.empty}</p>
                 <Link
                   href={localizedHref('/products', locale)}
-                  className="font-sans-harvest text-[10px] tracking-[0.2em] uppercase px-5 py-2.5 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors inline-block"
+                  className="font-sans-harvest text-[10px] tracking-[0.2em] uppercase px-5 py-2.5 bg-[#C9A84C] text-[#2E1530] hover:bg-[#E2C47A] transition-colors inline-block"
                 >
                   {dict.account.orders.startShopping}
                 </Link>
@@ -84,7 +85,7 @@ export default async function AccountPage({ params }: { params: Promise<{ lang: 
             ) : (
               <div className="space-y-3">
                 {orders.map((order) => (
-                  <div key={order.id} className="bg-[#111] border border-[#F5F0E8]/8 relative overflow-hidden">
+                  <div key={order.id} className="bg-[#2E1530] border border-[#F5F0E8]/8 relative overflow-hidden">
                     <span className="absolute top-0 left-0 h-full w-0.5 bg-[#C9A84C]" />
                     <div className="p-5">
                       <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
@@ -92,12 +93,12 @@ export default async function AccountPage({ params }: { params: Promise<{ lang: 
                           <span className="font-sans-harvest text-[10px] tracking-[0.2em] uppercase text-[#C9A84C]">
                             {order.id}
                           </span>
-                          <span className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase px-2 py-0.5 border border-[#2D4A2D] text-[#4CAF50]">
+                          <span className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase px-2 py-0.5 border border-[#4A2545] text-[#4CAF50]">
                             {order.status}
                           </span>
                         </div>
                         <span className="font-display font-bold text-[#C9A84C]">
-                          {formatPrice(order.total + order.shipping, locale, country)}
+                          {formatPrice(order.total + order.shipping, code)}
                         </span>
                       </div>
                       <p className="font-sans-harvest text-[9px] tracking-[0.1em] uppercase text-[#F5F0E8]/30 mb-3">
@@ -105,9 +106,9 @@ export default async function AccountPage({ params }: { params: Promise<{ lang: 
                       </p>
                       <div className="flex gap-2 flex-wrap">
                         {order.items.map((item) => (
-                          <div key={item.id} className="relative w-12 h-12 bg-[#0A0A0A] overflow-hidden flex-shrink-0">
+                          <div key={item.id} className="relative w-12 h-12 bg-[#3A1A3D] overflow-hidden flex-shrink-0">
                             <Image src={item.image} alt={item.name} fill className="object-cover" sizes="48px" />
-                            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#C9A84C] text-[#0D0D0D] font-sans-harvest text-[8px] flex items-center justify-center font-bold">
+                            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#C9A84C] text-[#2E1530] font-sans-harvest text-[8px] flex items-center justify-center font-bold">
                               {item.qty}
                             </span>
                           </div>
@@ -127,7 +128,7 @@ export default async function AccountPage({ params }: { params: Promise<{ lang: 
             {/* ── Wishlist ── */}
             <SectionHeading num="02" label={dict.account.wishlist.sectionLabel} />
             {wishlistProducts.length === 0 ? (
-              <div className="bg-[#111] border border-[#F5F0E8]/8 p-8 text-center">
+              <div className="bg-[#2E1530] border border-[#F5F0E8]/8 p-8 text-center">
                 <p className="font-serif text-[#F5F0E8]/40 text-sm">{dict.account.wishlist.empty}</p>
               </div>
             ) : (
@@ -136,15 +137,15 @@ export default async function AccountPage({ params }: { params: Promise<{ lang: 
                   <Link
                     key={p.id}
                     href={localizedHref(`/products/item/${p.id}`, locale)}
-                    className="group bg-[#111] border border-[#F5F0E8]/8 hover:border-[#C9A84C]/30 transition-colors flex gap-4 p-4"
+                    className="group bg-[#2E1530] border border-[#F5F0E8]/8 hover:border-[#C9A84C]/30 transition-colors flex gap-4 p-4"
                   >
-                    <div className="relative w-16 h-16 flex-shrink-0 overflow-hidden bg-[#0A0A0A]">
+                    <div className="relative w-16 h-16 flex-shrink-0 overflow-hidden bg-[#3A1A3D]">
                       <Image src={p.image} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="64px" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="font-display font-bold text-[#F5F0E8] text-sm leading-snug">{p.name}</p>
                       <p className="font-sans-harvest text-[9px] tracking-[0.1em] uppercase text-[#F5F0E8]/35 mt-0.5">{p.unit}</p>
-                      <p className="font-display font-bold text-[#C9A84C] mt-1">{formatPrice(p.price, locale, country)}</p>
+                      <p className="font-display font-bold text-[#C9A84C] mt-1">{formatPrice(p.price, code)}</p>
                     </div>
                   </Link>
                 ))}
@@ -155,7 +156,7 @@ export default async function AccountPage({ params }: { params: Promise<{ lang: 
           {/* ── Saved Address ── */}
           <div>
             <SectionHeading num="03" label={dict.account.address.sectionLabel} />
-            <div className="bg-[#111] border border-[#F5F0E8]/8 p-6 relative overflow-hidden">
+            <div className="bg-[#2E1530] border border-[#F5F0E8]/8 p-6 relative overflow-hidden">
               <span className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-[#C9A84C] to-transparent" />
               <AddressForm saved={user.saved_address ?? undefined} action={saveAddress} dict={dict} />
             </div>

@@ -30,7 +30,7 @@ export default async function QualityPage({ params }: { params: Promise<{ lang: 
       />
 
       {/* Standards grid */}
-      <section className="bg-[#2E1530] py-24 md:py-32 relative overflow-hidden">
+      <section className="bg-[#0D0D0D] py-24 md:py-32 relative overflow-hidden">
         <div
           aria-hidden
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[60vh] pointer-events-none opacity-60"
@@ -68,7 +68,7 @@ export default async function QualityPage({ params }: { params: Promise<{ lang: 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#F5F0E8]/8">
             {quality.standardsSection.standards.map((s, i) => (
               <ScrollReveal key={s.label} delay={i * 0.06}>
-                <div className="group relative bg-[#2E1530] p-7 hover:bg-[#3A1A3D] transition-colors duration-300 h-full overflow-hidden">
+                <div className="group relative bg-[#0D0D0D] p-7 hover:bg-[#0A0A0A] transition-colors duration-300 h-full overflow-hidden">
                   <span className="absolute top-0 left-0 h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-[#C9A84C] to-transparent transition-all duration-700" />
                   <div className="flex items-center gap-3 mb-4">
                     <span className="block w-2 h-2 rounded-full bg-[#C9A84C]" />
@@ -91,7 +91,7 @@ export default async function QualityPage({ params }: { params: Promise<{ lang: 
       <section className="bg-[#F5F0E8] py-24 md:py-32 relative overflow-hidden">
         <div
           aria-hidden
-          className="absolute -top-6 right-[-4vw] font-display font-bold text-[#4A2545]/[0.04] select-none pointer-events-none leading-none whitespace-nowrap"
+          className="absolute -top-6 right-[-4vw] font-display font-bold text-[#161616]/[0.04] select-none pointer-events-none leading-none whitespace-nowrap"
           style={{ fontSize: 'clamp(8rem, 18vw, 18rem)' }}
         >
           {quality.processSection.decorativeWord}
@@ -102,15 +102,15 @@ export default async function QualityPage({ params }: { params: Promise<{ lang: 
             <div className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="block w-2 h-2 rounded-full bg-[#4A2545]" />
-                  <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545]">
+                  <span className="block w-2 h-2 rounded-full bg-[#161616]" />
+                  <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#161616]">
                     {quality.processSection.label}
                   </p>
                 </div>
                 <h2 className="font-display font-bold text-[#1C1C1C] leading-[0.95] tracking-tight"
                   style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}>
                   {quality.processSection.headingLine1}<br />
-                  <span className="italic text-[#4A2545]">{quality.processSection.headingHighlight}</span>
+                  <span className="italic text-[#161616]">{quality.processSection.headingHighlight}</span>
                 </h2>
               </div>
               <p className="font-serif text-[#6B6456] text-base leading-relaxed max-w-sm">
@@ -126,12 +126,12 @@ export default async function QualityPage({ params }: { params: Promise<{ lang: 
                   <span className="absolute top-0 left-0 h-full w-0 group-hover:w-1 bg-[#C9A84C] transition-all duration-500" />
                   <div className="md:col-span-2 flex items-baseline gap-2">
                     <span className="block w-2 h-2 rounded-full bg-[#C9A84C]" />
-                    <p className="font-display text-5xl md:text-6xl font-bold text-[#C9A84C] group-hover:text-[#4A2545] transition-colors leading-none">
+                    <p className="font-display text-5xl md:text-6xl font-bold text-[#C9A84C] group-hover:text-[#161616] transition-colors leading-none">
                       {step.num}
                     </p>
                   </div>
                   <div className="md:col-span-3">
-                    <h3 className="font-display text-2xl md:text-3xl font-bold text-[#1C1C1C] group-hover:text-[#4A2545] transition-colors">
+                    <h3 className="font-display text-2xl md:text-3xl font-bold text-[#1C1C1C] group-hover:text-[#161616] transition-colors">
                       {step.title}
                     </h3>
                     <div className="mt-3 h-px w-8 bg-[#C9A84C] group-hover:w-20 transition-all duration-500" />
@@ -157,7 +157,7 @@ export default async function QualityPage({ params }: { params: Promise<{ lang: 
           {quality.stats.map((stat, i) => (
             <ScrollReveal key={stat.label} delay={i * 0.08}>
               <div className="md:px-10 first:md:pl-0 last:md:pr-0 text-center md:text-left group">
-                <p className="font-display text-4xl md:text-6xl font-bold text-[#1C1C1C] mb-1 group-hover:text-[#4A2545] transition-colors leading-none">
+                <p className="font-display text-4xl md:text-6xl font-bold text-[#1C1C1C] mb-1 group-hover:text-[#161616] transition-colors leading-none">
                   {stat.value}
                 </p>
                 <p className="font-sans-harvest text-[10px] tracking-[0.25em] uppercase text-[#6B6456] mt-3">

@@ -10,7 +10,7 @@ import { localizedHref } from '../../lib/locale-path';
 export const metadata: Metadata = {
   title: 'About — HarvestVita',
   description:
-    'The story of HarvestVita by Amoohaa Farms. A commitment to honest food, thoughtful processing, and ingredients that carry the richness of the farm to your home.',
+    'The story of HarvestVita by Amooha Farms Pvt Ltd. A commitment to honest food, thoughtful processing, and ingredients that carry the richness of the farm to your home.',
 };
 
 export default async function AboutPage({ params }: { params: Promise<{ lang: string }> }) {
@@ -35,7 +35,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
         {/* Decorative oversized word */}
         <div
           aria-hidden
-          className="absolute -top-6 right-[-4vw] font-display font-bold text-[#4A2545]/[0.04] select-none pointer-events-none leading-none whitespace-nowrap"
+          className="absolute -top-6 right-[-4vw] font-display font-bold text-[#161616]/[0.04] select-none pointer-events-none leading-none whitespace-nowrap"
           style={{ fontSize: 'clamp(8rem, 18vw, 18rem)' }}
         >
           {about.storySection.decorativeWord}
@@ -44,11 +44,11 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
         <div className="max-w-[1800px] mx-auto px-[5.128vw] relative">
           <ScrollReveal>
             <div className="flex items-center gap-3 mb-6">
-              <span className="block w-2 h-2 rounded-full bg-[#4A2545]" />
-              <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545]">
+              <span className="block w-2 h-2 rounded-full bg-[#161616]" />
+              <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#161616]">
                 {about.storySection.label}
               </p>
-              <span className="block h-px w-12 bg-[#4A2545]/30" />
+              <span className="block h-px w-12 bg-[#161616]/30" />
             </div>
           </ScrollReveal>
 
@@ -82,7 +82,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
                     style={{ fontSize: 'clamp(1.4rem, 2vw, 1.9rem)' }}>
                     &ldquo;{about.storySection.quote}&rdquo;
                   </p>
-                  <footer className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#4A2545]/60 mt-4">
+                  <footer className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#161616]/60 mt-4">
                     — {about.storySection.quoteAttribution}
                   </footer>
                 </blockquote>
@@ -119,7 +119,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
                 <div className="border-t border-[#1C1C1C]/15 pt-6 grid grid-cols-3 gap-4">
                   {about.storySection.facts.map((s) => (
                     <div key={s.l}>
-                      <p className="font-display font-bold text-[#4A2545] text-2xl leading-none">{s.k}</p>
+                      <p className="font-display font-bold text-[#161616] text-2xl leading-none">{s.k}</p>
                       <p className="font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#6B6456] mt-1.5">{s.l}</p>
                     </div>
                   ))}
@@ -137,14 +137,14 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
             <div className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="block w-2 h-2 rounded-full bg-[#4A2545]" />
-                  <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545]">
+                  <span className="block w-2 h-2 rounded-full bg-[#161616]" />
+                  <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#161616]">
                     {about.timeline.label}
                   </p>
                 </div>
                 <h2 className="font-display font-bold text-[#1C1C1C] leading-[0.95] tracking-tight"
                   style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}>
-                  {about.timeline.headingLine1} <span className="italic text-[#4A2545]">{about.timeline.headingHighlight}</span>
+                  {about.timeline.headingLine1} <span className="italic text-[#161616]">{about.timeline.headingHighlight}</span>
                 </h2>
               </div>
               <p className="font-serif text-[#6B6456] text-base leading-relaxed max-w-sm">
@@ -164,7 +164,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
                       {m.year}
                     </p>
                   </div>
-                  <h3 className="font-display text-xl font-bold text-[#1C1C1C] mb-3 group-hover:text-[#4A2545] transition-colors">
+                  <h3 className="font-display text-xl font-bold text-[#1C1C1C] mb-3 group-hover:text-[#161616] transition-colors">
                     {m.title}
                   </h3>
                   <div className="h-px w-8 bg-[#C9A84C] mb-3 group-hover:w-full transition-all duration-500" />
@@ -179,7 +179,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
       </section>
 
       {/* Values */}
-      <section className="bg-[#2E1530] py-24 md:py-32 relative overflow-hidden">
+      <section className="bg-[#0D0D0D] py-24 md:py-32 relative overflow-hidden">
         <div
           aria-hidden
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[60vh] pointer-events-none opacity-60"
@@ -209,7 +209,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#F5F0E8]/8">
             {about.valuesSection.values.map((v, i) => (
               <ScrollReveal key={v.title} delay={i * 0.08}>
-                <div className="group bg-[#2E1530] p-8 hover:bg-[#3A1A3D] transition-colors duration-300 h-full relative overflow-hidden">
+                <div className="group bg-[#0D0D0D] p-8 hover:bg-[#0A0A0A] transition-colors duration-300 h-full relative overflow-hidden">
                   <span className="absolute top-0 left-0 h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-[#C9A84C] to-transparent transition-all duration-700" />
                   <div className="flex items-center gap-2 mb-5">
                     <span className="block w-1 h-1 rounded-full bg-[#C9A84C]" />

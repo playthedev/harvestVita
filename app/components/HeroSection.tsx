@@ -59,9 +59,9 @@ function WheatIcon({ className }: { className?: string }) {
       {/* Top grain */}
       <ellipse cx="40" cy="10" rx="7" ry="5" fill="none" stroke="#C9A84C" strokeWidth="1.6" />
       {/* Leaf left */}
-      <path d="M40 90 Q18 72 22 55" stroke="#2D4A2D" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+      <path d="M40 90 Q18 72 22 55" stroke="#4A2545" strokeWidth="1.6" fill="none" strokeLinecap="round" />
       {/* Leaf right */}
-      <path d="M40 70 Q62 52 58 35" stroke="#2D4A2D" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+      <path d="M40 70 Q62 52 58 35" stroke="#4A2545" strokeWidth="1.6" fill="none" strokeLinecap="round" />
     </svg>
   );
 }
@@ -138,7 +138,7 @@ export default function HeroSection({ locale, dict }: { locale: Locale; dict: Di
   return (
     <section
       ref={heroRef}
-      className="relative min-h-screen bg-[#0D0D0D] flex flex-col overflow-hidden"
+      className="relative min-h-screen bg-[#2E1530] flex flex-col overflow-hidden"
     >
       {/* Farm background photo — very dark overlay keeps it subtle */}
       <div className="absolute inset-0 z-0">
@@ -152,7 +152,7 @@ export default function HeroSection({ locale, dict }: { locale: Locale; dict: Di
         />
       </div>
       {/* Dark overlay so it reads as near-black */}
-      <div className="absolute inset-0 z-[1] bg-[#0D0D0D]/78 pointer-events-none" />
+      <div className="absolute inset-0 z-[1] bg-[#2E1530]/78 pointer-events-none" />
 
       {/* 3D canvas on top of photo */}
       <div className="absolute inset-0 z-[2] opacity-55">
@@ -161,7 +161,7 @@ export default function HeroSection({ locale, dict }: { locale: Locale; dict: Di
 
       {/* Gradient overlays */}
       <div className="absolute inset-0 z-[3] pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, rgba(13,13,13,0.45) 0%, rgba(13,13,13,0.05) 50%, rgba(13,13,13,0.92) 100%)' }} />
+        style={{ background: 'linear-gradient(to bottom, rgba(46,21,48,0.45) 0%, rgba(46,21,48,0.05) 50%, rgba(46,21,48,0.92) 100%)' }} />
 
       {/* Soft gold spotlight glow behind the headline */}
       <div
@@ -239,7 +239,7 @@ export default function HeroSection({ locale, dict }: { locale: Locale; dict: Di
           <div ref={ctaRef} className="flex gap-3 opacity-0 flex-shrink-0">
             <Link
               href={localizedHref('/products', locale)}
-              className="group relative font-sans-harvest text-[11px] tracking-[0.18em] uppercase px-7 py-3.5 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-all duration-300 select-none overflow-hidden flex items-center gap-2"
+              className="group relative font-sans-harvest text-[11px] tracking-[0.18em] uppercase px-7 py-3.5 bg-[#C9A84C] text-[#2E1530] hover:bg-[#E2C47A] transition-all duration-300 select-none overflow-hidden flex items-center gap-2"
             >
               <span className="relative z-10">{h.exploreRange}</span>
               <svg className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -291,7 +291,7 @@ export default function HeroSection({ locale, dict }: { locale: Locale; dict: Di
       <div
         ref={tickerRef}
         className="relative z-[10] border-t border-[#F5F0E8]/8 py-3 overflow-hidden"
-        style={{ background: 'rgba(13,13,13,0.7)', backdropFilter: 'blur(8px)' }}
+        style={{ background: 'rgba(46,21,48,0.7)', backdropFilter: 'blur(8px)' }}
       >
         <div className="flex animate-marquee whitespace-nowrap will-change-transform">
           {Array(2).fill(h.marquee).flat().map((item, i) => (

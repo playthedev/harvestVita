@@ -47,7 +47,7 @@ export const products: ProductCategory[] = [
     uses: ['Smoothies & juices', 'Natural food colouring', 'Baking & batter', 'Soups & curries', 'Health supplements'],
     geometry: 'icosahedron',
     color: '#C9A84C',
-    accent: '#4A2545',
+    accent: '#161616',
   },
   {
     slug: 'vegetable-flakes',
@@ -68,8 +68,8 @@ export const products: ProductCategory[] = [
     items: ['Onion Flakes', 'Garlic Flakes', 'Carrot Flakes', 'Capsicum Flakes', 'Tomato Flakes', 'Curry Leaf Flakes'],
     uses: ['Instant soups', 'Ready-to-eat meals', 'Seasoning blends', 'Trail food', 'Quick curries'],
     geometry: 'octahedron',
-    color: '#2D4A2D',
-    accent: '#2D4A2D',
+    color: '#4A2545',
+    accent: '#4A2545',
   },
   {
     slug: 'cold-pressed-oils',
@@ -112,8 +112,8 @@ export const products: ProductCategory[] = [
     items: ['Khapali Atta', 'Multigrain Flour', 'Ragi Flour', 'Jowar Flour', 'Bajra Flour', 'Blended Atta'],
     uses: ['Rotis & parathas', 'Bread & baking', 'Porridge & dosa', 'Healthy snacks'],
     geometry: 'dodecahedron',
-    color: '#4A2545',
-    accent: '#4A2545',
+    color: '#161616',
+    accent: '#161616',
   },
   {
     slug: 'whole-spices',
@@ -134,8 +134,8 @@ export const products: ProductCategory[] = [
     items: ['Cumin Seeds', 'Coriander Seeds', 'Black Pepper', 'Green Cardamom', 'Cloves', 'Cinnamon', 'Bay Leaves', 'Star Anise'],
     uses: ['Tempering (tadka)', 'Spice blends', 'Pickling', 'Tea & chai', 'Slow cooking'],
     geometry: 'icosahedron',
-    color: '#2D4A2D',
-    accent: '#2D4A2D',
+    color: '#4A2545',
+    accent: '#4A2545',
   },
   {
     slug: 'spice-powders',

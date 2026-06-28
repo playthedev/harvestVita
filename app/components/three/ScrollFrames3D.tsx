@@ -29,8 +29,8 @@ function mulberry32(seed: number) {
  * ────────────────────────────────────────────────────────── */
 
 const GOLD = '#C9A84C';
-const OLIVE = '#2D4A2D';
-const PLUM = '#4A2545';
+const OLIVE = '#E2C47A';
+const PLUM = '#161616';
 const CREAM = '#F5F0E8';
 
 /* Smoothstep helper */

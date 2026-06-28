@@ -61,6 +61,8 @@ export default function Footer({ locale, dict }: { locale: Locale; dict: Diction
     { label: dict.footer.ourStory, href: '/about' },
     { label: dict.footer.qualityStandards, href: '/quality' },
     { label: dict.footer.allProducts, href: '/products' },
+    { label: dict.footer.myths, href: '/myths' },
+    { label: dict.footer.blog, href: '/blog' },
     { label: dict.nav.contact, href: '/contact' },
   ];
 
@@ -71,19 +73,21 @@ export default function Footer({ locale, dict }: { locale: Locale; dict: Diction
   ];
 
   return (
-    <footer className="bg-[#0D0D0D] text-[#F5F0E8] relative overflow-hidden">
+    <footer className="bg-[#2E1530] text-[#F5F0E8] relative overflow-hidden">
       {/* ── Link columns ── */}
       <div className="border-t border-[#F5F0E8]/6">
         <div className="max-w-[1800px] mx-auto px-[5.128vw] py-14 grid grid-cols-2 md:grid-cols-5 gap-10">
           {/* Brand col */}
           <div className="col-span-2 md:col-span-1">
-            <Link href={localizedHref('/', locale)} className="inline-block mb-5 select-none" aria-label="HarvestVita home">
+            <Link href={localizedHref('/', locale)} className="inline-flex items-center rounded-xl bg-[#F5F0E8] px-4 py-3 mb-4 shadow-lg shadow-black/25 ring-1 ring-[#C9A84C]/25 hover:ring-[#C9A84C]/50 transition-all duration-300 select-none" aria-label="HarvestVita home">
               <Image
                 src="/logo.png"
-                alt="HarvestVita by Amoohaa Farms"
-                width={200}
-                height={80}
-                className="h-20 w-auto object-contain brightness-0 invert"
+                alt="HarvestVita by Amooha Farms Pvt Ltd"
+                width={1368}
+                height={1020}
+                quality={100}
+                unoptimized
+                className="h-24 w-auto object-contain"
               />
             </Link>
             <p className="font-serif text-[#F5F0E8]/45 text-sm leading-relaxed">
@@ -109,7 +113,7 @@ export default function Footer({ locale, dict }: { locale: Locale; dict: Diction
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label}
-                    className="w-9 h-9 inline-flex items-center justify-center border border-[#F5F0E8]/15 text-[#F5F0E8]/55 hover:text-[#0D0D0D] hover:bg-[#C9A84C] hover:border-[#C9A84C] transition-colors duration-200"
+                    className="w-9 h-9 inline-flex items-center justify-center border border-[#F5F0E8]/15 text-[#F5F0E8]/55 hover:text-[#2E1530] hover:bg-[#C9A84C] hover:border-[#C9A84C] transition-colors duration-200"
                   >
                     {s.icon}
                   </a>
@@ -164,18 +168,18 @@ export default function Footer({ locale, dict }: { locale: Locale; dict: Diction
             <ul className="flex flex-col gap-3">
               <li>
                 <a
-                  href="mailto:hello@harvestvita.in"
+                  href="mailto:letsconnect@harvestvita.in"
                   className="font-serif text-sm text-[#F5F0E8]/45 hover:text-[#C9A84C] transition-colors duration-200 break-all"
                 >
-                  hello@harvestvita.in
+                  letsconnect@harvestvita.in
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+919999999999"
+                  href="tel:+919163969111"
                   className="font-serif text-sm text-[#F5F0E8]/45 hover:text-[#C9A84C] transition-colors duration-200"
                 >
-                  +91 99999 99999
+                  +91 91639 69111 / +91 93399 98587
                 </a>
               </li>
               <li className="font-serif text-sm text-[#F5F0E8]/30 leading-relaxed mt-1">
@@ -209,7 +213,7 @@ export default function Footer({ locale, dict }: { locale: Locale; dict: Diction
       <div className="border-t border-[#F5F0E8]/6">
         <div className="max-w-[1800px] mx-auto px-[5.128vw] py-5 flex items-center justify-center">
           <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/20">
-            &copy; {year} HarvestVita by Amoohaa Farms. {dict.footer.rights}
+            &copy; {year} HarvestVita by Amooha Farms Pvt Ltd. {dict.footer.rights}
           </p>
         </div>
       </div>

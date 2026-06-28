@@ -84,7 +84,7 @@ function SeedPod({ position, scale, speed }: { position: [number, number, number
   return (
     <mesh ref={meshRef} position={position} scale={scale}>
       <icosahedronGeometry args={[1, 1]} />
-      <meshBasicMaterial color="#2D4A2D" wireframe transparent opacity={0.55} />
+      <meshBasicMaterial color="#C9A84C" wireframe transparent opacity={0.55} />
     </mesh>
   );
 }
@@ -104,7 +104,7 @@ function LeafDiamond({ position, scale, speed }: { position: [number, number, nu
   return (
     <mesh ref={meshRef} position={position} scale={[scale * 0.7, scale * 1.6, scale * 0.4]}>
       <octahedronGeometry args={[1, 0]} />
-      <meshBasicMaterial color="#4A2545" wireframe transparent opacity={0.5} />
+      <meshBasicMaterial color="#161616" wireframe transparent opacity={0.5} />
     </mesh>
   );
 }

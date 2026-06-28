@@ -58,7 +58,7 @@ export default function AddressForm({ saved, action, dict }: Props) {
   const [phoneNumber, setPhoneNumber] = useState(initNumber);
 
   const inputBase =
-    'w-full bg-[#0A0A0A] border px-3 py-2.5 font-serif text-[#F5F0E8] text-sm placeholder-[#F5F0E8]/25 focus:outline-none transition-colors';
+    'w-full bg-[#3A1A3D] border px-3 py-2.5 font-serif text-[#F5F0E8] text-sm placeholder-[#F5F0E8]/25 focus:outline-none transition-colors';
   const inputOk = 'border-[#F5F0E8]/12 hover:border-[#F5F0E8]/25 focus:border-[#C9A84C]';
   const inputErr = 'border-red-500/60 focus:border-red-400';
   const labelClass = 'block font-sans-harvest text-[9px] tracking-[0.25em] uppercase mb-1.5';
@@ -111,7 +111,7 @@ export default function AddressForm({ saved, action, dict }: Props) {
           <select
             value={dialCode}
             onChange={(e) => setDialCode(e.target.value)}
-            className="bg-[#0A0A0A] border border-[#F5F0E8]/12 hover:border-[#F5F0E8]/25 focus:border-[#C9A84C] focus:outline-none font-serif text-[#F5F0E8] text-sm px-2 py-2.5 transition-colors flex-shrink-0"
+            className="bg-[#3A1A3D] border border-[#F5F0E8]/12 hover:border-[#F5F0E8]/25 focus:border-[#C9A84C] focus:outline-none font-serif text-[#F5F0E8] text-sm px-2 py-2.5 transition-colors flex-shrink-0"
             style={{ minWidth: '5.5rem' }}
           >
             {COUNTRY_CODES.map((c) => (
@@ -216,7 +216,7 @@ export default function AddressForm({ saved, action, dict }: Props) {
 
       {/* Success / generic error banner */}
       {isSuccess && (
-        <div className="flex items-center gap-2 bg-[#1a2e1a] border border-[#2D4A2D]/60 px-3 py-2.5">
+        <div className="flex items-center gap-2 bg-[#3A1A3D] border border-[#4A2545]/60 px-3 py-2.5">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="20 6 9 17 4 12"/>
           </svg>
@@ -234,7 +234,7 @@ export default function AddressForm({ saved, action, dict }: Props) {
       <button
         type="submit"
         disabled={pending}
-        className="w-full font-sans-harvest text-[10px] tracking-[0.2em] uppercase py-3 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors disabled:opacity-50 mt-1"
+        className="w-full font-sans-harvest text-[10px] tracking-[0.2em] uppercase py-3 bg-[#C9A84C] text-[#2E1530] hover:bg-[#E2C47A] transition-colors disabled:opacity-50 mt-1"
       >
         {pending ? t.saving : saved ? t.updateAddress : t.saveAddress}
       </button>

@@ -37,7 +37,7 @@ export default function WhySection({ dict }: { dict: Dictionary }) {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-[#2E1530] py-28 md:py-36">
+    <section ref={sectionRef} className="bg-[#0D0D0D] py-28 md:py-36">
       <div className="max-w-[1800px] mx-auto px-[5.128vw]">
         {/* Header */}
         <ScrollReveal>

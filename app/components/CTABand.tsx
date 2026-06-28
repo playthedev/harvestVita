@@ -15,10 +15,10 @@ export default function CTABand({
 }) {
   const bgClass =
     bg === 'plum'
-      ? 'bg-[#2E1530]'
+      ? 'bg-[#0D0D0D]'
       : bg === 'olive'
-      ? 'bg-[#2D4A2D]'
-      : 'bg-[#0D0D0D]';
+      ? 'bg-[#4A2545]'
+      : 'bg-[#2E1530]';
 
   return (
     <section className={`${bgClass} py-20 md:py-28 border-t border-[#F5F0E8]/6`}>
