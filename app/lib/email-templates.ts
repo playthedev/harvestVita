@@ -6,6 +6,9 @@ const dark = '#2E1530';
 const cream = '#F5F0E8';
 const darkCard = '#4A2545';
 
+// Inline CID attachment added by the mailer — renders without a public image host.
+const logoUrl = 'cid:harvestvita-logo';
+
 function base(title: string, body: string): string {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -21,7 +24,13 @@ function base(title: string, body: string): string {
         <!-- Header -->
         <tr>
           <td style="background:${darkCard};border-bottom:2px solid ${gold};padding:24px 40px;text-align:center;">
-            <img src="https://harvestvita.in/logo.png" alt="HarvestVita by Amooha Farms Pvt Ltd" width="200" style="display:inline-block;width:200px;max-width:60%;height:auto;border:0;outline:none;text-decoration:none;" />
+            <table align="center" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto;">
+              <tr>
+                <td bgcolor="${cream}" style="background:${cream};border-radius:10px;padding:10px 16px;">
+                  <img src="${logoUrl}" alt="HarvestVita by Amooha Farms Pvt Ltd" width="120" style="display:block;width:120px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;" />
+                </td>
+              </tr>
+            </table>
           </td>
         </tr>
         <!-- Body -->
