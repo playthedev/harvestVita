@@ -86,14 +86,14 @@ export default function ScrollJourney({ dict }: { dict: Dictionary }) {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-[#0A0A0A] h-screen overflow-hidden"
+      className="relative bg-[#3A1A3D] h-screen overflow-hidden"
     >
       {/* Background atmospheric gradient */}
       <div
         className="absolute inset-0 pointer-events-none z-[1]"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.08) 0%, rgba(10,10,10,0) 60%)',
+            'radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.08) 0%, rgba(58,26,61,0) 60%)',
         }}
       />
 
@@ -120,7 +120,7 @@ export default function ScrollJourney({ dict }: { dict: Dictionary }) {
         className="absolute inset-0 pointer-events-none z-[3]"
         style={{
           background:
-            'linear-gradient(to right, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.2) 35%, rgba(10,10,10,0.2) 65%, rgba(10,10,10,0.85) 100%), linear-gradient(to bottom, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0) 30%, rgba(10,10,10,0) 70%, rgba(10,10,10,0.7) 100%)',
+            'linear-gradient(to right, rgba(58,26,61,0.85) 0%, rgba(58,26,61,0.2) 35%, rgba(58,26,61,0.2) 65%, rgba(58,26,61,0.85) 100%), linear-gradient(to bottom, rgba(58,26,61,0.4) 0%, rgba(58,26,61,0) 30%, rgba(58,26,61,0) 70%, rgba(58,26,61,0.7) 100%)',
         }}
       />
 

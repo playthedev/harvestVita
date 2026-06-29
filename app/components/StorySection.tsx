@@ -15,7 +15,7 @@ export default function StorySection({ locale, dict }: { locale: Locale; dict: D
       {/* Decorative oversized faint word */}
       <div
         aria-hidden
-        className="absolute -top-10 right-[-4vw] font-display font-bold text-[#4A2545]/[0.04] select-none pointer-events-none leading-none whitespace-nowrap"
+        className="absolute -top-10 right-[-4vw] font-display font-bold text-[#161616]/[0.04] select-none pointer-events-none leading-none whitespace-nowrap"
         style={{ fontSize: 'clamp(8rem, 18vw, 18rem)' }}
       >
         Story
@@ -24,7 +24,7 @@ export default function StorySection({ locale, dict }: { locale: Locale; dict: D
       <div
         aria-hidden
         className="absolute inset-x-0 top-0 h-32 pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, rgba(13,13,13,0.05), transparent)' }}
+        style={{ background: 'linear-gradient(to bottom, rgba(46,21,48,0.05), transparent)' }}
       />
       {/* Floating decorative leaf SVG */}
       <svg
@@ -32,8 +32,8 @@ export default function StorySection({ locale, dict }: { locale: Locale; dict: D
         className="absolute top-20 left-6 w-16 h-16 opacity-30 animate-drift hidden md:block"
         viewBox="0 0 60 60" fill="none"
       >
-        <path d="M30 5 C 14 18, 14 42, 30 55 C 46 42, 46 18, 30 5 Z" stroke="#2D4A2D" strokeWidth="1" />
-        <line x1="30" y1="8" x2="30" y2="52" stroke="#2D4A2D" strokeWidth="0.8" />
+        <path d="M30 5 C 14 18, 14 42, 30 55 C 46 42, 46 18, 30 5 Z" stroke="#4A2545" strokeWidth="1" />
+        <line x1="30" y1="8" x2="30" y2="52" stroke="#4A2545" strokeWidth="0.8" />
       </svg>
 
       <div className="max-w-[1800px] mx-auto px-[5.128vw] relative">
@@ -41,11 +41,11 @@ export default function StorySection({ locale, dict }: { locale: Locale; dict: D
         {/* Section label */}
         <ScrollReveal>
           <div className="flex items-center gap-3 mb-6">
-            <span className="block w-2 h-2 rounded-full bg-[#4A2545]" />
-            <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545]">
+            <span className="block w-2 h-2 rounded-full bg-[#161616]" />
+            <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#161616]">
               {s.label}
             </p>
-            <span className="block h-px w-12 bg-[#4A2545]/30" />
+            <span className="block h-px w-12 bg-[#161616]/30" />
           </div>
         </ScrollReveal>
 
@@ -81,7 +81,7 @@ export default function StorySection({ locale, dict }: { locale: Locale; dict: D
               <div className="relative aspect-[3/4] overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800&q=80"
-                  alt="Amoohaa Farms — golden wheat fields at harvest"
+                  alt="Amooha Farms Pvt Ltd — golden wheat fields at harvest"
                   fill
                   sizes="(max-width:768px) 90vw, 30vw"
                   className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
@@ -109,7 +109,7 @@ export default function StorySection({ locale, dict }: { locale: Locale; dict: D
               </blockquote>
               <Link
                 href={localizedHref('/about', locale)}
-                className="inline-block font-sans-harvest text-[11px] tracking-[0.15em] uppercase mt-2 px-6 py-3 border border-[#2D4A2D] text-[#2D4A2D] hover:bg-[#2D4A2D] hover:text-[#F5F0E8] transition-all duration-300 select-none"
+                className="inline-block font-sans-harvest text-[11px] tracking-[0.15em] uppercase mt-2 px-6 py-3 border border-[#4A2545] text-[#4A2545] hover:bg-[#4A2545] hover:text-[#F5F0E8] transition-all duration-300 select-none"
               >
                 {s.readFullStory}
               </Link>
@@ -139,7 +139,7 @@ export default function StorySection({ locale, dict }: { locale: Locale; dict: D
                     <p className="font-sans-harvest text-[11px] tracking-[0.25em] text-[#C9A84C]">{p.num}</p>
                   </div>
                   <h3
-                    className="font-display font-bold text-[#1C1C1C] mb-3 group-hover:text-[#4A2545] transition-colors duration-200"
+                    className="font-display font-bold text-[#1C1C1C] mb-3 group-hover:text-[#161616] transition-colors duration-200"
                     style={{ fontSize: 'clamp(1.1rem, 1.56vw, 1.4rem)' }}
                   >
                     {p.title}

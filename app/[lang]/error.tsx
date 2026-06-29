@@ -16,7 +16,7 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center px-6 text-center">
+    <main className="min-h-screen bg-[#3A1A3D] flex flex-col items-center justify-center px-6 text-center">
       <div className="relative z-10 max-w-md">
         <div className="flex items-center justify-center gap-3 mb-6">
           <span className="block h-px w-8 bg-[#C9A84C]" />
@@ -37,7 +37,7 @@ export default function GlobalError({
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={reset}
-            className="font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors"
+            className="font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#2E1530] hover:bg-[#E2C47A] transition-colors"
           >
             Try Again
           </button>

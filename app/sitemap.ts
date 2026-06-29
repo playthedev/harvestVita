@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { products, allProducts } from './lib/products';
+import { posts } from './lib/blog';
 import { locales } from './i18n/config';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://harvestvita.in';
@@ -16,6 +17,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/about',
     '/products',
     '/quality',
+    '/myths',
+    '/blog',
     '/contact',
     '/terms',
     '/privacy',
@@ -25,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const productPaths = [
     ...products.map((p) => `/products/${p.slug}`),
     ...allProducts.map((p) => `/products/item/${p.id}`),
+    ...posts.map((p) => `/blog/${p.slug}`),
   ];
 
   const entries: MetadataRoute.Sitemap = [];

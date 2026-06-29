@@ -21,7 +21,7 @@ export default async function ReturnsPage({
 
   return (
     <>
-      <section className="bg-[#0A0A0A] pt-44 pb-20 md:pt-52 md:pb-24 relative overflow-hidden">
+      <section className="bg-[#3A1A3D] pt-44 pb-20 md:pt-52 md:pb-24 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 70%, rgba(201,168,76,0.08) 0%, transparent 65%)' }} />
         <div className="relative max-w-[1800px] mx-auto px-[5.128vw]">
           <div className="flex items-center gap-3 mb-6">
@@ -41,10 +41,10 @@ export default async function ReturnsPage({
       </section>
 
       {/* Quick summary cards */}
-      <section className="bg-[#2D4A2D] py-12">
+      <section className="bg-[#4A2545] py-12">
         <div className="max-w-[1800px] mx-auto px-[5.128vw] grid md:grid-cols-3 gap-px bg-[#F5F0E8]/10">
           {returns.summary.map((c) => (
-            <div key={c.label} className="bg-[#2D4A2D] px-8 py-8">
+            <div key={c.label} className="bg-[#4A2545] px-8 py-8">
               <p className="font-sans-harvest text-[9px] tracking-[0.3em] uppercase text-[#C9A84C] mb-2">{c.label}</p>
               <p className="font-display font-bold text-[#F5F0E8] text-2xl md:text-3xl mb-1">{c.value}</p>
               <p className="font-serif text-[#F5F0E8]/45 text-sm">{c.note}</p>

@@ -23,7 +23,7 @@ export default function OtpForm({
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const inputClass =
-    'w-12 h-14 text-center bg-[#0A0A0A] border border-[#F5F0E8]/15 font-serif text-xl text-[#F5F0E8] focus:outline-none focus:border-[#C9A84C] hover:border-[#F5F0E8]/30 transition-colors caret-transparent';
+    'w-12 h-14 text-center bg-[#3A1A3D] border border-[#F5F0E8]/15 font-serif text-xl text-[#F5F0E8] focus:outline-none focus:border-[#C9A84C] hover:border-[#F5F0E8]/30 transition-colors caret-transparent';
 
   const focusInput = useCallback((index: number) => {
     inputRefs.current[index]?.focus();
@@ -130,7 +130,7 @@ export default function OtpForm({
         <button
           type="submit"
           disabled={verifyPending}
-          className="w-full font-sans-harvest text-[11px] tracking-[0.22em] uppercase py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full font-sans-harvest text-[11px] tracking-[0.22em] uppercase py-4 bg-[#C9A84C] text-[#2E1530] hover:bg-[#E2C47A] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {verifyPending ? t.verifying : t.verify}
         </button>

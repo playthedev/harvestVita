@@ -35,7 +35,7 @@ export default function PageHero({
   stat?: { k: string; l: string }[];
 }) {
   return (
-    <section className="relative bg-[#0A0A0A] pt-44 pb-24 md:pt-52 md:pb-32 overflow-hidden">
+    <section className="relative bg-[#3A1A3D] pt-44 pb-24 md:pt-52 md:pb-32 overflow-hidden">
       {/* 3D background */}
       <div className="absolute inset-0 opacity-55">
         <FloatingGeometry geometry={geometry} color={color} scale={1.5} />
@@ -62,7 +62,7 @@ export default function PageHero({
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'linear-gradient(to bottom, rgba(10,10,10,0.7) 0%, rgba(10,10,10,0.15) 50%, rgba(10,10,10,0.92) 100%)',
+            'linear-gradient(to bottom, rgba(58,26,61,0.7) 0%, rgba(58,26,61,0.15) 50%, rgba(58,26,61,0.92) 100%)',
         }}
       />
 

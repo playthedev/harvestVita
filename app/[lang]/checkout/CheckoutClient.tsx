@@ -7,8 +7,9 @@ import Script from 'next/script';
 import { useCart } from '../../lib/CartContext';
 import type { Address } from '../../lib/user-store';
 import { localizedHref } from '../../lib/locale-path';
-import { formatPrice, localeCurrency } from '../../lib/currency';
-import { useCountry } from '../../lib/CurrencyContext';
+import { formatPrice } from '../../lib/currency';
+import { calcShipping } from '../../lib/shipping';
+import { useCurrency } from '../../lib/CurrencyContext';
 import type { Locale } from '../../i18n/config';
 import type { Dictionary } from '../../i18n/dictionaries';
 
@@ -105,7 +106,7 @@ function validateAddress(form: FormState, phoneNumber: string, errors: Dictionar
 
 export default function CheckoutClient({ userId, userName, userEmail, savedAddress, locale, dict }: Props) {
   const { items, total, count, clear } = useCart();
-  const country = useCountry();
+  const { code } = useCurrency();
   const t = dict.checkout;
 
   const fields: Field[] = [
@@ -150,7 +151,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
-  const shipping = total >= 499 ? 0 : 60;
+  const shipping = calcShipping(total);
   const orderTotal = total + shipping;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -226,8 +227,8 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
         amount,
         currency,
         name: 'HarvestVita',
-        description: 'By Amoohaa Farms',
-        image: 'https://res.cloudinary.com/dxt8zvs77/image/upload/v1781467740/icon_1_pxze9x.png',
+        description: 'By Amooha Farms Pvt Ltd',
+        image: 'https://harvestvita.in/logo.png',
         order_id: rzpOrderId,
         prefill: {
           name: userName ?? '',
@@ -285,7 +286,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
   // ═══════════════ NOT LOGGED IN ═══════════════
   if (!userId) {
     return (
-      <section className="relative min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center px-[5.128vw] pt-36 pb-24 overflow-hidden">
+      <section className="relative min-h-screen bg-[#3A1A3D] flex flex-col items-center justify-center px-[5.128vw] pt-36 pb-24 overflow-hidden">
         <div aria-hidden className="absolute inset-0 pointer-events-none opacity-[0.025]"
           style={{ backgroundImage: 'linear-gradient(rgba(245,240,232,1) 1px, transparent 1px), linear-gradient(90deg, rgba(245,240,232,1) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
         <Cross className="absolute top-[110px] left-[5.128vw]" />
@@ -315,7 +316,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href={`${localizedHref('/signup', locale)}?redirect=/checkout`}
-              className="group font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors inline-flex items-center justify-center gap-2"
+              className="group font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#2E1530] hover:bg-[#E2C47A] transition-colors inline-flex items-center justify-center gap-2"
             >
               {t.notLoggedIn.createAccount} <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
             </Link>
@@ -334,7 +335,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
   // ═══════════════ EMPTY ═══════════════
   if (count === 0 && !placedOrderId) {
     return (
-      <section className="relative min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center px-[5.128vw] pt-36 pb-24 overflow-hidden">
+      <section className="relative min-h-screen bg-[#3A1A3D] flex flex-col items-center justify-center px-[5.128vw] pt-36 pb-24 overflow-hidden">
         <div aria-hidden className="absolute inset-0 pointer-events-none opacity-[0.025]"
           style={{ backgroundImage: 'linear-gradient(rgba(245,240,232,1) 1px, transparent 1px), linear-gradient(90deg, rgba(245,240,232,1) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
         <Cross className="absolute top-[110px] left-[5.128vw]" />
@@ -342,7 +343,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
         <div className="text-center max-w-md relative z-10">
           <h1 className="font-display font-bold text-[#F5F0E8] text-4xl mb-4">{t.empty.heading}</h1>
           <p className="font-serif text-[#F5F0E8]/55 mb-8">{t.empty.body}</p>
-          <Link href={localizedHref('/products', locale)} className="font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors">
+          <Link href={localizedHref('/products', locale)} className="font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#2E1530] hover:bg-[#E2C47A] transition-colors">
             {t.empty.backToShop}
           </Link>
         </div>
@@ -353,7 +354,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
   // ═══════════════ ORDER PLACED ═══════════════
   if (placedOrderId) {
     return (
-      <section className="relative min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center px-[5.128vw] pt-36 pb-24 overflow-hidden">
+      <section className="relative min-h-screen bg-[#3A1A3D] flex flex-col items-center justify-center px-[5.128vw] pt-36 pb-24 overflow-hidden">
         <div aria-hidden className="absolute pointer-events-none" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '70vw', height: '70vh', background: 'radial-gradient(ellipse at center, rgba(45,74,45,0.20) 0%, rgba(201,168,76,0.08) 30%, transparent 70%)', filter: 'blur(10px)' }} />
         <div aria-hidden className="absolute inset-0 pointer-events-none opacity-[0.025]" style={{ backgroundImage: 'linear-gradient(rgba(245,240,232,1) 1px, transparent 1px), linear-gradient(90deg, rgba(245,240,232,1) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
         <Cross className="absolute top-[110px] left-[5.128vw]" />
@@ -368,7 +369,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
             <span className="absolute -top-2 -right-2 w-8 h-8 border-t-2 border-r-2 border-[#C9A84C]" />
             <span className="absolute -bottom-2 -left-2 w-8 h-8 border-b-2 border-l-2 border-[#C9A84C]" />
             <span className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-[#C9A84C]" />
-            <div className="w-14 h-14 rounded-full bg-[#2D4A2D] flex items-center justify-center">
+            <div className="w-14 h-14 rounded-full bg-[#4A2545] flex items-center justify-center">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5 14l7 7L23 7" stroke="#F5F0E8" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </div>
           </div>
@@ -383,13 +384,13 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
           <p className="font-serif text-[#F5F0E8]/60 text-lg leading-relaxed mb-10 max-w-md mx-auto">
             {t.success.body}
           </p>
-          <div className="inline-flex items-center gap-3 bg-[#161616] border border-[#F5F0E8]/10 px-5 py-3 mb-10">
+          <div className="inline-flex items-center gap-3 bg-[#4A2545] border border-[#F5F0E8]/10 px-5 py-3 mb-10">
             <span className="font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/35">{t.success.orderIdLabel}</span>
             <span className="block h-3 w-px bg-[#F5F0E8]/15" />
             <span className="font-sans-harvest text-xs tracking-[0.15em] text-[#C9A84C]">{placedOrderId}</span>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href={localizedHref('/products', locale)} className="group font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors duration-200 inline-flex items-center justify-center gap-2">
+            <Link href={localizedHref('/products', locale)} className="group font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#2E1530] hover:bg-[#E2C47A] transition-colors duration-200 inline-flex items-center justify-center gap-2">
               {t.success.continueShopping} <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
             </Link>
             {userId && (
@@ -409,7 +410,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
       {/* Load Razorpay SDK */}
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
 
-      <section className="relative bg-[#0A0A0A] pt-36 md:pt-44 pb-14 md:pb-20 overflow-hidden">
+      <section className="relative bg-[#3A1A3D] pt-36 md:pt-44 pb-14 md:pb-20 overflow-hidden">
         <div aria-hidden className="absolute pointer-events-none" style={{ top: '40%', left: '50%', transform: 'translate(-50%, -50%)', width: '60vw', height: '50vh', background: 'radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 65%)', filter: 'blur(8px)' }} />
         <div aria-hidden className="absolute inset-0 pointer-events-none opacity-[0.025]" style={{ backgroundImage: 'linear-gradient(rgba(245,240,232,1) 1px, transparent 1px), linear-gradient(90deg, rgba(245,240,232,1) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
         <Cross className="absolute top-[90px] left-[5.128vw]" />
@@ -428,7 +429,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
         </div>
       </section>
 
-      <section className="bg-[#0D0D0D] py-16 md:py-20 relative overflow-hidden">
+      <section className="bg-[#2E1530] py-16 md:py-20 relative overflow-hidden">
         <div className="relative max-w-[1800px] mx-auto px-[5.128vw]">
           <div className="grid lg:grid-cols-[1fr_400px] gap-10 lg:gap-14">
             <form onSubmit={handleSubmit} className="space-y-10">
@@ -458,7 +459,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                           placeholder={f.placeholder}
                           value={form[f.name] || ''}
                           onChange={handleChange}
-                          className={`w-full bg-[#0A0A0A] border px-4 py-3.5 font-serif text-[#F5F0E8] placeholder-[#F5F0E8]/25 focus:outline-none transition-colors ${
+                          className={`w-full bg-[#3A1A3D] border px-4 py-3.5 font-serif text-[#F5F0E8] placeholder-[#F5F0E8]/25 focus:outline-none transition-colors ${
                             fieldErr
                               ? 'border-red-400 focus:border-red-400'
                               : 'border-[#F5F0E8]/15 focus:border-[#C9A84C] hover:border-[#F5F0E8]/30'
@@ -486,7 +487,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                       <select
                         value={dialCode}
                         onChange={(e) => setDialCode(e.target.value)}
-                        className="bg-[#161616] text-[#F5F0E8] font-serif text-sm px-3 py-3.5 border-r border-[#F5F0E8]/10 focus:outline-none cursor-pointer flex-shrink-0"
+                        className="bg-[#4A2545] text-[#F5F0E8] font-serif text-sm px-3 py-3.5 border-r border-[#F5F0E8]/10 focus:outline-none cursor-pointer flex-shrink-0"
                       >
                         {COUNTRY_CODES.map((c) => (
                           <option key={c.code} value={c.dial}>
@@ -500,7 +501,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                         placeholder={t.form.fields.phone.placeholder}
                         value={phoneNumber}
                         onChange={handlePhoneChange}
-                        className="flex-1 bg-[#0A0A0A] px-4 py-3.5 font-serif text-[#F5F0E8] placeholder-[#F5F0E8]/25 focus:outline-none"
+                        className="flex-1 bg-[#3A1A3D] px-4 py-3.5 font-serif text-[#F5F0E8] placeholder-[#F5F0E8]/25 focus:outline-none"
                       />
                     </div>
                     {fieldErrors.phoneNumber ? (
@@ -527,7 +528,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                   <span className="block h-px flex-1 bg-[#F5F0E8]/10" />
                   <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#C9A84C]">{t.form.sectionPayment}</p>
                 </div>
-                <div className="bg-[#0A0A0A] border border-[#C9A84C] p-6 flex items-start gap-5 relative overflow-hidden">
+                <div className="bg-[#3A1A3D] border border-[#C9A84C] p-6 flex items-start gap-5 relative overflow-hidden">
                   <span className="absolute top-0 left-0 h-full w-1 bg-[#C9A84C]" />
                   <div className="w-5 h-5 rounded-full border-2 border-[#C9A84C] flex-shrink-0 mt-0.5 flex items-center justify-center">
                     <span className="block w-2 h-2 rounded-full bg-[#C9A84C]" />
@@ -575,7 +576,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="group w-full font-sans-harvest text-[11px] tracking-[0.25em] uppercase py-5 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="group w-full font-sans-harvest text-[11px] tracking-[0.25em] uppercase py-5 bg-[#C9A84C] text-[#2E1530] hover:bg-[#E2C47A] transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {submitting ? t.form.submitting : (
                     <>
@@ -593,7 +594,7 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
 
             {/* SUMMARY */}
             <div className="self-start">
-              <div className="bg-[#0A0A0A] border border-[#F5F0E8]/8 sticky top-28 relative overflow-hidden">
+              <div className="bg-[#3A1A3D] border border-[#F5F0E8]/8 sticky top-28 relative overflow-hidden">
                 <span className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-[#C9A84C] to-transparent" />
                 <span className="absolute -top-1 -right-1 w-6 h-6 border-t-2 border-r-2 border-[#C9A84C]" />
                 <div className="p-7">
@@ -605,21 +606,21 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                   <div className="space-y-4 mb-5 max-h-[300px] overflow-y-auto pr-1">
                     {items.map((item) => (
                       <div key={item.id} className="flex gap-3 items-start">
-                        <div className="relative w-14 h-14 flex-shrink-0 overflow-hidden bg-[#161616]">
+                        <div className="relative w-14 h-14 flex-shrink-0 overflow-hidden bg-[#4A2545]">
                           <Image src={item.image} alt={item.name} fill className="object-cover" sizes="56px" />
-                          <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#C9A84C] text-[#0D0D0D] font-sans-harvest text-[9px] flex items-center justify-center font-bold">{item.qty}</span>
+                          <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#C9A84C] text-[#2E1530] font-sans-harvest text-[9px] flex items-center justify-center font-bold">{item.qty}</span>
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-display font-bold text-[#F5F0E8] text-sm leading-snug truncate">{item.name}</p>
                           <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/35 mt-0.5">{item.unit}</p>
                         </div>
-                        <span className="font-display font-bold text-[#C9A84C] text-sm flex-shrink-0">{formatPrice(item.price * item.qty, locale, country)}</span>
+                        <span className="font-display font-bold text-[#C9A84C] text-sm flex-shrink-0">{formatPrice(item.price * item.qty, code)}</span>
                       </div>
                     ))}
                   </div>
                   <div className="space-y-2 mb-5 pt-5 border-t border-[#F5F0E8]/10">
-                    <div className="flex justify-between font-serif text-sm text-[#F5F0E8]/65"><span>{t.summary.subtotal}</span><span>{formatPrice(total, locale, country)}</span></div>
-                    <div className="flex justify-between font-serif text-sm text-[#F5F0E8]/65"><span>{t.summary.shipping}</span><span>{shipping === 0 ? <span className="text-[#C9A84C]">{t.summary.free}</span> : formatPrice(shipping, locale, country)}</span></div>
+                    <div className="flex justify-between font-serif text-sm text-[#F5F0E8]/65"><span>{t.summary.subtotal}</span><span>{formatPrice(total, code)}</span></div>
+                    <div className="flex justify-between font-serif text-sm text-[#F5F0E8]/65"><span>{t.summary.shipping}</span><span>{shipping === 0 ? <span className="text-[#C9A84C]">{t.summary.free}</span> : formatPrice(shipping, code)}</span></div>
                   </div>
                   <div className="flex justify-between items-end pt-5 border-t border-[#F5F0E8]/10">
                     <div>
@@ -628,15 +629,15 @@ export default function CheckoutClient({ userId, userName, userEmail, savedAddre
                     </div>
                     <span className="font-display font-bold text-[#C9A84C] leading-none" style={{ fontSize: 'clamp(1.8rem, 2.5vw, 2.2rem)' }}>₹{orderTotal.toLocaleString('en-IN')}</span>
                   </div>
-                  {country !== 'IN' && (
+                  {code !== 'INR' && (
                     <p className="font-sans-harvest text-[8px] tracking-[0.1em] uppercase text-[#F5F0E8]/30 mt-2 text-right">
-                      {t.summary.estimateNote.replace('{currency}', localeCurrency[locale].code)}
+                      {t.summary.estimateNote.replace('{currency}', code)}
                     </p>
                   )}
                 </div>
                 <div className="grid grid-cols-3 gap-px bg-[#F5F0E8]/8 border-t border-[#F5F0E8]/10">
                   {t.summary.badges.map((b) => (
-                    <div key={b.l} className="bg-[#0A0A0A] py-4 text-center">
+                    <div key={b.l} className="bg-[#3A1A3D] py-4 text-center">
                       <p className="font-display font-bold text-[#C9A84C] text-sm">{b.k}</p>
                       <p className="font-sans-harvest text-[8px] tracking-[0.15em] uppercase text-[#F5F0E8]/35 mt-0.5">{b.l}</p>
                     </div>

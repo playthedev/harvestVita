@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import { createHash, randomInt } from 'crypto';
 import { z } from 'zod';
 import { createSession, deleteSession, getSession } from './session';
+import { calcShipping } from './shipping';
 import {
   createUser,
   findUserByEmail,
@@ -368,7 +369,7 @@ export async function placeOrder(input: {
   }
 
   const subtotal = lines.reduce((sum, l) => sum + l.price * l.qty, 0);
-  const shipping = subtotal >= 499 ? 0 : 60;
+  const shipping = calcShipping(subtotal);
 
   try {
     const order = await saveOrder({

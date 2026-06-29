@@ -27,19 +27,19 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://harvestvita.in';
 
 const descriptions: Record<Locale, { title: string; description: string; ogDescription: string }> = {
   en: {
-    title: "HarvestVita — By Amoohaa Farms",
+    title: "HarvestVita — By Amooha Farms Pvt Ltd",
     description:
       "Pure, nourishing ingredients rooted in authenticity. Dehydrated fruits & vegetables, cold-pressed oils, heritage flours, and whole spices. Farm to home.",
     ogDescription: "Honest food. Thoughtful processing. The richness of the farm, delivered to your home.",
   },
   fr: {
-    title: "HarvestVita — Par Amoohaa Farms",
+    title: "HarvestVita — Par Amooha Farms Pvt Ltd",
     description:
       "Des ingrédients purs et authentiques. Fruits et légumes déshydratés, huiles pressées à froid, farines ancestrales et épices entières. De la ferme à la maison.",
     ogDescription: "Une alimentation honnête. Une transformation réfléchie. La richesse de la ferme, livrée chez vous.",
   },
   de: {
-    title: "HarvestVita — Von Amoohaa Farms",
+    title: "HarvestVita — Von Amooha Farms Pvt Ltd",
     description:
       "Reine, nährende Zutaten mit Authentizität. Getrocknete Früchte & Gemüse, kaltgepresste Öle, traditionelles Mehl und ganze Gewürze. Vom Hof nach Hause.",
     ogDescription: "Ehrliches Essen. Durchdachte Verarbeitung. Der Reichtum des Hofes, zu Ihnen geliefert.",
@@ -64,7 +64,7 @@ export async function generateMetadata({
     title: t.title,
     description: t.description,
     keywords:
-      "organic food, natural ingredients, cold pressed oils, khapali atta, dehydrated vegetables, whole spices, Amoohaa Farms",
+      "organic food, natural ingredients, cold pressed oils, khapali atta, dehydrated vegetables, whole spices, Amooha Farms Pvt Ltd",
     openGraph: {
       title: t.title,
       description: t.ogDescription,
@@ -96,7 +96,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={`${playfair.variable} ${dmSans.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col antialiased">
-        <CurrencyProvider country={country}>
+        <CurrencyProvider country={country} locale={locale}>
           <CartProvider>
             <SmoothScroll />
             <Header locale={locale} dict={dict} />

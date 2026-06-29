@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { getSession } from '../../../lib/session';
 import { findActiveRazorpayOrderByReceipt, createRazorpayOrder } from '../../../lib/payments-store';
 import { getProductById } from '../../../lib/products';
+import { calcShipping } from '../../../lib/shipping';
 
 const rzp = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID!,
@@ -63,7 +64,7 @@ export async function POST(req: Request) {
     }
 
     const subtotal = lines.reduce((sum, l) => sum + l.price * l.qty, 0);
-    const shipping = subtotal >= 499 ? 0 : 60;
+    const shipping = calcShipping(subtotal);
     const totalRupees = subtotal + shipping;
     const amountPaise = totalRupees * 100;
 

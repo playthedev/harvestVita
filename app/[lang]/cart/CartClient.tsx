@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useCart } from '../../lib/CartContext';
 import { localizedHref } from '../../lib/locale-path';
 import { formatPrice } from '../../lib/currency';
-import { useCountry } from '../../lib/CurrencyContext';
+import { calcShipping, FREE_SHIPPING_THRESHOLD } from '../../lib/shipping';
+import { useCurrency } from '../../lib/CurrencyContext';
 import type { Locale } from '../../i18n/config';
 import type { Dictionary } from '../../i18n/dictionaries';
 
@@ -20,13 +21,13 @@ function Cross({ className }: { className?: string }) {
 
 export default function CartClient({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const { items, count, total, remove, updateQty } = useCart();
-  const country = useCountry();
+  const { code } = useCurrency();
   const t = dict.cart;
 
   // ═══════════════ EMPTY CART ═══════════════
   if (count === 0) {
     return (
-      <section className="relative min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center px-[5.128vw] pt-36 pb-24 overflow-hidden">
+      <section className="relative min-h-screen bg-[#3A1A3D] flex flex-col items-center justify-center px-[5.128vw] pt-36 pb-24 overflow-hidden">
         {/* Spotlight */}
         <div
           aria-hidden
@@ -94,7 +95,7 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href={localizedHref('/products', locale)}
-              className="group inline-flex items-center justify-center gap-2 font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors duration-200"
+              className="group inline-flex items-center justify-center gap-2 font-sans-harvest text-[11px] tracking-[0.22em] uppercase px-8 py-4 bg-[#C9A84C] text-[#2E1530] hover:bg-[#E2C47A] transition-colors duration-200"
             >
               {t.empty.browseShop}
               <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
@@ -111,13 +112,13 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
     );
   }
 
-  const shipping = total >= 499 ? 0 : 60;
+  const shipping = calcShipping(total);
   const orderTotal = total + shipping;
 
   return (
     <>
       {/* ═══════════════ HERO ═══════════════ */}
-      <section className="relative bg-[#0A0A0A] pt-36 md:pt-44 pb-14 md:pb-20 overflow-hidden">
+      <section className="relative bg-[#3A1A3D] pt-36 md:pt-44 pb-14 md:pb-20 overflow-hidden">
         <div
           aria-hidden
           className="absolute pointer-events-none"
@@ -174,7 +175,7 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
       </section>
 
       {/* ═══════════════ CART CONTENT ═══════════════ */}
-      <section className="bg-[#0D0D0D] py-16 md:py-20 relative overflow-hidden">
+      <section className="bg-[#2E1530] py-16 md:py-20 relative overflow-hidden">
         <div className="relative max-w-[1800px] mx-auto px-[5.128vw]">
           <div className="grid lg:grid-cols-[1fr_400px] gap-10 lg:gap-14">
             {/* ── ITEMS ── */}
@@ -194,9 +195,9 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
                     className="group grid grid-cols-[auto_1fr_auto] md:grid-cols-[auto_1fr_auto_auto_auto] gap-4 md:gap-6 items-center py-6 border-b border-[#F5F0E8]/8 hover:bg-[#F5F0E8]/[0.015] transition-colors"
                   >
                     {/* Image */}
-                    <Link href={localizedHref(`/products/item/${item.id}`, locale)} className="relative w-20 h-20 md:w-24 md:h-24 flex-shrink-0 overflow-hidden bg-[#161616] block group/img">
+                    <Link href={localizedHref(`/products/item/${item.id}`, locale)} className="relative w-20 h-20 md:w-24 md:h-24 flex-shrink-0 overflow-hidden bg-[#4A2545] block group/img">
                       <Image src={item.image} alt={item.name} fill className="object-cover transition-transform duration-700 group-hover/img:scale-110" sizes="96px" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D]/40 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#2E1530]/40 to-transparent" />
                     </Link>
 
                     {/* Name + meta */}
@@ -210,7 +211,7 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
                         </h3>
                       </Link>
                       <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/35 mt-1">
-                        {formatPrice(item.price, locale, country)} / {item.unit}
+                        {formatPrice(item.price, code)} / {item.unit}
                       </p>
 
                       {/* Mobile inline qty + price row */}
@@ -229,7 +230,7 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
                           >+</button>
                         </div>
                         <span className="font-display font-bold text-[#C9A84C] text-lg">
-                          {formatPrice(item.price * item.qty, locale, country)}
+                          {formatPrice(item.price * item.qty, code)}
                         </span>
                       </div>
                     </div>
@@ -253,7 +254,7 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
 
                     {/* Subtotal (desktop) */}
                     <span className="hidden md:block font-display font-bold text-[#C9A84C] text-xl w-24 text-right">
-                      {formatPrice(item.price * item.qty, locale, country)}
+                      {formatPrice(item.price * item.qty, code)}
                     </span>
 
                     {/* Remove */}
@@ -277,7 +278,7 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
                   { icon: 'M8 1v14M1 8h14', ...t.promo[1] },
                   { icon: 'M2 8a6 6 0 1 1 12 0 6 6 0 0 1-12 0zM8 4v4l3 2', ...t.promo[2] },
                 ].map((b) => (
-                  <div key={b.heading} className="bg-[#0D0D0D] p-5 flex items-center gap-4">
+                  <div key={b.heading} className="bg-[#2E1530] p-5 flex items-center gap-4">
                     <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
                       <path d={b.icon} stroke="#C9A84C" strokeWidth="1.4" strokeLinecap="round" />
                     </svg>
@@ -292,7 +293,7 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
 
             {/* ── SUMMARY ── */}
             <div className="self-start">
-              <div className="bg-[#0A0A0A] border border-[#F5F0E8]/8 sticky top-28 relative overflow-hidden">
+              <div className="bg-[#3A1A3D] border border-[#F5F0E8]/8 sticky top-28 relative overflow-hidden">
                 <span className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-[#C9A84C] to-transparent" />
                 {/* Decorative corner */}
                 <span className="absolute -top-1 -right-1 w-6 h-6 border-t-2 border-r-2 border-[#C9A84C]" />
@@ -308,18 +309,18 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
                   <div className="space-y-3 mb-6 pb-6 border-b border-[#F5F0E8]/10">
                     <div className="flex justify-between font-serif text-[#F5F0E8]/75 text-sm">
                       <span>{t.summary.subtotal.replace('{count}', String(count))}</span>
-                      <span>{formatPrice(total, locale, country)}</span>
+                      <span>{formatPrice(total, code)}</span>
                     </div>
                     <div className="flex justify-between font-serif text-[#F5F0E8]/75 text-sm">
                       <span>{t.summary.shipping}</span>
-                      <span>{shipping === 0 ? <span className="text-[#C9A84C]">{t.summary.free}</span> : formatPrice(shipping, locale, country)}</span>
+                      <span>{shipping === 0 ? <span className="text-[#C9A84C]">{t.summary.free}</span> : formatPrice(shipping, code)}</span>
                     </div>
-                    {shipping > 0 && total < 499 && (
-                      <div className="bg-[#161616] border border-[#C9A84C]/20 p-3 mt-4 flex items-start gap-3">
+                    {shipping > 0 && total < FREE_SHIPPING_THRESHOLD && (
+                      <div className="bg-[#4A2545] border border-[#C9A84C]/20 p-3 mt-4 flex items-start gap-3">
                         <span className="block w-1.5 h-1.5 rounded-full bg-[#C9A84C] mt-1.5 flex-shrink-0 animate-pulse" />
                         <p className="font-sans-harvest text-[10px] tracking-[0.1em] text-[#F5F0E8]/60 leading-relaxed">
                           {(() => {
-                            const amount = formatPrice(499 - total, locale, country);
+                            const amount = formatPrice(FREE_SHIPPING_THRESHOLD - total, code);
                             const [before, after] = t.summary.freeShippingNote.split('{amount}');
                             return (
                               <>
@@ -342,13 +343,13 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
                       </p>
                     </div>
                     <span className="font-display font-bold text-[#C9A84C] leading-none" style={{ fontSize: 'clamp(2rem, 3vw, 2.4rem)' }}>
-                      {formatPrice(orderTotal, locale, country)}
+                      {formatPrice(orderTotal, code)}
                     </span>
                   </div>
 
                   <Link
                     href={localizedHref('/checkout', locale)}
-                    className="group block w-full text-center font-sans-harvest text-[11px] tracking-[0.22em] uppercase py-4 bg-[#C9A84C] text-[#0D0D0D] hover:bg-[#E2C47A] transition-colors duration-200"
+                    className="group block w-full text-center font-sans-harvest text-[11px] tracking-[0.22em] uppercase py-4 bg-[#C9A84C] text-[#2E1530] hover:bg-[#E2C47A] transition-colors duration-200"
                   >
                     <span className="inline-flex items-center gap-2">
                       {t.summary.proceedToCheckout}
@@ -367,7 +368,7 @@ export default function CartClient({ locale, dict }: { locale: Locale; dict: Dic
                 </div>
 
                 {/* Bottom accent */}
-                <div className="border-t border-[#F5F0E8]/8 px-7 md:px-8 py-4 bg-[#0D0D0D]/50">
+                <div className="border-t border-[#F5F0E8]/8 px-7 md:px-8 py-4 bg-[#2E1530]/50">
                   <p className="font-serif text-[#F5F0E8]/35 text-xs text-center leading-relaxed">
                     {(() => {
                       const [before, after] = t.summary.termsNote.split('{terms}');

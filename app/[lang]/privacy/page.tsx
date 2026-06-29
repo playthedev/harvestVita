@@ -21,7 +21,7 @@ export default async function PrivacyPage({
 
   return (
     <>
-      <section className="bg-[#0A0A0A] pt-44 pb-20 md:pt-52 md:pb-24 relative overflow-hidden">
+      <section className="bg-[#3A1A3D] pt-44 pb-20 md:pt-52 md:pb-24 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 70%, rgba(201,168,76,0.08) 0%, transparent 65%)' }} />
         <div className="relative max-w-[1800px] mx-auto px-[5.128vw]">
           <div className="flex items-center gap-3 mb-6">

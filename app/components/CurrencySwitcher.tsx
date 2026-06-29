@@ -1,23 +1,19 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { locales, localeNames, type Locale } from '../i18n/config';
-import { stripLocale } from '../lib/locale-path';
+import { useCurrency } from '../lib/CurrencyContext';
+import { currencies, currencyCodes } from '../lib/currency';
 
-export default function LanguageSwitcher({
-  locale,
-  label,
+export default function CurrencySwitcher({
+  label = 'Currency',
   variant = 'desktop',
 }: {
-  locale: Locale;
-  label: string;
+  label?: string;
   variant?: 'desktop' | 'mobile';
 }) {
+  const { code, setCode } = useCurrency();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -27,28 +23,25 @@ export default function LanguageSwitcher({
     return () => document.removeEventListener('mousedown', onClick);
   }, []);
 
-  const switchTo = (next: Locale) => {
+  const choose = (next: string) => {
     setOpen(false);
-    if (next === locale) return;
-    const rest = stripLocale(pathname, locales);
-    const target = rest === '/' ? `/${next}` : `/${next}${rest}`;
-    router.push(target);
+    setCode(next);
   };
 
   if (variant === 'mobile') {
     return (
-      <div className="flex items-center gap-2 mt-2" role="group" aria-label={label}>
-        {locales.map((l) => (
+      <div className="flex flex-wrap items-center gap-2 mt-2" role="group" aria-label={label}>
+        {currencyCodes.map((c) => (
           <button
-            key={l}
-            onClick={() => switchTo(l)}
-            className={`flex-1 text-center font-sans-harvest text-[11px] tracking-[0.12em] uppercase px-3 py-2.5 border transition-colors duration-200 ${
-              l === locale
+            key={c}
+            onClick={() => choose(c)}
+            className={`text-center font-sans-harvest text-[11px] tracking-[0.12em] uppercase px-3 py-2.5 border transition-colors duration-200 ${
+              c === code
                 ? 'border-[#C9A84C] text-[#C9A84C]'
                 : 'border-[#F5F0E8]/25 text-[#F5F0E8]/80 hover:border-[#C9A84C] hover:text-[#C9A84C]'
             }`}
           >
-            {l.toUpperCase()}
+            {currencies[c].symbol} {c}
           </button>
         ))}
       </div>
@@ -64,7 +57,8 @@ export default function LanguageSwitcher({
         aria-label={label}
         className="flex items-center gap-1.5 font-sans-harvest text-[11px] tracking-[0.12em] uppercase px-3 py-2 border border-[#F5F0E8]/25 text-[#F5F0E8]/80 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all duration-200 rounded-sm select-none"
       >
-        {locale.toUpperCase()}
+        <span aria-hidden>{currencies[code]?.symbol}</span>
+        {code}
         <svg
           width="10"
           height="10"
@@ -79,21 +73,25 @@ export default function LanguageSwitcher({
       {open && (
         <div
           role="listbox"
-          className="absolute right-0 top-full mt-2 min-w-[140px] border border-[#C9A84C]/20 bg-[#2E1530] shadow-xl z-50 overflow-hidden"
+          className="absolute right-0 top-full mt-2 min-w-[200px] border border-[#C9A84C]/20 bg-[#2E1530] shadow-xl z-50 overflow-hidden"
         >
-          {locales.map((l) => (
+          {currencyCodes.map((c) => (
             <button
-              key={l}
+              key={c}
               role="option"
-              aria-selected={l === locale}
-              onClick={() => switchTo(l)}
-              className={`w-full text-left font-sans-harvest text-[11px] tracking-[0.12em] uppercase px-4 py-2.5 transition-colors duration-150 ${
-                l === locale
+              aria-selected={c === code}
+              onClick={() => choose(c)}
+              className={`w-full text-left font-sans-harvest text-[11px] tracking-[0.08em] uppercase px-4 py-2.5 flex items-center justify-between gap-3 transition-colors duration-150 ${
+                c === code
                   ? 'text-[#C9A84C] bg-[#C9A84C]/10'
                   : 'text-[#F5F0E8]/75 hover:text-[#C9A84C] hover:bg-[#C9A84C]/5'
               }`}
             >
-              {localeNames[l]}
+              <span className="flex items-center gap-2">
+                <span className="w-4 text-center" aria-hidden>{currencies[c].symbol}</span>
+                {c}
+              </span>
+              <span className="text-[9px] tracking-[0.04em] normal-case opacity-60">{currencies[c].label}</span>
             </button>
           ))}
         </div>

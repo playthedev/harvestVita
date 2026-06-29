@@ -2,9 +2,12 @@ import type { CartItem } from './CartContext';
 import type { Address } from './user-store';
 
 const gold = '#C9A84C';
-const dark = '#0D0D0D';
+const dark = '#2E1530';
 const cream = '#F5F0E8';
-const darkCard = '#161616';
+const darkCard = '#4A2545';
+
+// Inline CID attachment added by the mailer — renders without a public image host.
+const logoUrl = 'cid:harvestvita-logo';
 
 function base(title: string, body: string): string {
   return `<!DOCTYPE html>
@@ -20,14 +23,19 @@ function base(title: string, body: string): string {
       <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
         <!-- Header -->
         <tr>
-          <td style="background:${darkCard};border-bottom:2px solid ${gold};padding:28px 40px;text-align:center;">
-            <p style="margin:0;font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:${gold};margin-bottom:8px;">By Amoohaa Farms</p>
-            <p style="margin:0;font-family:Georgia,serif;font-size:28px;font-weight:bold;color:${cream};letter-spacing:-0.5px;">HarvestVita</p>
+          <td style="background:${darkCard};border-bottom:2px solid ${gold};padding:24px 40px;text-align:center;">
+            <table align="center" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto;">
+              <tr>
+                <td bgcolor="${cream}" style="background:${cream};border-radius:10px;padding:10px 16px;">
+                  <img src="${logoUrl}" alt="HarvestVita by Amooha Farms Pvt Ltd" width="120" style="display:block;width:120px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;" />
+                </td>
+              </tr>
+            </table>
           </td>
         </tr>
         <!-- Body -->
         <tr>
-          <td style="background:#111111;padding:40px;">
+          <td style="background:#2E1530;padding:40px;">
             ${body}
           </td>
         </tr>
@@ -35,7 +43,7 @@ function base(title: string, body: string): string {
         <tr>
           <td style="background:${darkCard};padding:20px 40px;text-align:center;border-top:1px solid rgba(245,240,232,0.08);">
             <p style="margin:0;font-family:Arial,sans-serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,240,232,0.25);">
-              &copy; ${new Date().getFullYear()} HarvestVita by Amoohaa Farms &nbsp;&middot;&nbsp; India
+              &copy; ${new Date().getFullYear()} HarvestVita by Amooha Farms Pvt Ltd &nbsp;&middot;&nbsp; India
             </p>
           </td>
         </tr>
@@ -111,7 +119,7 @@ export function orderConfirmationCustomer(opts: {
     </p>
 
     <!-- Order ID chip -->
-    <table cellpadding="0" cellspacing="0" style="background:#0A0A0A;border:1px solid rgba(201,168,76,0.25);margin-bottom:32px;">
+    <table cellpadding="0" cellspacing="0" style="background:#3A1A3D;border:1px solid rgba(201,168,76,0.25);margin-bottom:32px;">
       <tr>
         <td style="padding:12px 20px;">
           <span style="font-family:Arial,sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(245,240,232,0.35);">Order ID &nbsp;</span>
@@ -128,13 +136,13 @@ export function orderConfirmationCustomer(opts: {
 
     <!-- Delivery address -->
     <p style="margin:0 0 12px;font-family:Arial,sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:${gold};">Delivery Address</p>
-    <div style="background:#0A0A0A;border-left:2px solid ${gold};padding:16px 20px;">
+    <div style="background:#3A1A3D;border-left:2px solid ${gold};padding:16px 20px;">
       ${addressBlock(address)}
     </div>
 
     <div style="height:28px;"></div>
     <p style="margin:0;font-family:Georgia,serif;font-size:13px;color:rgba(245,240,232,0.4);line-height:1.7;">
-      Questions? Reply to this email or write to us at <a href="mailto:hello@harvestvita.in" style="color:${gold};">hello@harvestvita.in</a>
+      Questions? Reply to this email or write to us at <a href="mailto:letsconnect@harvestvita.in" style="color:${gold};">letsconnect@harvestvita.in</a>
     </p>
   `;
   return {
@@ -170,7 +178,7 @@ export function orderNotificationOwner(opts: {
 
     <div style="height:24px;"></div>
     <p style="margin:0 0 12px;font-family:Arial,sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:${gold};">Ship To</p>
-    <div style="background:#0A0A0A;border-left:2px solid ${gold};padding:16px 20px;">
+    <div style="background:#3A1A3D;border-left:2px solid ${gold};padding:16px 20px;">
       ${addressBlock(address)}
     </div>
 
@@ -203,7 +211,7 @@ export function contactAcknowledgement(opts: {
       We've received your enquiry and will get back to you within two working days.
     </p>
 
-    <div style="background:#0A0A0A;border-left:2px solid ${gold};padding:20px 24px;margin-bottom:28px;">
+    <div style="background:#3A1A3D;border-left:2px solid ${gold};padding:20px 24px;margin-bottom:28px;">
       <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(245,240,232,0.35);">Subject</p>
       <p style="margin:0 0 16px;font-family:Georgia,serif;color:${cream};font-size:14px;">${subject}</p>
       <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(245,240,232,0.35);">Your Message</p>
@@ -257,7 +265,7 @@ export function contactNotificationOwner(opts: {
     </table>
 
     <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(245,240,232,0.35);">Message</p>
-    <div style="background:#0A0A0A;border-left:2px solid ${gold};padding:16px 20px;">
+    <div style="background:#3A1A3D;border-left:2px solid ${gold};padding:16px 20px;">
       <p style="margin:0;font-family:Georgia,serif;color:rgba(245,240,232,0.75);font-size:14px;line-height:1.8;">${message.replace(/\n/g, '<br/>')}</p>
     </div>
 
@@ -278,7 +286,7 @@ export function contactNotificationOwner(opts: {
 export function otpEmail(opts: { name: string; otp: string }): { subject: string; html: string } {
   const { name, otp } = opts;
   const digits = otp.split('').map(d =>
-    `<td style="width:48px;height:56px;text-align:center;vertical-align:middle;background:#0A0A0A;border:1px solid rgba(201,168,76,0.35);font-family:Georgia,serif;font-size:26px;font-weight:bold;color:${gold};">${d}</td>`
+    `<td style="width:48px;height:56px;text-align:center;vertical-align:middle;background:#3A1A3D;border:1px solid rgba(201,168,76,0.35);font-family:Georgia,serif;font-size:26px;font-weight:bold;color:${gold};">${d}</td>`
   ).join('<td style="width:8px;"></td>');
 
   const body = `

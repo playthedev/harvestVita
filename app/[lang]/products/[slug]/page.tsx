@@ -68,7 +68,7 @@ export default async function ProductCategoryPage({
       <section className="bg-[#F5F0E8] py-24 md:py-32 relative overflow-hidden">
         <div
           aria-hidden
-          className="absolute -top-6 right-[-4vw] font-display font-bold text-[#4A2545]/[0.04] select-none pointer-events-none leading-none whitespace-nowrap"
+          className="absolute -top-6 right-[-4vw] font-display font-bold text-[#161616]/[0.04] select-none pointer-events-none leading-none whitespace-nowrap"
           style={{ fontSize: 'clamp(8rem, 18vw, 18rem)' }}
         >
           {product.num}
@@ -79,11 +79,11 @@ export default async function ProductCategoryPage({
           <div className="lg:col-span-8 space-y-8">
             <ScrollReveal>
               <div className="flex items-center gap-3">
-                <span className="block w-2 h-2 rounded-full bg-[#4A2545]" />
-                <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545]">
+                <span className="block w-2 h-2 rounded-full bg-[#161616]" />
+                <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#161616]">
                   {dict.products.category.aboutLabel}
                 </p>
-                <span className="block h-px w-12 bg-[#4A2545]/30" />
+                <span className="block h-px w-12 bg-[#161616]/30" />
               </div>
             </ScrollReveal>
             <ScrollReveal delay={0.05}>
@@ -160,8 +160,8 @@ export default async function ProductCategoryPage({
             <div className="mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="block w-2 h-2 rounded-full bg-[#4A2545]" />
-                  <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#4A2545]">
+                  <span className="block w-2 h-2 rounded-full bg-[#161616]" />
+                  <p className="font-sans-harvest text-[10px] tracking-[0.35em] uppercase text-[#161616]">
                     {dict.products.category.inThisRange}
                   </p>
                 </div>
@@ -187,7 +187,7 @@ export default async function ProductCategoryPage({
                     </p>
                   </div>
                   <div>
-                    <p className="font-display text-sm md:text-base font-bold text-[#1C1C1C] leading-snug group-hover:text-[#4A2545] transition-colors">
+                    <p className="font-display text-sm md:text-base font-bold text-[#1C1C1C] leading-snug group-hover:text-[#161616] transition-colors">
                       {item}
                     </p>
                     <div className="mt-2 h-px w-6 bg-[#C9A84C] group-hover:w-full transition-all duration-500" />
@@ -200,7 +200,7 @@ export default async function ProductCategoryPage({
       </section>
 
       {/* Uses */}
-      <section className="bg-[#2E1530] py-24 md:py-32 relative overflow-hidden">
+      <section className="bg-[#0D0D0D] py-24 md:py-32 relative overflow-hidden">
         <div
           aria-hidden
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[60vh] pointer-events-none opacity-60"
@@ -244,7 +244,7 @@ export default async function ProductCategoryPage({
       </section>
 
       {/* Related */}
-      <section className="bg-[#2D4A2D] py-20 md:py-28 relative overflow-hidden">
+      <section className="bg-[#4A2545] py-20 md:py-28 relative overflow-hidden">
         <div className="relative max-w-[1800px] mx-auto px-[5.128vw]">
           <ScrollReveal>
             <div className="mb-12 flex items-end justify-between">
@@ -274,7 +274,7 @@ export default async function ProductCategoryPage({
               <ScrollReveal key={r.slug} delay={i * 0.07}>
                 <Link
                   href={localizedHref(`/products/${r.slug}`, locale)}
-                  className="group relative block bg-[#2D4A2D] overflow-hidden hover:bg-[#3D6B3D] transition-colors h-full"
+                  className="group relative block bg-[#4A2545] overflow-hidden hover:bg-[#6B3A5E] transition-colors h-full"
                 >
                   <span className="absolute top-0 left-0 h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-[#C9A84C] to-transparent transition-all duration-700" />
                   <div className="relative aspect-[16/9] overflow-hidden">
@@ -285,7 +285,7 @@ export default async function ProductCategoryPage({
                       sizes="(max-width:768px) 90vw, 33vw"
                       className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#2D4A2D] via-[#2D4A2D]/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#4A2545] via-[#4A2545]/30 to-transparent" />
                   </div>
                   <div className="p-8">
                     <p className="font-sans-harvest text-[10px] tracking-[0.3em] uppercase text-[#C9A84C] mb-4">

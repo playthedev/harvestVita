@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import LoginForm from './LoginForm';
 import { safeRedirect } from '../../lib/url';
 import { getDictionary } from '../../i18n/dictionaries';
@@ -25,7 +24,7 @@ export default async function LoginPage({
   const { redirect } = await searchParams;
   const redirectTo = safeRedirect(redirect);
   return (
-    <main className="min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center px-6 py-24 relative overflow-hidden">
+    <main className="min-h-screen bg-[#3A1A3D] flex flex-col items-center justify-center px-6 py-24 relative overflow-hidden">
       {/* Background grid */}
       <div
         aria-hidden
@@ -49,12 +48,8 @@ export default async function LoginPage({
       />
 
       <div className="relative z-10 w-full max-w-md">
-        {/* Logo */}
-        <Link href={localizedHref('/', locale)} className="flex justify-center mb-10">
-          <Image src="/logo.png" alt="HarvestVita" width={160} height={64} className="h-14 w-auto brightness-0 invert" />
-        </Link>
 
-        <div className="bg-[#111111] border border-[#F5F0E8]/8 relative overflow-hidden">
+        <div className="bg-[#2E1530] border border-[#F5F0E8]/8 relative overflow-hidden">
           <span className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-[#C9A84C] to-transparent" />
 
           <div className="p-8 md:p-10">

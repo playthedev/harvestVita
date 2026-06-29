@@ -1,5 +1,10 @@
 import 'server-only';
+import { join } from 'path';
 import nodemailer, { type Transporter } from 'nodemailer';
+
+/** Inline logo shipped with every email so it renders without a public image host. */
+export const LOGO_CID = 'harvestvita-logo';
+const logoPath = join(process.cwd(), 'public', 'logo.png');
 
 let transporter: Transporter | null = null;
 
@@ -42,7 +47,10 @@ type SendMailResult = { error: Error | null };
  */
 export async function sendMail(input: SendMailInput): Promise<SendMailResult> {
   try {
-    await getTransporter().sendMail(input);
+    await getTransporter().sendMail({
+      ...input,
+      attachments: [{ filename: 'logo.png', path: logoPath, cid: LOGO_CID, contentDisposition: 'inline' }],
+    });
     return { error: null };
   } catch (err) {
     return { error: err instanceof Error ? err : new Error(String(err)) };

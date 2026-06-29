@@ -9,7 +9,7 @@ import { useCart } from '../../lib/CartContext';
 import ScrollReveal from '../../components/ScrollReveal';
 import { localizedHref } from '../../lib/locale-path';
 import { formatPrice } from '../../lib/currency';
-import { useCountry } from '../../lib/CurrencyContext';
+import { useCurrency } from '../../lib/CurrencyContext';
 import type { Locale } from '../../i18n/config';
 import type { Dictionary } from '../../i18n/dictionaries';
 
@@ -46,10 +46,10 @@ function AddToCartBtn({ productId, dict }: { productId: string; dict: Dictionary
       onClick={handle}
       className={`group/btn relative w-full mt-5 py-3 font-sans-harvest text-[10px] tracking-[0.22em] uppercase transition-all duration-300 overflow-hidden border ${
         inCart
-          ? 'bg-[#2D4A2D] text-[#F5F0E8] border-[#2D4A2D]'
+          ? 'bg-[#4A2545] text-[#F5F0E8] border-[#4A2545]'
           : added
-          ? 'bg-[#C9A84C] text-[#0D0D0D] border-[#C9A84C]'
-          : 'bg-transparent text-[#C9A84C] border-[#C9A84C]/40 hover:border-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0D0D]'
+          ? 'bg-[#C9A84C] text-[#2E1530] border-[#C9A84C]'
+          : 'bg-transparent text-[#C9A84C] border-[#C9A84C]/40 hover:border-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#2E1530]'
       }`}
     >
       <span className="relative z-10 flex items-center justify-center gap-2">
@@ -74,7 +74,7 @@ function AddToCartBtn({ productId, dict }: { productId: string; dict: Dictionary
 export default function ProductsPageClient({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const [active, setActive] = useState('All');
   const { count } = useCart();
-  const country = useCountry();
+  const { code } = useCurrency();
 
   const filtered = active === 'All' ? allProducts : allProducts.filter((p) => p.category === active);
   const activeLabel = dict.products.list.categories.find((c) => c.value === active)?.label ?? active;
@@ -85,7 +85,7 @@ export default function ProductsPageClient({ locale, dict }: { locale: Locale; d
   return (
     <>
       {/* ═══════════════ HERO ═══════════════ */}
-      <section className="relative bg-[#0A0A0A] pt-44 pb-24 md:pt-52 md:pb-32 overflow-hidden">
+      <section className="relative bg-[#3A1A3D] pt-44 pb-24 md:pt-52 md:pb-32 overflow-hidden">
         {/* 3D Particles */}
         <div className="absolute inset-0 opacity-55">
           <FloatingGeometry color="#C9A84C" />
@@ -106,7 +106,7 @@ export default function ProductsPageClient({ locale, dict }: { locale: Locale; d
         {/* Gradient */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0.7) 0%, rgba(10,10,10,0.15) 50%, rgba(10,10,10,0.92) 100%)' }}
+          style={{ background: 'linear-gradient(to bottom, rgba(58,26,61,0.7) 0%, rgba(58,26,61,0.15) 50%, rgba(58,26,61,0.92) 100%)' }}
         />
 
         {/* Grid lines */}
@@ -184,7 +184,7 @@ export default function ProductsPageClient({ locale, dict }: { locale: Locale; d
       </section>
 
       {/* ═══════════════ FILTER BAR ═══════════════ */}
-      <div className="sticky top-[64px] z-30 bg-[#0D0D0D]/95 backdrop-blur-md border-y border-[#C9A84C]/10">
+      <div className="sticky top-[64px] z-30 bg-[#2E1530]/95 backdrop-blur-md border-y border-[#C9A84C]/10">
         <div className="max-w-[1800px] mx-auto px-[5.128vw] py-4 flex items-center gap-3 overflow-x-auto scrollbar-hide">
           <p className="font-sans-harvest text-[9px] tracking-[0.3em] uppercase text-[#C9A84C]/70 flex-shrink-0 mr-2 hidden sm:block">
             {dict.products.list.filterLabel}
@@ -195,7 +195,7 @@ export default function ProductsPageClient({ locale, dict }: { locale: Locale; d
               onClick={() => setActive(cat.value)}
               className={`flex-shrink-0 font-sans-harvest text-[10px] tracking-[0.22em] uppercase px-4 py-2.5 border transition-all duration-200 ${
                 active === cat.value
-                  ? 'bg-[#C9A84C] text-[#0D0D0D] border-[#C9A84C]'
+                  ? 'bg-[#C9A84C] text-[#2E1530] border-[#C9A84C]'
                   : 'bg-transparent text-[#F5F0E8]/55 border-[#F5F0E8]/15 hover:border-[#C9A84C] hover:text-[#C9A84C]'
               }`}
             >
@@ -206,7 +206,7 @@ export default function ProductsPageClient({ locale, dict }: { locale: Locale; d
       </div>
 
       {/* ═══════════════ PRODUCTS GRID ═══════════════ */}
-      <section className="bg-[#0D0D0D] py-20 md:py-28 relative overflow-hidden">
+      <section className="bg-[#2E1530] py-20 md:py-28 relative overflow-hidden">
         <div
           aria-hidden
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display font-bold text-[#F5F0E8]/[0.02] leading-none select-none pointer-events-none whitespace-nowrap"
@@ -243,12 +243,12 @@ export default function ProductsPageClient({ locale, dict }: { locale: Locale; d
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-[#F5F0E8]/8">
             {filtered.map((product, i) => (
               <ScrollReveal key={product.id} delay={i * 0.03}>
-                <div className="group relative bg-[#0D0D0D] hover:bg-[#161616] transition-colors duration-300 h-full flex flex-col border border-transparent hover:border-[#C9A84C]/20 overflow-hidden">
+                <div className="group relative bg-[#2E1530] hover:bg-[#4A2545] transition-colors duration-300 h-full flex flex-col border border-transparent hover:border-[#C9A84C]/20 overflow-hidden">
                   {/* Top sliver */}
                   <span className="absolute top-0 left-0 h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-[#C9A84C] to-transparent transition-all duration-700 z-20" />
 
                   {/* Image */}
-                  <Link href={localizedHref(`/products/item/${product.id}`, locale)} className="block relative aspect-square overflow-hidden bg-[#161616]">
+                  <Link href={localizedHref(`/products/item/${product.id}`, locale)} className="block relative aspect-square overflow-hidden bg-[#4A2545]">
                     <Image
                       src={product.image}
                       alt={product.name}
@@ -256,15 +256,15 @@ export default function ProductsPageClient({ locale, dict }: { locale: Locale; d
                       sizes="(max-width:640px) 90vw, (max-width:1024px) 45vw, 25vw"
                       className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D]/80 via-[#0D0D0D]/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#2E1530]/80 via-[#2E1530]/20 to-transparent" />
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                       style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15) 0%, transparent 55%)' }} />
                     {product.badge && (
-                      <span className="absolute top-3 left-3 font-sans-harvest text-[9px] tracking-[0.18em] uppercase px-2.5 py-1 bg-[#C9A84C] text-[#0D0D0D]">
+                      <span className="absolute top-3 left-3 font-sans-harvest text-[9px] tracking-[0.18em] uppercase px-2.5 py-1 bg-[#C9A84C] text-[#2E1530]">
                         {product.badge}
                       </span>
                     )}
-                    <div className="absolute bottom-3 left-3 font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/80 bg-[#0D0D0D]/60 backdrop-blur-sm px-2.5 py-1">
+                    <div className="absolute bottom-3 left-3 font-sans-harvest text-[9px] tracking-[0.25em] uppercase text-[#F5F0E8]/80 bg-[#2E1530]/60 backdrop-blur-sm px-2.5 py-1">
                       {product.unit}
                     </div>
                   </Link>
@@ -287,7 +287,7 @@ export default function ProductsPageClient({ locale, dict }: { locale: Locale; d
                       {product.short}
                     </p>
                     <div className="flex items-baseline gap-1.5">
-                      <span className="font-display font-bold text-[#C9A84C] text-2xl">{formatPrice(product.price, locale, country)}</span>
+                      <span className="font-display font-bold text-[#C9A84C] text-2xl">{formatPrice(product.price, code)}</span>
                       <span className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/35">{dict.products.list.perUnit.replace('{unit}', product.unit)}</span>
                     </div>
                     <AddToCartBtn productId={product.id} dict={dict} />
@@ -305,7 +305,7 @@ export default function ProductsPageClient({ locale, dict }: { locale: Locale; d
               </p>
               <Link
                 href={localizedHref('/contact', locale)}
-                className="font-sans-harvest text-[11px] tracking-[0.15em] uppercase px-6 py-3 border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0D0D0D] transition-all duration-200 whitespace-nowrap"
+                className="font-sans-harvest text-[11px] tracking-[0.15em] uppercase px-6 py-3 border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#2E1530] transition-all duration-200 whitespace-nowrap"
               >
                 {dict.products.list.talkToSales}
               </Link>

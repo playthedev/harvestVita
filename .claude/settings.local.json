@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx create-next-app@latest harvestVita --typescript --tailwind --app --no-src-dir --import-alias \"@/*\" --no-git --yes)"
+      "Bash(npx create-next-app@latest harvestVita --typescript --tailwind --app --no-src-dir --import-alias \"@/*\" --no-git --yes)",
+      "PowerShell(npm install)",
+      "Bash(identify public/logo.png)",
+      "Bash(python -c \"from PIL import Image; im=Image.open\\('public/logo.png'\\).convert\\('RGBA'\\); bb=im.getbbox\\(\\); print\\('size',im.size,'bbox',bb\\)\")",
+      "Bash(pip install *)",
+      "Bash(python -c \"from PIL import Image; im=Image.open\\('public/logo.png'\\).convert\\('RGBA'\\); print\\('size',im.size,'bbox',im.getbbox\\(\\)\\)\")",
+      "Bash(printf '%s\\\\n' 'a #0d0d0d b #2e1530 c #4a2545 d #3a1a3d e #161616 f #0a0a0a g #111111 h #111;')",
+      "Bash(perl -i -pe ' *)",
+      "Bash(git checkout *)"
     ]
   }
 }
