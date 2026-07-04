@@ -211,9 +211,20 @@ export default function Footer({ locale, dict }: { locale: Locale; dict: Diction
 
       {/* ── Bottom bar ── */}
       <div className="border-t border-[#F5F0E8]/6">
-        <div className="max-w-[1800px] mx-auto px-[5.128vw] py-5 flex items-center justify-center">
+        <div className="max-w-[1800px] mx-auto px-[5.128vw] py-5 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-2 text-center">
           <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/20">
             &copy; {year} HarvestVita by Amooha Farms Pvt Ltd. {dict.footer.rights}
+          </p>
+          <p className="font-sans-harvest text-[9px] tracking-[0.15em] uppercase text-[#F5F0E8]/20">
+            Built by{' '}
+            <a
+              href="https://nexmogen.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#C9A84C]/70 hover:text-[#C9A84C] transition-colors duration-200"
+            >
+              Nexmogen
+            </a>
           </p>
         </div>
       </div>
